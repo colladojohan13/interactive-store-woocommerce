@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Store — Visual Direction</title>
+  <style>
+    :root { --accent:#384fc7; --accent-dark:#283ba6; --body:#525b6b; --ink:#171c28; --border:#dce2e8; --section:#f1f3f6; --page:#f7f8fa; --white:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--page); color:var(--ink); font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    .wrap { max-width:1120px; margin:auto; padding:44px 24px 80px; }
+    .eyebrow { color:var(--accent); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+    h1 { margin:8px 0 10px; font-size:clamp(36px,5vw,56px); line-height:1.1; letter-spacing:-.045em; }
+    h2 { font-size:26px; line-height:1.2; letter-spacing:-.03em; margin:0 0 18px; }
+    p { color:var(--body); margin:0; }
+    .intro { max-width:630px; }
+    .panel { background:var(--white); border:1px solid var(--border); border-radius:18px; padding:30px; margin-top:30px; }
+    .swatches { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+    .swatch { border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--white); }
+    .color { height:74px; background:var(--color); }
+    .meta { padding:12px 14px; font-size:13px; }
+    .meta strong { display:block; font-size:14px; }
+    .meta span { color:var(--body); }
+    .mock-header { display:flex; align-items:center; gap:25px; padding-bottom:22px; border-bottom:1px solid var(--border); }
+    .brand { font-size:20px; font-weight:750; letter-spacing:-.04em; margin-right:auto; }
+    .nav { display:flex; gap:22px; font-size:12px; font-weight:700; text-transform:uppercase; }
+    .nav a { color:var(--ink); text-decoration:none; }
+    .nav a:first-child { color:var(--accent); }
+    .account { border:1px solid var(--accent); color:var(--accent); padding:9px 14px; border-radius:4px; font-size:13px; text-decoration:none; }
+    .hero { display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:30px; padding:50px 0 16px; }
+    .hero h2 { font-size:clamp(32px,4vw,48px); margin-bottom:14px; }
+    .hero p { max-width:440px; }
+    .actions { display:flex; gap:12px; margin-top:25px; }
+    .btn { display:inline-block; border-radius:6px; padding:12px 18px; font-weight:650; text-decoration:none; font-size:14px; }
+    .btn.primary { background:var(--accent); color:var(--white); }
+    .btn.secondary { background:var(--white); color:var(--accent); border:1px solid var(--accent); }
+    .product { background:var(--section); border-radius:18px; min-height:220px; display:grid; place-items:center; color:var(--body); text-align:center; padding:24px; }
+    .product strong { display:block; color:var(--ink); font-size:18px; }
+    .note { font-size:13px; margin-top:18px; }
+    @media(max-width:700px) { .swatches { grid-template-columns:repeat(2,minmax(0,1fr)); } .hero { grid-template-columns:1fr; } .nav,.account { display:none; } .panel { padding:20px; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="eyebrow">Visual direction · September 2026</div>
+    <h1>Interactive Store</h1>
+    <p class="intro">A restrained, product-first identity for technology that comes to life. This is a style tile, not a finished homepage.</p>
+    <section class="panel" aria-labelledby="palette-title">
+      <h2 id="palette-title">Core palette</h2>
+      <div class="swatches">
+        <div class="swatch"><div class="color" style="--color:#384fc7"></div><div class="meta"><strong>Accent</strong><span>#384FC7</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#283ba6"></div><div class="meta"><strong>Accent hover</strong><span>#283BA6</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#171c28"></div><div class="meta"><strong>Ink</strong><span>#171C28</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#525b6b"></div><div class="meta"><strong>Body</strong><span>#525B6B</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#dce2e8"></div><div class="meta"><strong>Border</strong><span>#DCE2E8</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#f1f3f6"></div><div class="meta"><strong>Section</strong><span>#F1F3F6</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#f7f8fa"></div><div class="meta"><strong>Page</strong><span>#F7F8FA</span></div></div>
+        <div class="swatch"><div class="color" style="--color:#fff"></div><div class="meta"><strong>Surface</strong><span>#FFFFFF</span></div></div>
+      </div>
+    </section>
+    <section class="panel" aria-labelledby="usage-title">
+      <h2 id="usage-title">How it feels in use</h2>
+      <div class="mock-header"><div class="brand">Interactive Store</div><nav class="nav" aria-label="Concept menu"><a href="#">Home</a><a href="#">Shop</a></nav><a class="account" href="#">My Account</a></div>
+      <div class="hero"><div><div class="eyebrow">Explore the collection</div><h2>Technology that<br>comes to life.</h2><p>Considered devices for work, play and home. Explore the details that matter before you choose.</p><div class="actions"><a class="btn primary" href="#">Shop technology</a><a class="btn secondary" href="#">Explore categories</a></div></div><div class="product"><div><strong>Product imagery goes here</strong>Clean photography · consistent angles · 3D when useful</div></div></div>
+      <p class="note">Concept only. The final Home and product content will be built in WordPress.</p>
+    </section>
+  </main>
+</body>
+</html>

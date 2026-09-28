@@ -1,0 +1,17 @@
+# Local WordPress and database files must never be published.
+wp-config.php
+.env
+.env.*
+*.sql
+*.sql.gz
+*.sqlite
+*.log
+
+# Generated, local, and downloaded dependencies.
+node_modules/
+vendor/
+.local/
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
