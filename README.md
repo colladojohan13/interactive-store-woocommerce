@@ -10,7 +10,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Global color palette and original logo system.
 - Gutenberg homepage with an editorial hero, an original conceptual product image, and responsive layout.
 - Four WooCommerce product categories linked from Home; Computers, Electronics, and Home Tech are also in the main navigation.
-- Shop archive configured as a three-column product grid, with a published fictional laptop concept as the first demonstration product.
+- Shop archive configured as a three-column product grid. One fictional laptop concept is published; three more concept products are saved as drafts while their images are being added to WordPress.
 - Site currently remains in WooCommerce **Coming Soon** mode. Products, checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
 
 ## Repository contents
@@ -23,6 +23,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 | [`assets/home.css`](assets/home.css) | Home CSS, also published through WordPress Additional CSS |
 | [`assets/`](assets/) | Logo sources, PNG exports, and homepage image |
 | [`catalog/arc-14.md`](catalog/arc-14.md) | Reproducible data and image prompt for the first demo product |
+| [`catalog/more-concepts.md`](catalog/more-concepts.md) | Data and image prompts for the next three demo products |
 | [`brand-preview.html`](brand-preview.html) | Early visual direction reference |
 
 The hero image is a conceptual, AI generated composition for the fictional store. It does not represent a listed product or a manufacturer.
