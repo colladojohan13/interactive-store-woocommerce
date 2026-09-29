@@ -20,3 +20,6 @@
 .home-benefits p { color:#525b6b; line-height:1.6; margin:0; }
 @media (max-width:781px) { .home-hero { padding:56px 24px 64px; } .home-hero .wp-block-columns { gap:34px; } .home-hero-image img { height:300px; } .home-intro { padding:64px 24px 76px; } .home-benefits { gap:18px; } }
 @media (max-width:480px) { .home-hero h1 { font-size:38px; } .home-hero .home-lead { font-size:16px; } .home-hero-image img { height:230px; } .home-intro > p:not(.home-eyebrow) { font-size:16px; } .home-benefits .wp-block-column { padding:24px; } }
+
+/* Active item in the mobile menu */
+#offcanvas .mobile-menu .current-menu-item > .ct-menu-link { color:#fff; }

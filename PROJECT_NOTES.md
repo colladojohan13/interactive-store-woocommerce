@@ -17,10 +17,10 @@ Configurada y publicada desde **Appearance > Customize > Header**. Los ajustes s
 | Desktop | Logo, Menu 1, Search, Button (My Account), Cart | — |
 | Tablet/Mobile | Logo, Search, Cart, Trigger | Mobile Menu, Button (My Account) |
 
-- **Mobile Menu > Select Menu:** `Main Menu`, que actualmente contiene Home y Shop. Esto evita que Blocksy muestre automáticamente todas las páginas, incluidas Checkout y Sample Page.
+- **Mobile Menu > Select Menu:** `Main Menu`, que contiene Home, Shop, Computers, Electronics y Home Tech. Esto evita que Blocksy muestre automáticamente todas las páginas, incluidas Checkout y Sample Page.
 - **Button:** estilo Ghost, tamaño Small, texto `My Account`, URL `/my-account/`, clase `account-button`, etiqueta accesible `My Account`; visible para usuarios conectados y desconectados.
 - Search y Cart son los elementos nativos de Blocksy. Cart conserva su acceso en la fila tablet/mobile.
-- El panel lateral muestra Home y Shop, seguidos por el botón My Account.
+- El panel lateral muestra los mismos enlaces del menú principal, seguidos por el botón My Account.
 
 ## Verificación
 
@@ -44,4 +44,19 @@ La portada estática **Home** (ID 14) contiene bloques nativos de Gutenberg: her
 
 Los estilos se publicaron en **Appearance > Customize > Additional CSS**. La copia de referencia está en [assets/home.css](assets/home.css). Para editar textos, botones o imagen: **Pages > Home > Edit**; para espaciado, tamaño de imagen y responsive: **Additional CSS**. Se verificó visualmente en escritorio, 390 px y 320 px. El sitio sigue en modo Coming Soon.
 
-Próximo paso: crear categorías reales en WooCommerce, vincularlas desde la Home y ampliar el menú. Después se poblará el catálogo y la sección de productos de la portada. No instalar dependencias salvo necesidad concreta.
+## Categorías y navegación de la tienda
+
+Categorías principales creadas en **Products > Categories** (sin productos ni miniaturas todavía):
+
+| Categoría | Slug | Ubicación |
+| --- | --- | --- |
+| Computers | `computers` | Home y Main Menu |
+| Electronics | `electronics` | Home y Main Menu |
+| Accessories | `accessories` | Enlace dentro de la tarjeta Electronics en Home |
+| Home Tech | `home-tech` | Home y Main Menu |
+
+El menú principal se guarda en **Appearance > Menus > Main Menu** y sigue asignado a Header Menu 1. Blocksy lo selecciona también para el panel móvil. Orden: Home, Shop, Computers, Electronics, Home Tech. Las tres tarjetas de Home enlazan a Computers, Electronics y Home Tech; el texto «accessories» de la tarjeta central lleva a Accessories. Se verificó que el enlace de Computers abre su archivo de categoría. Como todavía no hay productos, WooCommerce muestra el estado vacío.
+
+En móvil, el elemento activo del panel lateral heredaba un azul oscuro con poco contraste. Se añadió una regla en **Additional CSS**, reflejada al final de [assets/home.css](assets/home.css), para mostrarlo en blanco sobre el fondo oscuro.
+
+Próximo paso: poblar el catálogo con productos de ejemplo propios o claramente identificados como demostración y crear la sección de productos de la portada. No instalar dependencias salvo necesidad concreta.

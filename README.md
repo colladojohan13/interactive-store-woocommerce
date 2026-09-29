@@ -9,7 +9,8 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Responsive Blocksy header with product search, cart, and My Account access.
 - Global color palette and original logo system.
 - Gutenberg homepage with an editorial hero, an original conceptual product image, and responsive layout.
-- Site currently remains in WooCommerce **Coming Soon** mode. Categories, products, checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
+- Four WooCommerce product categories linked from Home; Computers, Electronics, and Home Tech are also in the main navigation.
+- Site currently remains in WooCommerce **Coming Soon** mode. Products, checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
 
 ## Repository contents
 
@@ -33,9 +34,10 @@ The hero image is a conceptual, AI generated composition for the fictional store
 5. Edit Home in Gutenberg's Code Editor and paste [`patterns/home-blocks.html`](patterns/home-blocks.html). Replace the hero image URL and attachment ID with those created on your site.
 6. In **Home → Blocksy Page Settings → Page Title**, choose **Disabled** to leave the content's H1 as the only page heading.
 7. Paste [`assets/home.css`](assets/home.css) into **Appearance → Customize → Additional CSS**.
+8. Create the four product categories and configure `Main Menu` as described in [`PROJECT_NOTES.md`](PROJECT_NOTES.md). The Home links use the category slugs listed there.
 
 This repository intentionally excludes WordPress Core, third party theme and plugin packages, the database, user accounts, credentials, and machine specific files. It is a source and configuration record of work in progress, not a one command deployable site.
 
 ## Next milestones
 
-Product categories and navigation, catalog and product pages, cart and checkout flows, analytics, performance, accessibility, and selected 3D/AR product experiences.
+Catalog and product pages, cart and checkout flows, analytics, performance, accessibility, and selected 3D/AR product experiences.
