@@ -60,3 +60,9 @@ El menú principal se guarda en **Appearance > Menus > Main Menu** y sigue asign
 En móvil, el elemento activo del panel lateral heredaba un azul oscuro con poco contraste. Se añadió una regla en **Additional CSS**, reflejada al final de [assets/home.css](assets/home.css), para mostrarlo en blanco sobre el fondo oscuro.
 
 Próximo paso: poblar el catálogo con productos de ejemplo propios o claramente identificados como demostración y crear la sección de productos de la portada. No instalar dependencias salvo necesidad concreta.
+
+## Shop y primer producto de demostración
+
+En **Appearance > Customize > WooCommerce > Product Archives** se cambió la cuadrícula de Shop de cuatro a tres columnas. Se mantiene el resto de opciones por defecto hasta revisar las tarjetas con productos visibles.
+
+Se preparó un borrador de producto simple en **Products**: **Arc 14 Laptop — Concept**, categoría Computers, SKU `IS-ARC14-DEMO`, precio ilustrativo RD$64,900. Los textos indican que es un concepto ficticio y que no existe inventario físico. Su ficha reproducible y el prompt de la imagen están en [catalog/arc-14.md](catalog/arc-14.md). La imagen generada está en [assets/arc-14-laptop-concept.png](assets/arc-14-laptop-concept.png). Pendiente: cargar esa imagen a Medios, asignarla como imagen destacada y publicar la ficha.
