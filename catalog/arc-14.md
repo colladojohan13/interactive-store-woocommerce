@@ -9,6 +9,8 @@ Fictional portfolio product for Interactive Store. The image and price are illus
 | SKU | `IS-ARC14-DEMO` |
 | Regular price | RD$64,900 (demo price) |
 | Image | [`assets/arc-14-laptop-concept.png`](../assets/arc-14-laptop-concept.png) |
+| Status | Published on the local WooCommerce site |
+| Reviews / POS | Disabled for this concept product |
 
 **Short description:** A fictional 14-inch laptop concept with a restrained graphite finish. Portfolio demo; image and price are illustrative.
 
