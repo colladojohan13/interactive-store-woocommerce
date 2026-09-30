@@ -44,7 +44,7 @@ La dirección visual, paleta global y logo están en [BRAND_GUIDE.md](BRAND_GUID
 
 La Home activa usa `theme/interactive-store-child/front-page.php` y `theme/interactive-store-child/assets/css/home.css`. Sigue la maqueta visual `assets/home-final-concept.png`: hero editorial, cuatro categorías, cuatro productos y un módulo reservado para 3D. Mantiene la cabecera y el pie de Blocksy. La activación inicial del child theme copia ajustes del tema padre (cabecera, menú, paleta, logo y CSS adicional). La antigua Home de Gutenberg permanece en la base de datos como respaldo y su fuente sigue en `patterns/home-blocks.html`.
 
-- **Imagen hero:** `assets/home-hero-final.png`, asignada como imagen destacada de **Pages > Home** (adjunto 57 en la instalación local).
+- **Imagen hero:** `assets/home-hero-panoramic.png`, asignada como imagen destacada de **Pages > Home** (adjunto 62 en la instalación local).
 - **Imágenes de categorías:** `assets/category-computers-wide.png`, `category-electronics-wide.png`, `category-accessories-wide.png` y `category-home-tech-wide.png`, asignadas en **Products > Categories** (adjuntos 58–61 en la instalación local). Los prompts están en `assets/home-imagery-prompts.md`.
 - **Imágenes de productos:** asignar imagen principal en cada ficha de WooCommerce. Las tarjetas usan la imagen y el precio reales del producto publicado.
 - **Productos destacados:** se enlazan por SKU (`IS-ARC14-DEMO`, `IS-PULSE-DEMO`, `IS-LINK-DEMO`, `IS-HAVEN-DEMO`). Si falta un producto publicado y visible, la tarjeta muestra “Coming soon” sin enlace ni precio ficticio.

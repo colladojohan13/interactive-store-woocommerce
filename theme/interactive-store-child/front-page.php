@@ -42,7 +42,7 @@ get_header();
 			</div>
 			<div class="is-home-hero__visual<?php echo $hero_id ? ' has-image' : ''; ?>">
 				<?php if ( $hero_id ) : ?>
-					<?php echo wp_get_attachment_image( $hero_id, 'full', false, array( 'class' => 'is-home-hero__image', 'fetchpriority' => 'high', 'sizes' => '(max-width: 760px) 100vw, 55vw' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_get_attachment_image( $hero_id, 'full', false, array( 'class' => 'is-home-hero__image', 'fetchpriority' => 'high', 'sizes' => '(max-width: 760px) 100vw, 75vw' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<?php else : ?>
 					<span class="is-home-placeholder is-home-placeholder--hero" aria-label="Hero image to be added"><span class="is-home-placeholder__glyph" aria-hidden="true"></span><span>Hero image</span></span>
 				<?php endif; ?>
