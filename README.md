@@ -2,6 +2,8 @@
 
 A portfolio project for a modern technology storefront built with **WordPress, WooCommerce, Blocksy, Gutenberg, and project CSS**. The local site is being developed step by step rather than imported from a finished store template.
 
+**Public visual preview:** `https://colladojohan13.github.io/interactive-store-woocommerce/` (GitHub Pages; enable Pages from `main` / root in repository settings). The preview is static and presents the current Home design and fictional products. WordPress, WooCommerce, checkout, and the planned 3D viewer run only in the local development site or a future WordPress host.
+
 ![Interactive Store wordmark](assets/interactive-store-logo-720.png)
 
 ## Current work
@@ -27,6 +29,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 | [`catalog/arc-14.md`](catalog/arc-14.md) | Reproducible data and image prompt for the first demo product |
 | [`catalog/more-concepts.md`](catalog/more-concepts.md) | Data and image prompts for the next three demo products |
 | [`brand-preview.html`](brand-preview.html) | Early visual direction reference |
+| [`index.html`](index.html) and [`preview.css`](preview.css) | Static GitHub Pages portfolio preview of the current Home |
 
 The hero image is a conceptual, AI generated composition for the fictional store. It does not represent a listed product or a manufacturer.
 
