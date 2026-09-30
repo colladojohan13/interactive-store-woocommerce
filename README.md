@@ -9,6 +9,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Responsive Blocksy header with product search, cart, and My Account access.
 - Global color palette and original logo system.
 - Code based responsive homepage in a Blocksy child theme, following the approved visual concept in `assets/home-final-concept.png`.
+- Original editorial hero and four wide category photographs are assigned in the local WordPress site; their sources and prompts are in `assets/`.
 - Four WooCommerce product categories linked from Home; Computers, Electronics, and Home Tech are also in the main navigation.
 - Shop archive configured as a three-column product grid. The four fictional concept products appear dynamically on Home when published in WooCommerce.
 - Site currently remains in WooCommerce **Coming Soon** mode. Checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
@@ -37,11 +38,11 @@ The hero image is a conceptual, AI generated composition for the fictional store
 4. Copy `theme/interactive-store-child` into `wp-content/themes/` and activate **Interactive Store Child**. Its first activation copies the existing Blocksy theme settings into the child theme.
 5. Keep **Home** as the static front page. `front-page.php` supplies the visible Home; the Gutenberg page content remains in WordPress as a fallback.
 6. Create the four product categories and configure `Main Menu` as described in [`PROJECT_NOTES.md`](PROJECT_NOTES.md). The Home links use the category slugs listed there.
-7. Add a featured image to the **Home** page for the hero; add thumbnails to the four **Products → Categories**; add product images as WooCommerce featured images. The template displays clean placeholders until these are available.
+7. Assign `assets/home-hero-final.png` as the **Home** featured image, and the four `assets/category-*-wide.png` images as the matching **Products → Categories** thumbnails. The local site already has these assignments. Add the catalog product images as WooCommerce featured images. The template displays clean placeholders until any missing image is assigned.
 8. Add the four demo products using the SKUs in [`catalog/`](catalog/). The Home cards display a live product only when its SKU is published and visible; otherwise that card reads “Coming soon.”
 
 This repository intentionally excludes WordPress Core, third party theme and plugin packages, the database, user accounts, credentials, and machine specific files. It is a source and configuration record of work in progress, not a one command deployable site.
 
 ## Next milestones
 
-Final hero and category imagery, the working 3D viewer, catalog and product page refinement, cart and checkout flows, analytics, performance, and accessibility review. The 3D area on Home is explicitly a preview, not a functioning viewer.
+The working 3D viewer is the remaining visual feature on Home. Other project work includes catalog and product page refinement, cart and checkout flows, analytics, performance, and accessibility review. The 3D area on Home is explicitly a preview, not a functioning viewer.
