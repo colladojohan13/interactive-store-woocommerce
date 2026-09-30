@@ -11,7 +11,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Code based responsive homepage in a Blocksy child theme, following the approved visual concept in `assets/home-final-concept.png`.
 - Four WooCommerce product categories linked from Home; Computers, Electronics, and Home Tech are also in the main navigation.
 - Shop archive configured as a three-column product grid. The four fictional concept products appear dynamically on Home when published in WooCommerce.
-- Site currently remains in WooCommerce **Coming Soon** mode. Products, checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
+- Site currently remains in WooCommerce **Coming Soon** mode. Checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
 
 ## Repository contents
 
