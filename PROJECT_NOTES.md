@@ -3,7 +3,7 @@
 ## Entorno
 
 - Instalación local: sitio `interactive-store.local` en LocalWP (la ruta depende del equipo).
-- Tema activo: Blocksy 2.1.57 (sin child theme)
+- Tema activo: Interactive Store Child 1.0.0 sobre Blocksy 2.1.57
 - Plugin instalado y activo: WooCommerce 11.1.2
 - Visibilidad de WooCommerce: Coming Soon
 - La página Home es la portada estática.
@@ -39,6 +39,21 @@ Configurada y publicada desde **Appearance > Customize > Header**. Los ajustes s
 La dirección visual, paleta global y logo están en [BRAND_GUIDE.md](BRAND_GUIDE.md).
 
 ## Home
+
+### Portada codificada (actual)
+
+La Home activa usa `theme/interactive-store-child/front-page.php` y `theme/interactive-store-child/assets/css/home.css`. Sigue la maqueta visual `assets/home-final-concept.png`: hero editorial, cuatro categorías, cuatro productos y un módulo reservado para 3D. Mantiene la cabecera y el pie de Blocksy. La activación inicial del child theme copia ajustes del tema padre (cabecera, menú, paleta, logo y CSS adicional). La antigua Home de Gutenberg permanece en la base de datos como respaldo y su fuente sigue en `patterns/home-blocks.html`.
+
+- **Imagen hero:** asignar la imagen destacada a **Pages > Home**.
+- **Imágenes de categorías:** asignar miniaturas en **Products > Categories** a Computers, Electronics, Accessories y Home Tech.
+- **Imágenes de productos:** asignar imagen principal en cada ficha de WooCommerce. Las tarjetas usan la imagen y el precio reales del producto publicado.
+- **Productos destacados:** se enlazan por SKU (`IS-ARC14-DEMO`, `IS-PULSE-DEMO`, `IS-LINK-DEMO`, `IS-HAVEN-DEMO`). Si falta un producto publicado y visible, la tarjeta muestra “Coming soon” sin enlace ni precio ficticio.
+- **3D:** módulo visual reservado con aviso “coming soon”; falta implementar el visor real.
+- **Textos y estructura:** editar `front-page.php`; estilos responsive: `assets/css/home.css` del child theme.
+
+La tienda sigue en modo **Coming Soon**. El diseño de la Home y las fichas son una demostración para portafolio.
+
+### Portada anterior (respaldo)
 
 La portada estática **Home** (ID 14) contiene bloques nativos de Gutenberg: hero en dos columnas con titular y CTA a `/shop/`, imagen editorial original y una sección de introducción con tres tarjetas. Se ocultó el título automático solo para esta página desde **Editar Home > Blocksy Page Settings > Page Title > Disabled**, dejando un único H1 en el contenido. La imagen está en Medios y su fuente local es [assets/home-hero-studio.png](assets/home-hero-studio.png); el texto alternativo describe los dispositivos visibles.
 
