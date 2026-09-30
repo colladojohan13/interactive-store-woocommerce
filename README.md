@@ -2,7 +2,7 @@
 
 A portfolio project for a modern technology storefront built with **WordPress, WooCommerce, Blocksy, Gutenberg, and project CSS**. The local site is being developed step by step rather than imported from a finished store template.
 
-**Public visual preview:** `https://colladojohan13.github.io/interactive-store-woocommerce/` (GitHub Pages; enable Pages from `main` / root in repository settings). The preview is static and presents the current Home design and fictional products. WordPress, WooCommerce, checkout, and the planned 3D viewer run only in the local development site or a future WordPress host.
+**Public visual preview:** [View the storefront concept](https://colladojohan13.github.io/interactive-store-woocommerce/) on GitHub Pages. The preview is static and presents the current Home design and fictional products. WordPress, WooCommerce, checkout, and the planned 3D viewer run only in the local development site or a future WordPress host.
 
 ![Interactive Store wordmark](assets/interactive-store-logo-720.png)
 
