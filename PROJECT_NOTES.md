@@ -48,7 +48,7 @@ La Home activa usa `theme/interactive-store-child/front-page.php` y `theme/inter
 - **Imágenes de categorías:** `assets/category-computers-wide.png`, `category-electronics-wide.png`, `category-accessories-wide.png` y `category-home-tech-wide.png`, asignadas en **Products > Categories** (adjuntos 58–61 en la instalación local). Los prompts están en `assets/home-imagery-prompts.md`.
 - **Imágenes de productos:** asignar imagen principal en cada ficha de WooCommerce. Las tarjetas usan la imagen y el precio reales del producto publicado.
 - **Productos destacados:** se enlazan por SKU (`IS-ARC14-DEMO`, `IS-PULSE-DEMO`, `IS-LINK-DEMO`, `IS-HAVEN-DEMO`). Si falta un producto publicado y visible, la tarjeta muestra “Coming soon” sin enlace ni precio ficticio.
-- **3D:** módulo visual reservado con aviso “coming soon”; falta implementar el visor real.
+- **3D:** iframe del visor de laptop en `https://docs.cecomsa.com/laptop-3d/index.html` en la Home local y la vista pública. El visor es una demostración externa; la integración con un producto de WooCommerce sigue pendiente.
 - **Textos y estructura:** editar `front-page.php`; estilos responsive: `assets/css/home.css` del child theme.
 
 La tienda sigue en modo **Coming Soon**. El diseño de la Home y las fichas son una demostración para portafolio.

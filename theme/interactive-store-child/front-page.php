@@ -115,17 +115,19 @@ get_header();
 		</div>
 	</section>
 
-	<section class="is-home-section is-home-three-d" aria-labelledby="is-home-three-d-title">
+	<section class="is-home-section is-home-three-d" aria-label="Explore in 3D">
 		<div class="is-home-container">
-			<div class="is-home-three-d__panel">
-				<div class="is-home-three-d__copy">
-					<p class="is-home-eyebrow">A closer look</p>
-					<h2 id="is-home-three-d-title">Explore in 3D</h2>
-					<p>An interactive view of Arc 14 is on its way. Soon you’ll be able to see every angle and detail.</p>
-					<span class="is-home-three-d__status"><span aria-hidden="true"></span> Interactive viewer coming soon</span>
-				</div>
-				<div class="is-home-three-d__visual" aria-hidden="true"><span class="is-home-three-d__orbit"></span><span class="is-home-placeholder__glyph"></span><span class="is-home-three-d__caption">3D experience</span></div>
-			</div>
+			<iframe class="is-home-three-d__frame" src="https://docs.cecomsa.com/laptop-3d/index.html" title="Explore in 3D — Laptop" loading="lazy" allow="fullscreen; xr-spatial-tracking" allowfullscreen></iframe>
+			<script>
+			(function () {
+				var frame = document.currentScript.previousElementSibling;
+				window.addEventListener('message', function (event) {
+					if (event.origin !== 'https://docs.cecomsa.com' || event.source !== frame.contentWindow || !event.data || event.data.type !== 'laptop-viewer-height') return;
+					var height = Number(event.data.height);
+					if (Number.isFinite(height) && height >= 300 && height <= 1600) frame.style.height = Math.ceil(height) + 'px';
+				});
+			})();
+			</script>
 		</div>
 	</section>
 </div>

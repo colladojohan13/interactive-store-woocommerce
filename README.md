@@ -2,7 +2,7 @@
 
 A portfolio project for a modern technology storefront built with **WordPress, WooCommerce, Blocksy, Gutenberg, and project CSS**. The local site is being developed step by step rather than imported from a finished store template.
 
-**Public visual preview:** [View the storefront concept](https://colladojohan13.github.io/interactive-store-woocommerce/) on GitHub Pages. The preview is static and presents the current Home design and fictional products. WordPress, WooCommerce, checkout, and the planned 3D viewer run only in the local development site or a future WordPress host.
+**Public visual preview:** [View the storefront concept](https://colladojohan13.github.io/interactive-store-woocommerce/) on GitHub Pages. The page presents the current Home design, fictional products, and an embedded 3D laptop demo hosted at `docs.cecomsa.com`. WordPress, WooCommerce, and checkout run only in the local development site or a future WordPress host.
 
 ![Interactive Store wordmark](assets/interactive-store-logo-720.png)
 
@@ -14,7 +14,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Original editorial hero and four wide category photographs are assigned in the local WordPress site; their sources and prompts are in `assets/`.
 - Four WooCommerce product categories linked from Home; Computers, Electronics, and Home Tech are also in the main navigation.
 - Shop archive configured as a three-column product grid. The four fictional concept products appear dynamically on Home when published in WooCommerce.
-- Site currently remains in WooCommerce **Coming Soon** mode. Checkout configuration, tracking, and 3D/AR experiences are planned work, not completed features.
+- Site currently remains in WooCommerce **Coming Soon** mode. Checkout configuration and tracking are planned work. The Home embeds an external 3D laptop demo; integration with a catalog product remains future work.
 
 ## Repository contents
 
@@ -48,4 +48,4 @@ This repository intentionally excludes WordPress Core, third party theme and plu
 
 ## Next milestones
 
-The working 3D viewer is the remaining visual feature on Home. Other project work includes catalog and product page refinement, cart and checkout flows, analytics, performance, and accessibility review. The 3D area on Home is explicitly a preview, not a functioning viewer.
+The Home embeds a working external 3D laptop demo. It is a visual demonstration rather than a WooCommerce product viewer. Other project work includes catalog and product page refinement, cart and checkout flows, analytics, performance, and accessibility review.
