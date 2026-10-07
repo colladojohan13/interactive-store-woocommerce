@@ -198,9 +198,14 @@ function renderProduct() {
     function loadViewer() {
       if (frame.querySelector('iframe')) return;
       const iframe = document.createElement('iframe');
-      iframe.src = 'https://docs.cecomsa.com/laptop-3d/index.html';
       iframe.title = 'Separate laptop 3D demonstration';
       iframe.loading = 'lazy'; iframe.allow = 'fullscreen; xr-spatial-tracking'; iframe.allowFullscreen = true;
+      window.addEventListener('message', event => {
+        if (event.origin !== 'https://docs.cecomsa.com' || event.source !== iframe.contentWindow || event.data?.type !== 'laptop-viewer-height') return;
+        const height = Number(event.data.height);
+        if (Number.isFinite(height) && height >= 300 && height <= 1600) iframe.style.height = `${Math.ceil(height)}px`;
+      });
+      iframe.src = 'https://docs.cecomsa.com/laptop-3d/index.html';
       frame.replaceChildren(iframe);
       load.hidden = true;
     }

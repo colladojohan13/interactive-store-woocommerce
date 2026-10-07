@@ -221,7 +221,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .product-3d-head .store-button { flex: none; }
 .product-3d-frame { display: grid; place-items: center; min-height: 360px; overflow: hidden; border: 1px solid #dce2ed; border-radius: 10px; background: #fff; }
 .product-3d-frame > p { max-width: 420px; padding: 20px; color: #64718a; line-height: 1.6; text-align: center; }
-.product-3d-frame iframe { display: block; width: 100%; min-height: 650px; border: 0; }
+.product-3d-frame iframe { display: block; width: 100%; height: 435px; border: 0; }
 .product-comparison { margin-bottom: 80px; }
 .comparison-grid a { display: flex; flex-direction: column; min-height: 206px; padding: 25px; border: 1px solid #e6eaf1; border-radius: 9px; color: #172142; text-decoration: none; }
 .comparison-grid a:hover, .comparison-grid a[aria-current] { border-color: #2447eb; box-shadow: 0 6px 20px #2447eb16; }
@@ -265,7 +265,7 @@ select:focus-visible, .product-thumbnails button:focus-visible { outline: 3px so
   .product-detail-grid > div, .comparison-grid a { min-height: 0; }
   .product-3d-section { padding: 23px; }
   .product-3d-head { align-items: start; flex-direction: column; }
-  .product-3d-frame iframe { min-height: 560px; }
+  .product-3d-frame iframe { height: 740px; }
   .orders-admin-proof { grid-template-columns: 1fr; }
 }
 @media (max-width: 400px) { .store-control-fields { grid-template-columns: 1fr; } .store-search-row { flex-wrap: wrap; } .store-search-row .store-search { flex-basis: 100%; } .mobile-filter-open { width: 100%; } }
