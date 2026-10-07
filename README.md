@@ -13,10 +13,12 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Code based responsive homepage in a Blocksy child theme, following the approved visual concept in `assets/home-final-concept.png`.
 - Original editorial hero and four wide category photographs are assigned in the local WordPress site; their sources and prompts are in `assets/`.
 - Four WooCommerce product categories linked from Home and the main navigation.
-- Shop archive configured as a three-column product grid. Eight fictional concepts appear dynamically on Home when published in WooCommerce. A browser-local wishlist is available in the child theme.
+- Shop archive configured as a three-column product grid. Eight fictional concepts appear dynamically on Home when published in WooCommerce. The local Shop has a mobile filter drawer for category, price and sorting; the public preview adds product search, applied filter chips and a result count. A browser-local wishlist is available in the child theme.
+- Arc 14 has three original concept images in both storefronts, an expanded product story, descriptive concept details and comparison links. Its separate 3D laptop demo loads only when requested and is clearly identified as a different model.
 - Local WooCommerce contains three clearly marked sample orders under **WooCommerce → Orders**. The idempotent generator is [`tools/seed-woocommerce-demo.php`](tools/seed-woocommerce-demo.php); it preserves existing products and non-demo orders.
+- The public [demo orders](https://colladojohan13.github.io/interactive-store-woocommerce/orders.html) page includes a screenshot of the local WooCommerce order dashboard, with fictional data, so portfolio visitors can inspect both the customer view and native administration.
 - The LocalWP checkout has a demonstration payment title that collects no money and one illustrative Dominican Republic delivery method. [`tools/configure-local-checkout.php`](tools/configure-local-checkout.php) refuses to run outside `interactive-store.local`.
-- Site currently remains in WooCommerce **Coming Soon** mode. Real payment and shipping setup, analytics tracking, and connection of the external 3D laptop demo to a catalog product remain future work.
+- Site currently remains in WooCommerce **Coming Soon** mode. Real payment and shipping setup and analytics tracking remain future work.
 
 ## Repository contents
 
@@ -46,7 +48,7 @@ The hero image is a conceptual, AI generated composition for the fictional store
 4. Copy `theme/interactive-store-child` into `wp-content/themes/` and activate **Interactive Store Child**. Its first activation copies the existing Blocksy theme settings into the child theme.
 5. Keep **Home** as the static front page. `front-page.php` supplies the visible Home; the Gutenberg page content remains in WordPress as a fallback.
 6. Create the four product categories and configure `Main Menu` as described in [`PROJECT_NOTES.md`](PROJECT_NOTES.md). The Home links use the category slugs listed there.
-7. Assign `assets/home-hero-panoramic.png` as the **Home** featured image, and the four `assets/category-*-wide.png` images as the matching **Products → Categories** thumbnails. The local site already has these assignments. Add the catalog product images as WooCommerce featured images. The template displays clean placeholders until any missing image is assigned.
+7. Assign `assets/home-hero-panoramic.png` as the **Home** featured image, and the four `assets/category-*-wide.png` images as the matching **Products → Categories** thumbnails. The local site already has these assignments. Add the catalog product images as WooCommerce featured images. For Arc 14, assign the side and workspace images as its two gallery images. The template displays clean placeholders until any missing image is assigned.
 8. Add the eight demo products using the SKUs in [`catalog/`](catalog/), or run the local seed script using WP-CLI. The Home cards display a live product only when its SKU is published and visible; otherwise that card reads “Coming soon.”
 9. Create a **Wishlist** page with `[interactive_store_wishlist]` and add it to the menu. It saves a shortlist in the current browser only.
 10. In the local site only, run the checkout configuration script if you need to place WooCommerce test orders through the checkout. Leave Coming Soon mode in place until the store is ready to be public.
@@ -55,4 +57,4 @@ This repository intentionally excludes WordPress Core, third party theme and plu
 
 ## Next milestones
 
-The Home embeds an external 3D laptop demo. It is a visual demonstration rather than a WooCommerce product viewer. The static checkout and order history illustrate the intended customer journey, but they are not WooCommerce pages and cannot collect payments or share orders between visitors. The local WordPress installation uses native WooCommerce orders. Further work includes payment and shipping configuration for a real store, analytics, performance, and accessibility review.
+The Home and Arc 14 detail pages embed an external 3D laptop demo on request. It uses a separate model and is a visual demonstration, not a true Arc 14 viewer. The static checkout and order history illustrate the intended customer journey, but they are not WooCommerce pages and cannot collect payments or share orders between visitors. The local WordPress installation uses native WooCommerce orders. Further work includes payment and shipping configuration for a real store, analytics, and measured performance testing on production hosting.

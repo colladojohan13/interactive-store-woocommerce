@@ -1,6 +1,6 @@
 /* Interactive Store portfolio demo. All state is local to this browser. */
 const products = [
-  { id: 'arc-14', name: 'Arc 14', kind: 'Laptop concept', category: 'computers', categoryName: 'Computers', price: 64900, image: 'assets/arc-14-laptop-concept.png', label: 'Featured', description: 'A refined graphite laptop concept for focused work and everyday creativity. A clean silhouette and considered details bring the design into focus.', story: 'Arc 14 is imagined as a quiet companion for focused work. Its graphite finish and clean form bring a calm feeling to a busy desk.' },
+  { id: 'arc-14', name: 'Arc 14', kind: 'Laptop concept', category: 'computers', categoryName: 'Computers', price: 64900, image: 'assets/arc-14-laptop-concept.jpg', label: 'Featured', description: 'A refined graphite laptop concept for focused work and everyday creativity. A clean silhouette and considered details bring the design into focus.', story: 'Arc 14 is imagined as a quiet companion for focused work. Its graphite finish and clean form bring a calm feeling to a busy desk.' },
   { id: 'pulse', name: 'Pulse', kind: 'Wireless headphones concept', category: 'electronics', categoryName: 'Electronics', price: 8900, image: 'assets/pulse-headphones-concept.png', label: 'Featured', description: 'A minimalist over-ear headphone concept with a soft graphite finish, created for immersive everyday listening.', story: 'Pulse pairs a familiar over-ear shape with an understated charcoal finish. The concept feels equally at home on a desk or on the move.' },
   { id: 'link', name: 'Link', kind: 'USB-C dock concept', category: 'accessories', categoryName: 'Accessories', price: 3900, image: 'assets/link-usbc-dock-concept.png', label: 'Featured', description: 'A compact desktop dock concept that brings a tidy, connected workspace together.', story: 'Link is the small detail that gives a desk a more considered feel. A simple graphite form keeps visual clutter low.' },
   { id: 'haven', name: 'Haven', kind: 'Smart speaker concept', category: 'home-tech', categoryName: 'Home Tech', price: 6900, image: 'assets/haven-smart-speaker-concept.png', label: 'Featured', description: 'A quiet smart speaker concept with a charcoal woven texture, designed to feel at home in any room.', story: 'Haven brings a soft, woven texture to a compact silhouette. The concept is intended to sit comfortably among everyday objects.' },
@@ -75,22 +75,76 @@ function renderShop() {
   const sort = document.getElementById('catalog-sort');
   const price = document.getElementById('catalog-price');
   const chips = [...document.querySelectorAll('.filter-chip')];
+  const controls = document.getElementById('catalog-controls');
+  const backdrop = document.getElementById('mobile-filter-backdrop');
+  const trigger = document.getElementById('mobile-filter-open');
+  const applied = document.getElementById('applied-filters');
+  const mobile = matchMedia('(max-width: 650px)');
   const queryCategory = new URLSearchParams(location.search).get('category');
   let category = chips.some(chip => chip.dataset.category === queryCategory) ? queryCategory : 'all';
-  function draw() {
+  let draftCategory = category;
+  let committedPrice = '';
+  let committedSort = 'featured';
+  function matchesFor(selectedCategory, selectedPrice, selectedSort) {
     const term = search.value.trim().toLowerCase();
-    const ceiling = Number(price.value) || Infinity;
-    const matches = products.filter(product => (category === 'all' || product.category === category) && product.price <= ceiling && `${product.name} ${product.kind} ${product.categoryName}`.toLowerCase().includes(term));
-    if (sort.value === 'price-low') matches.sort((a, b) => a.price - b.price);
-    if (sort.value === 'price-high') matches.sort((a, b) => b.price - a.price);
-    if (sort.value === 'name') matches.sort((a, b) => a.name.localeCompare(b.name));
+    const ceiling = Number(selectedPrice) || Infinity;
+    const matches = products.filter(product => (selectedCategory === 'all' || product.category === selectedCategory) && product.price <= ceiling && `${product.name} ${product.kind} ${product.categoryName}`.toLowerCase().includes(term));
+    if (selectedSort === 'price-low') matches.sort((a, b) => a.price - b.price);
+    if (selectedSort === 'price-high') matches.sort((a, b) => b.price - a.price);
+    if (selectedSort === 'name') matches.sort((a, b) => a.name.localeCompare(b.name));
+    return matches;
+  }
+  function syncChips(selected) { chips.forEach(chip => { const active = chip.dataset.category === selected; chip.classList.toggle('is-active', active); chip.setAttribute('aria-pressed', String(active)); }); }
+  function syncUrl() { const url = new URL(location.href); category === 'all' ? url.searchParams.delete('category') : url.searchParams.set('category', category); history.replaceState(null, '', url); }
+  function addApplied(label, reset) {
+    const button = document.createElement('button'); button.type = 'button'; button.textContent = `${label} ×`;
+    button.setAttribute('aria-label', `Remove ${label} filter`); button.addEventListener('click', reset); applied.append(button);
+  }
+  function draw() {
+    const matches = matchesFor(category, committedPrice, committedSort);
     grid.replaceChildren(...matches.map(card));
     document.getElementById('result-count').textContent = `${matches.length} concept ${matches.length === 1 ? 'product' : 'products'}`;
     document.getElementById('catalog-empty').hidden = matches.length !== 0;
-    chips.forEach(chip => { const active = chip.dataset.category === category; chip.classList.toggle('is-active', active); chip.setAttribute('aria-pressed', String(active)); });
+    if (!controls.classList.contains('is-open')) syncChips(category);
+    applied.replaceChildren();
+    if (category !== 'all') addApplied(chips.find(chip => chip.dataset.category === category).textContent, () => { category = 'all'; draftCategory = category; syncUrl(); draw(); });
+    if (committedPrice) addApplied([...price.options].find(option => option.value === committedPrice).textContent, () => { committedPrice = ''; price.value = ''; draw(); });
+    if (committedSort !== 'featured') addApplied([...sort.options].find(option => option.value === committedSort).textContent, () => { committedSort = 'featured'; sort.value = 'featured'; draw(); });
+    const activeCount = (category !== 'all') + Boolean(committedPrice) + (committedSort !== 'featured');
+    document.getElementById('mobile-filter-count').textContent = activeCount;
+    trigger.setAttribute('aria-label', `Filter and sort, ${activeCount} active filters`);
   }
-  chips.forEach(chip => chip.addEventListener('click', () => { category = chip.dataset.category; const url = new URL(location.href); category === 'all' ? url.searchParams.delete('category') : url.searchParams.set('category', category); history.replaceState(null, '', url); draw(); }));
-  [search, sort, price].forEach(input => input.addEventListener(input === search ? 'input' : 'change', draw));
+  function updateApply() {
+    const count = matchesFor(draftCategory, price.value, sort.value).length;
+    document.getElementById('mobile-filter-apply').textContent = `Show ${count} ${count === 1 ? 'product' : 'products'}`;
+  }
+  function closeFilters() {
+    controls.classList.remove('is-open'); backdrop.hidden = true; document.body.classList.remove('filters-open');
+    controls.removeAttribute('role'); controls.removeAttribute('aria-modal'); controls.removeAttribute('aria-label');
+    trigger.setAttribute('aria-expanded', 'false'); draftCategory = category; price.value = committedPrice; sort.value = committedSort; syncChips(category); trigger.focus();
+  }
+  trigger.addEventListener('click', () => {
+    draftCategory = category; price.value = committedPrice; sort.value = committedSort; syncChips(draftCategory); updateApply();
+    backdrop.hidden = false; controls.classList.add('is-open'); document.body.classList.add('filters-open');
+    controls.setAttribute('role', 'dialog'); controls.setAttribute('aria-modal', 'true'); controls.setAttribute('aria-label', 'Filter and sort products');
+    trigger.setAttribute('aria-expanded', 'true'); document.getElementById('mobile-filter-close').focus();
+  });
+  document.getElementById('mobile-filter-close').addEventListener('click', closeFilters);
+  backdrop.addEventListener('click', closeFilters);
+  document.getElementById('mobile-filter-clear').addEventListener('click', () => { draftCategory = 'all'; price.value = ''; sort.value = 'featured'; syncChips(draftCategory); updateApply(); });
+  document.getElementById('mobile-filter-apply').addEventListener('click', () => { category = draftCategory; committedPrice = price.value; committedSort = sort.value; syncUrl(); closeFilters(); draw(); });
+  controls.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && controls.classList.contains('is-open')) { closeFilters(); return; }
+    if (event.key !== 'Tab' || !controls.classList.contains('is-open')) return;
+    const focusable = [...controls.querySelectorAll('button, select')].filter(el => !el.hidden);
+    const first = focusable[0]; const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+  mobile.addEventListener('change', () => { if (!mobile.matches && controls.classList.contains('is-open')) closeFilters(); });
+  chips.forEach(chip => chip.addEventListener('click', () => { if (mobile.matches && controls.classList.contains('is-open')) { draftCategory = chip.dataset.category; syncChips(draftCategory); updateApply(); } else { category = chip.dataset.category; draftCategory = category; syncUrl(); draw(); } }));
+  [sort, price].forEach(input => input.addEventListener('change', () => { if (mobile.matches && controls.classList.contains('is-open')) updateApply(); else { committedPrice = price.value; committedSort = sort.value; draw(); } }));
+  search.addEventListener('input', () => { draw(); if (controls.classList.contains('is-open')) updateApply(); });
   draw();
 }
 function renderProduct() {
@@ -99,7 +153,32 @@ function renderProduct() {
   document.title = `${product.name} — Interactive Store`;
   document.querySelector('meta[name="description"]').content = `${product.name}: ${product.kind} in the fictional Interactive Store concept collection.`;
   document.getElementById('breadcrumb-product').textContent = product.name;
-  const image = document.getElementById('product-image'); image.src = product.image; image.alt = `${product.name} ${product.kind}`;
+  const image = document.getElementById('product-image');
+  const gallery = product.id === 'arc-14' ? [
+    { src: product.image, label: 'Arc 14 concept, open front view' },
+    { src: 'assets/arc-14-side-concept.jpg', label: 'Arc 14 concept, low three-quarter view' },
+    { src: 'assets/arc-14-desk-concept.jpg', label: 'Arc 14 concept on a home workspace desk' }
+  ] : [{ src: product.image, label: `${product.name} ${product.kind}` }];
+  const thumbnails = document.getElementById('product-thumbnails');
+  const zoom = document.getElementById('product-zoom');
+  const zoomImage = document.getElementById('product-zoom-image');
+  function selectImage(index) {
+    const selected = gallery[index];
+    image.src = selected.src; image.alt = selected.label;
+    zoomImage.src = selected.src; zoomImage.alt = selected.label;
+    document.getElementById('product-image-count').textContent = `Concept product · ${String(index + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}`;
+    thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => button.setAttribute('aria-pressed', String(buttonIndex === index)));
+  }
+  thumbnails.replaceChildren(...gallery.map((item, index) => {
+    const button = document.createElement('button'); button.type = 'button';
+    button.setAttribute('aria-label', `View image ${index + 1} of ${gallery.length}: ${item.label}`);
+    button.innerHTML = `<img src="${item.src}" alt="" width="150" height="150" loading="lazy">`;
+    button.addEventListener('click', () => selectImage(index));
+    return button;
+  }));
+  selectImage(0);
+  document.getElementById('product-zoom-open').addEventListener('click', () => zoom.showModal());
+  document.getElementById('product-zoom-close').addEventListener('click', () => zoom.close());
   document.getElementById('product-category').textContent = `${product.categoryName} · Concept collection`;
   document.getElementById('product-category-fact').textContent = product.categoryName;
   document.getElementById('product-title').textContent = product.name;
@@ -110,7 +189,24 @@ function renderProduct() {
   document.getElementById('story-description').textContent = product.story;
   document.getElementById('related-grid').replaceChildren(...products.filter(item => item.id !== product.id).slice(0, 3).map(card));
   const wish = document.getElementById('product-wish'); wish.dataset.wishId = product.id; setWishState(wish, getWishlist().includes(product.id)); wish.addEventListener('click', () => toggleWishlist(product.id));
-  const demo3d = document.getElementById('product-3d'); demo3d.hidden = product.id !== 'arc-14';
+  const isArc = product.id === 'arc-14';
+  ['product-details', 'product-comparison', 'arc-3d'].forEach(id => { document.getElementById(id).hidden = !isArc; });
+  const demo3d = document.getElementById('product-3d'); demo3d.hidden = !isArc;
+  if (isArc) {
+    const frame = document.getElementById('product-3d-frame');
+    const load = document.getElementById('load-product-3d');
+    function loadViewer() {
+      if (frame.querySelector('iframe')) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://docs.cecomsa.com/laptop-3d/index.html';
+      iframe.title = 'Separate laptop 3D demonstration';
+      iframe.loading = 'lazy'; iframe.allow = 'fullscreen; xr-spatial-tracking'; iframe.allowFullscreen = true;
+      frame.replaceChildren(iframe);
+      load.hidden = true;
+    }
+    load.addEventListener('click', loadViewer);
+    demo3d.addEventListener('click', () => { loadViewer(); });
+  }
   document.getElementById('add-to-bag').addEventListener('click', () => {
     const quantity = Number(document.getElementById('product-quantity').value);
     const feedback = document.getElementById('product-feedback');

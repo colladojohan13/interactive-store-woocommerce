@@ -46,6 +46,8 @@ La dirección visual, paleta global y logo están en [BRAND_GUIDE.md](BRAND_GUID
 - WooCommerce contiene tres pedidos ficticios: `IS-SEED-1001` (#72, processing), `IS-SEED-1002` (#73, completed) y `IS-SEED-1003` (#74, cancelled). Son visibles en **WooCommerce → Orders**. El generador `tools/seed-woocommerce-demo.php` es idempotente y no envía correos.
 - Solo en `interactive-store.local` se habilitó un método **Demo order — no payment** y un envío ilustrativo de RD$250 para probar el checkout. No se cobra dinero ni se realiza una entrega. La configuración reproducible está en `tools/configure-local-checkout.php`.
 - La demo de GitHub Pages tiene checkout y pedidos separados de WordPress: usa datos ficticios guardados en el navegador y no sincroniza órdenes con WooCommerce.
+- La ficha de Arc 14 en WooCommerce conserva la imagen principal y añade dos imágenes en su galería (adjuntos 78 y 79), la pestaña «Concept details», enlaces comparativos y el visor 3D bajo carga voluntaria. La demo pública añade miniaturas, ampliación de imagen y las mismas secciones descriptivas. Las fotos JPEG de la demo pública reducen el peso conjunto de la galería aproximadamente de 4.9 MB a 0.33 MB.
+- El Shop público añade filtros de categoría, precio y orden, búsqueda, resultados y un panel móvil con aplicación explícita. El Shop local usa los filtros nativos de WooCommerce con una presentación móvil. Se comprobó que el filtro «Under RD$10,000» reduce el resultado local de 8 a 5 productos.
 
 ## Home
 
@@ -57,7 +59,7 @@ La Home activa usa `theme/interactive-store-child/front-page.php` y `theme/inter
 - **Imágenes de categorías:** `assets/category-computers-wide.png`, `category-electronics-wide.png`, `category-accessories-wide.png` y `category-home-tech-wide.png`, asignadas en **Products > Categories** (adjuntos 58–61 en la instalación local). Los prompts están en `assets/home-imagery-prompts.md`.
 - **Imágenes de productos:** asignar imagen principal en cada ficha de WooCommerce. Las tarjetas usan la imagen y el precio reales del producto publicado.
 - **Productos destacados:** se enlazan por SKU (`IS-ARC14-DEMO`, `IS-PULSE-DEMO`, `IS-LINK-DEMO`, `IS-HAVEN-DEMO`). Si falta un producto publicado y visible, la tarjeta muestra “Coming soon” sin enlace ni precio ficticio.
-- **3D:** iframe del visor de laptop en `https://docs.cecomsa.com/laptop-3d/index.html` en la Home local y la vista pública. El visor es una demostración externa; la integración con un producto de WooCommerce sigue pendiente.
+- **3D:** iframe del visor de laptop en `https://docs.cecomsa.com/laptop-3d/index.html` en la Home local y la vista pública. El visor también aparece en la ficha de Arc 14 bajo carga voluntaria. Usa un modelo externo distinto y la ficha lo aclara expresamente.
 - **Textos y estructura:** editar `front-page.php`; estilos responsive: `assets/css/home.css` del child theme.
 
 La tienda sigue en modo **Coming Soon**. El diseño de la Home y las fichas son una demostración para portafolio.
