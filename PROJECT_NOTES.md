@@ -38,6 +38,15 @@ Configurada y publicada desde **Appearance > Customize > Header**. Los ajustes s
 
 La dirección visual, paleta global y logo están en [BRAND_GUIDE.md](BRAND_GUIDE.md).
 
+## Ampliación de demostración (octubre de 2026)
+
+- El catálogo local ahora tiene ocho productos ficticios publicados, con imagen y precio ilustrativo. Los cuatro nuevos conceptos son Vista, Frame, Form y Glow; sus datos están en `catalog/new-concepts.md`.
+- La Home del child theme incorpora una franja de recorrido, un módulo editorial, otra fila de productos y colecciones temáticas. La tienda y la ficha WooCommerce reciben estilos en `assets/css/store.css`.
+- Se creó la página **Wishlist** (ID 75) con `[interactive_store_wishlist]`, enlazada desde `Main Menu`. Su lista se guarda solamente en el navegador del visitante.
+- WooCommerce contiene tres pedidos ficticios: `IS-SEED-1001` (#72, processing), `IS-SEED-1002` (#73, completed) y `IS-SEED-1003` (#74, cancelled). Son visibles en **WooCommerce → Orders**. El generador `tools/seed-woocommerce-demo.php` es idempotente y no envía correos.
+- Solo en `interactive-store.local` se habilitó un método **Demo order — no payment** y un envío ilustrativo de RD$250 para probar el checkout. No se cobra dinero ni se realiza una entrega. La configuración reproducible está en `tools/configure-local-checkout.php`.
+- La demo de GitHub Pages tiene checkout y pedidos separados de WordPress: usa datos ficticios guardados en el navegador y no sincroniza órdenes con WooCommerce.
+
 ## Home
 
 ### Portada codificada (actual)

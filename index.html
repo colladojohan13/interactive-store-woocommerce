@@ -8,9 +8,12 @@
   <link rel="icon" type="image/svg+xml" href="assets/interactive-store-mark.svg">
   <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=3d-1">
   <link rel="stylesheet" href="preview.css">
+  <link rel="stylesheet" href="preview-pages.css">
+  <script src="preview.js" defer></script>
 </head>
-<body>
+<body data-page="home">
   <a class="preview-skip" href="#main">Skip to content</a>
+  <div class="demo-bar">Interactive Store concept · Fictional products · Preview only</div>
   <header class="preview-header">
     <div class="preview-header__inner is-home-container">
       <a class="preview-brand" href="#top" aria-label="Interactive Store, back to top">
@@ -21,8 +24,11 @@
         <a href="shop.html">Shop</a>
         <a href="#categories">Categories</a>
         <a href="#experience">3D preview</a>
+        <a href="wishlist.html">Wishlist <span class="wish-count">0</span></a>
+        <a href="orders.html">Demo orders</a>
+        <a class="nav-bag" href="bag.html">Bag <span class="bag-count">0</span></a>
       </nav>
-      <a class="preview-header__cta" href="shop.html">Explore products <span aria-hidden="true">↗</span></a>
+      <a class="preview-header__cta" href="bag.html">Demo bag <span class="bag-count">0</span></a>
     </div>
   </header>
 
@@ -40,6 +46,12 @@
           <p class="is-home-hero__note">Devices for<br>a brighter everyday.</p>
         </div>
       </div>
+    </section>
+
+    <section class="home-promise is-home-container" aria-label="Explore the store">
+      <div><span>01</span><strong>Discover your fit</strong><p>Browse eight concepts across four focused categories.</p></div>
+      <div><span>02</span><strong>Save what inspires you</strong><p>Keep a personal shortlist in this browser.</p></div>
+      <div><span>03</span><strong>Try the journey</strong><p>Place a fictional order and see it in Demo orders.</p></div>
     </section>
 
     <section id="categories" class="is-home-section is-home-categories" aria-labelledby="is-home-categories-title">
@@ -67,6 +79,12 @@
         </div>
       </div>
     </section>
+
+    <section class="home-editorial is-home-section" aria-labelledby="home-editorial-title"><div class="is-home-container home-editorial__inner"><div class="home-editorial__copy"><p class="is-home-eyebrow">The focused workspace</p><h2 id="home-editorial-title">Make room for better ideas.</h2><p>Build a setup around the pieces you use every day. Explore our computer and accessory concepts in one calm collection.</p><a class="is-home-button is-home-button--primary" href="shop.html?category=computers">Explore computers <span aria-hidden="true">↗</span></a></div><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop concept on a bright desk" loading="lazy"></div></section>
+
+    <section class="is-home-section home-new" aria-labelledby="home-new-title"><div class="is-home-container"><div class="is-home-section__heading"><div><p class="is-home-eyebrow">Fresh ideas</p><h2 id="home-new-title">More to explore</h2></div><a class="is-home-text-link" href="shop.html">Shop the collection <span aria-hidden="true">↗</span></a></div><div id="home-new-grid" class="store-grid"></div></div></section>
+
+    <section class="home-collections is-home-section" aria-labelledby="home-collections-title"><div class="is-home-container"><div class="is-home-section__heading"><div><p class="is-home-eyebrow">Find a starting point</p><h2 id="home-collections-title">Curated by mood</h2></div></div><div class="home-collections__grid"><a href="shop.html?category=accessories"><span>01 / The focused desk</span><strong>Details that make the day flow.</strong><span>Explore accessories ↗</span></a><a href="shop.html?category=home-tech"><span>02 / The comfortable home</span><strong>Technology that feels at home.</strong><span>Explore home tech ↗</span></a></div></div></section>
 
     <section id="products" class="is-home-section is-home-products" aria-labelledby="is-home-products-title">
       <div class="is-home-container">
@@ -105,6 +123,7 @@
 
     <section id="experience" class="is-home-section is-home-three-d" aria-label="Explore in 3D">
       <div class="is-home-container">
+        <div class="is-home-section__heading"><div><p class="is-home-eyebrow">Interact with the idea</p><h2>Explore in 3D</h2><p class="home-three-d-intro">A separate laptop viewer demonstration. The product concepts above are not connected to this viewer.</p></div></div>
         <iframe class="is-home-three-d__frame" src="https://docs.cecomsa.com/laptop-3d/index.html" title="Explore in 3D — Laptop" loading="lazy" allow="fullscreen; xr-spatial-tracking" allowfullscreen></iframe>
         <script>
         (function () {
@@ -123,7 +142,7 @@
   <footer class="preview-footer">
     <div class="is-home-container">
       <strong>Interactive Store</strong>
-      <p>Visual preview of a personal WordPress + WooCommerce project in progress. Products are fictional; checkout is not available here. The embedded 3D laptop viewer is an external demonstration.</p>
+      <p>Visual preview of a WordPress + WooCommerce project in progress. Products, prices and orders are fictional. The checkout records local demo orders only; no payment or real purchase occurs. The 3D viewer is an external demonstration.</p>
     </div>
   </footer>
 </body>

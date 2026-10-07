@@ -1,0 +1,52 @@
+/* Interactive Store: WooCommerce catalog, product and wishlist polish. */
+:root { --is-ink: #111b35; --is-muted: #64718a; --is-blue: #2447eb; --is-line: #e6eaf1; }
+.woocommerce .ct-container > .woocommerce-products-header,
+.woocommerce-page .woocommerce-products-header { padding-block: 22px 25px; }
+.woocommerce-products-header__title, .woocommerce-page h1.entry-title { color: var(--is-ink); font-size: clamp(34px, 4vw, 54px); letter-spacing: -.055em; line-height: 1.08; }
+.woocommerce .woocommerce-result-count { color: var(--is-muted); font-size: 13px; }
+.woocommerce .woocommerce-ordering select { min-height: 40px; padding: 8px 12px; border: 1px solid var(--is-line); border-radius: 6px; background: #fff; color: var(--is-ink); }
+.is-shop-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; width: 100%; margin: 15px 0 24px; padding: 14px 0; border-top: 1px solid var(--is-line); border-bottom: 1px solid var(--is-line); }
+.is-shop-categories { display: flex; flex-wrap: wrap; gap: 8px; }
+.is-shop-categories a { padding: 8px 12px; border: 1px solid #dce2ed; border-radius: 99px; color: #526078; font-size: 12px; font-weight: 700; text-decoration: none; }
+.is-shop-categories a:hover, .is-shop-categories a[aria-current] { border-color: var(--is-ink); background: var(--is-ink); color: #fff; }
+.is-shop-price { display: flex; align-items: center; gap: 8px; color: var(--is-muted); font-size: 12px; }
+.is-shop-price select { min-height: 36px; padding: 7px; border: 1px solid var(--is-line); border-radius: 5px; background: #fff; color: var(--is-ink); }
+.is-shop-price button { min-height: 36px; padding: 7px 11px; border: 0; border-radius: 5px; background: var(--is-blue); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; }
+.woocommerce ul.products { gap: 20px; }
+.woocommerce ul.products li.product { overflow: hidden; border: 1px solid var(--is-line); border-radius: 10px; background: #fff; transition: transform .2s ease, box-shadow .2s ease; }
+.woocommerce ul.products li.product:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(15,31,68,.09); }
+.woocommerce ul.products li.product img { width: 100%; aspect-ratio: 1.07; object-fit: cover; background: #f1f4f8; }
+.woocommerce ul.products li.product .woocommerce-loop-product__title { padding: 4px 17px 0; color: var(--is-ink); font-size: 18px; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
+.woocommerce ul.products li.product .price { padding: 0 17px; color: var(--is-ink); font-size: 16px; font-weight: 700; }
+.woocommerce ul.products li.product .button { margin: 8px 17px 7px; border-radius: 6px; background: var(--is-blue); color: #fff; font-size: 12px; }
+.woocommerce ul.products li.product .button:hover { background: #1737cd; }
+.woocommerce ul.products li.product.product-category img { aspect-ratio: 1.55; }
+.woocommerce ul.products li.product.product-category .woocommerce-loop-category__title { padding: 12px 17px 18px; color: var(--is-ink); font-size: 18px; }
+.woocommerce ul.products li.product.product-category mark { color: var(--is-muted); background: transparent; font-size: 12px; }
+.woocommerce div.product .product_title { color: var(--is-ink); font-size: clamp(39px, 4.5vw, 64px); letter-spacing: -.06em; }
+.woocommerce div.product .summary > .price { color: var(--is-ink); font-size: 26px; font-weight: 700; }
+.woocommerce div.product .woocommerce-product-gallery { overflow: hidden; border-radius: 12px; background: #f3f5f8; }
+.woocommerce div.product .single_add_to_cart_button { border-radius: 6px; background: var(--is-blue); }
+.woocommerce div.product .single_add_to_cart_button:hover { background: #1737cd; }
+.woocommerce div.product .product_meta { padding-top: 17px; border-top: 1px solid var(--is-line); color: var(--is-muted); font-size: 13px; }
+.woocommerce div.product .woocommerce-tabs { padding-top: 30px; }
+.woocommerce .woocommerce-breadcrumb { color: var(--is-muted); font-size: 12px; }
+.woocommerce a:focus-visible, .woocommerce button:focus-visible, .is-wishlist-page a:focus-visible, .is-wishlist-page button:focus-visible { outline: 3px solid var(--is-blue); outline-offset: 3px; }
+.is-wishlist-button { display: inline-flex; align-items: center; gap: 7px; margin: 7px 17px 17px; padding: 0; border: 0; background: transparent; color: #53617a; font-size: 20px; cursor: pointer; }
+.is-wishlist-button span { font-size: 12px; font-weight: 700; }
+.is-wishlist-button:hover, .is-wishlist-button.is-saved { color: var(--is-blue); }
+.is-wishlist-button--single { margin: 14px 0 25px; }
+.is-wishlist-page { padding-block: 15px 70px; }
+.is-wishlist-intro { color: var(--is-muted); font-size: 14px; }
+.is-wishlist-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; margin-top: 25px; }
+.is-wishlist-card { overflow: hidden; border: 1px solid var(--is-line); border-radius: 9px; }
+.is-wishlist-card a { display: flex; flex-direction: column; color: var(--is-ink); text-decoration: none; }
+.is-wishlist-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #f3f5f8; }
+.is-wishlist-card strong { padding: 14px 15px 0; font-size: 16px; }
+.is-wishlist-card span { padding: 5px 15px 0; font-size: 14px; }
+.is-wishlist-card button { margin: 16px 15px; padding: 0; border: 0; background: transparent; color: var(--is-blue); font-size: 12px; text-align: left; text-decoration: underline; cursor: pointer; }
+.is-wishlist-empty { padding: 40px; border: 1px dashed var(--is-line); border-radius: 9px; color: var(--is-muted); }
+.is-wishlist-empty a { color: var(--is-blue); }
+@media (max-width: 900px) { .is-wishlist-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 600px) { .woocommerce ul.products { gap: 12px; } .woocommerce ul.products li.product .woocommerce-loop-product__title { padding-inline: 12px; font-size: 14px; } .woocommerce ul.products li.product .price { padding-inline: 12px; font-size: 14px; } .woocommerce ul.products li.product .button { margin-inline: 12px; font-size: 11px; } .is-wishlist-button { margin-left: 12px; margin-right: 12px; } }
+@media (prefers-reduced-motion: reduce) { .woocommerce ul.products li.product { transition: none; } }
