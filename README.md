@@ -12,11 +12,11 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 - Global color palette and original logo system.
 - Code based responsive homepage in a Blocksy child theme, following the approved visual concept in `assets/home-final-concept.png`.
 - Original editorial hero and four wide category photographs are assigned in the local WordPress site; their sources and prompts are in `assets/`.
-- Four WooCommerce product categories linked from Home; Computers, Electronics, and Home Tech are also in the main navigation.
+- Four WooCommerce product categories linked from Home and the main navigation.
 - Shop archive configured as a three-column product grid. Eight fictional concepts appear dynamically on Home when published in WooCommerce. A browser-local wishlist is available in the child theme.
 - Local WooCommerce contains three clearly marked sample orders under **WooCommerce → Orders**. The idempotent generator is [`tools/seed-woocommerce-demo.php`](tools/seed-woocommerce-demo.php); it preserves existing products and non-demo orders.
 - The LocalWP checkout has a demonstration payment title that collects no money and one illustrative Dominican Republic delivery method. [`tools/configure-local-checkout.php`](tools/configure-local-checkout.php) refuses to run outside `interactive-store.local`.
-- Site currently remains in WooCommerce **Coming Soon** mode. Checkout configuration and tracking are planned work. The Home embeds an external 3D laptop demo; integration with a catalog product remains future work.
+- Site currently remains in WooCommerce **Coming Soon** mode. Real payment and shipping setup, analytics tracking, and connection of the external 3D laptop demo to a catalog product remain future work.
 
 ## Repository contents
 
@@ -34,6 +34,7 @@ A portfolio project for a modern technology storefront built with **WordPress, W
 | [`index.html`](index.html), [`shop.html`](shop.html), [`product.html`](product.html), [`wishlist.html`](wishlist.html), [`bag.html`](bag.html), [`checkout.html`](checkout.html), [`orders.html`](orders.html), and preview styles/scripts | Static GitHub Pages portfolio preview with a browser-local demo order flow |
 | [`tools/seed-woocommerce-demo.php`](tools/seed-woocommerce-demo.php) | Idempotent local WooCommerce product and sample order setup |
 | [`tools/configure-local-checkout.php`](tools/configure-local-checkout.php) | LocalWP-only no-payment checkout and illustrative delivery setup |
+| [`portfolio/upwork-cover.html`](portfolio/upwork-cover.html), [`assets/upwork-cover-desktop-mobile.jpg`](assets/upwork-cover-desktop-mobile.jpg) | Editable desktop/mobile Project Catalog cover and exported image |
 
 The hero image is a conceptual, AI generated composition for the fictional store. It does not represent a listed product or a manufacturer.
 

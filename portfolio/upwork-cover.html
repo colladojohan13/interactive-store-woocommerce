@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Store portfolio cover</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1600px; height: 1200px; overflow: hidden; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #172142; }
+    .cover { position: relative; width: 1600px; height: 1200px; overflow: hidden; background: #f3f5f9; }
+    .cover::before { content: ""; position: absolute; inset: -360px -150px auto auto; width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(circle, #dce3ff 0, rgba(220,227,255,0) 72%); }
+    .cover::after { content: ""; position: absolute; width: 700px; height: 400px; bottom: -260px; left: -170px; border-radius: 50%; background: radial-gradient(circle, #e5eaff 0, rgba(229,234,255,0) 72%); }
+    .brand { position: absolute; z-index: 3; left: 88px; top: 66px; display: flex; align-items: center; gap: 19px; }
+    .mark { width: 54px; height: 54px; border-radius: 15px; background: #454bf1; box-shadow: 0 10px 24px #454bf12b; display: grid; place-items: center; color: #fff; font-size: 35px; font-weight: 700; line-height: 1; }
+    .brand-name { font-size: 31px; font-weight: 700; letter-spacing: -.045em; }
+    .eyebrow { position: absolute; z-index: 3; top: 80px; right: 90px; font-size: 16px; font-weight: 700; letter-spacing: .22em; color: #566489; }
+    h1 { position: absolute; z-index: 3; top: 132px; left: 88px; width: 820px; margin: 0; font-size: 66px; line-height: 1.05; letter-spacing: -.06em; }
+    .subtitle { position: absolute; z-index: 3; top: 217px; left: 90px; margin: 0; font-size: 22px; color: #64708a; }
+    .desktop { position: absolute; left: 84px; top: 325px; width: 1190px; height: 710px; padding: 12px; border: 1px solid #e1e5ee; border-radius: 23px; background: #fff; box-shadow: 0 40px 80px #17214229, 0 7px 22px #17214212; transform: rotate(-1deg); }
+    .desktop-bar { height: 39px; display: flex; align-items: center; gap: 8px; padding: 0 17px; }
+    .desktop-bar i { display: block; width: 9px; height: 9px; border-radius: 50%; background: #d9deea; }
+    .desktop-screen { width: 100%; height: 645px; overflow: hidden; border: 1px solid #e6e9f1; border-radius: 11px; background: white; }
+    .desktop-screen img { display: block; width: 100%; height: auto; }
+    .phone { position: absolute; z-index: 4; left: 1184px; top: 267px; width: 300px; height: 746px; padding: 10px; overflow: hidden; border: 6px solid #1d2434; border-radius: 45px; background: #1d2434; box-shadow: 0 39px 70px #1018364d, 0 7px 20px #10183629; transform: rotate(5deg); }
+    .phone-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 29px; background: white; }
+    .phone-screen img { display: block; width: 100%; height: auto; }
+    .phone-notch { position: absolute; z-index: 5; top: 16px; left: 50%; width: 88px; height: 18px; transform: translateX(-50%); border-radius: 0 0 15px 15px; background: #1d2434; }
+    .caption { position: absolute; z-index: 3; bottom: 72px; left: 89px; display: flex; align-items: center; gap: 13px; color: #53617d; font-size: 19px; font-weight: 600; }
+    .caption::before { content: ""; display: block; width: 31px; height: 3px; border-radius: 3px; background: #454bf1; }
+  </style>
+</head>
+<body>
+  <main class="cover" aria-label="Interactive Store desktop and mobile portfolio cover">
+    <div class="brand"><span class="mark" aria-hidden="true">✣</span><span class="brand-name">Interactive Store</span></div>
+    <div class="eyebrow">RESPONSIVE STOREFRONT</div>
+    <h1>Designed for every screen.</h1>
+    <p class="subtitle">A modern ecommerce concept, shown on desktop and mobile.</p>
+    <div class="desktop"><div class="desktop-bar"><i></i><i></i><i></i></div><div class="desktop-screen"><img src="../assets/upwork-desktop-capture.jpg" alt="Desktop storefront screenshot"></div></div>
+    <div class="phone"><div class="phone-screen"><img src="../assets/upwork-mobile-capture.jpg" alt="Mobile storefront screenshot"></div><span class="phone-notch" aria-hidden="true"></span></div>
+    <div class="caption">Desktop + mobile experience</div>
+  </main>
+</body>
+</html>
