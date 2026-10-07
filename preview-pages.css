@@ -230,12 +230,13 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .comparison-grid p { margin: 7px 0 14px; color: #64718a; font-size: 13px; }
 .comparison-grid b { margin-top: auto; font-size: 17px; }
 .comparison-note { margin: 15px 0 0; color: #64718a; font-size: 12px; }
-.orders-admin-proof { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); align-items: center; gap: 32px; margin: 75px 0 0; padding: clamp(24px, 4vw, 42px); border-radius: 12px; background: #eef2f8; }
-.orders-admin-proof h2 { margin: 10px 0 15px; font-size: clamp(29px, 3vw, 43px); line-height: 1.1; letter-spacing: -.05em; }
-.orders-admin-proof p:not(.store-eyebrow) { color: #64718a; font-size: 14px; line-height: 1.65; }
-.orders-admin-proof figure { min-width: 0; margin: 0; }
-.orders-admin-proof img { display: block; width: 100%; height: auto; border: 1px solid #dce2ed; border-radius: 8px; box-shadow: 0 16px 36px #17214218; }
-.orders-admin-proof figcaption { margin-top: 10px; color: #64718a; font-size: 11px; }
+.orders-admin-proof, .product-admin-proof { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); align-items: center; gap: 32px; margin: 75px 0 0; padding: clamp(24px, 4vw, 42px); border-radius: 12px; background: #eef2f8; }
+.product-admin-proof { margin: 0 0 80px; }
+.orders-admin-proof h2, .product-admin-proof h2 { margin: 10px 0 15px; font-size: clamp(29px, 3vw, 43px); line-height: 1.1; letter-spacing: -.05em; }
+.orders-admin-proof p:not(.store-eyebrow), .product-admin-proof p:not(.store-eyebrow) { color: #64718a; font-size: 14px; line-height: 1.65; }
+.orders-admin-proof figure, .product-admin-proof figure { min-width: 0; margin: 0; }
+.orders-admin-proof img, .product-admin-proof img { display: block; width: 100%; height: auto; border: 1px solid #dce2ed; border-radius: 8px; box-shadow: 0 16px 36px #17214218; }
+.orders-admin-proof figcaption, .product-admin-proof figcaption { margin-top: 10px; color: #64718a; font-size: 11px; }
 select:focus-visible, .product-thumbnails button:focus-visible { outline: 3px solid #2447eb; outline-offset: 3px; }
 
 @media (max-width: 650px) {
@@ -266,6 +267,6 @@ select:focus-visible, .product-thumbnails button:focus-visible { outline: 3px so
   .product-3d-section { padding: 23px; }
   .product-3d-head { align-items: start; flex-direction: column; }
   .product-3d-frame iframe { height: 740px; }
-  .orders-admin-proof { grid-template-columns: 1fr; }
+  .orders-admin-proof, .product-admin-proof { grid-template-columns: 1fr; }
 }
 @media (max-width: 400px) { .store-control-fields { grid-template-columns: 1fr; } .store-search-row { flex-wrap: wrap; } .store-search-row .store-search { flex-basis: 100%; } .mobile-filter-open { width: 100%; } }
