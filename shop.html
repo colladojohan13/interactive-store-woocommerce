@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse the Interactive Store concept collection. A responsive technology storefront preview with fictional products.">
+  <title>Shop — Interactive Store</title>
+  <link rel="icon" type="image/svg+xml" href="assets/interactive-store-mark.svg">
+  <link rel="stylesheet" href="preview.css">
+  <link rel="stylesheet" href="preview-pages.css">
+  <script src="preview.js" defer></script>
+</head>
+<body data-page="shop">
+  <a class="preview-skip" href="#main">Skip to content</a>
+  <div class="demo-bar">Interactive Store concept · Fictional products · Preview only</div>
+  <header class="preview-header">
+    <div class="preview-header__inner is-home-container">
+      <a class="preview-brand" href="index.html" aria-label="Interactive Store home"><img src="assets/interactive-store-logo.svg" width="231" height="40" alt="Interactive Store"></a>
+      <nav class="preview-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="shop.html" aria-current="page">Shop</a><a href="index.html#categories">Categories</a><a href="index.html#experience">3D preview</a></nav>
+      <a class="preview-header__cta" href="bag.html">Demo bag <span class="bag-count" aria-label="items in bag">0</span></a>
+    </div>
+  </header>
+  <main id="main" class="store-main">
+    <section class="store-intro store-container">
+      <div><p class="store-eyebrow">Curated for everyday life</p><h1>Discover better everyday tech.</h1><p>Explore four fictional product concepts in a calm, easy to navigate storefront.</p></div>
+      <span class="store-collection-mark">The concept collection <strong>01—04</strong></span>
+    </section>
+    <section class="store-catalog store-container" aria-labelledby="catalog-title">
+      <div class="store-catalog__top"><div><p class="store-eyebrow">Browse the collection</p><h2 id="catalog-title">All products</h2></div><p id="result-count" role="status" aria-live="polite"></p></div>
+      <div class="store-controls"><div class="store-filters" role="group" aria-label="Filter by category"><button class="filter-chip is-active" type="button" data-category="all" aria-pressed="true">All</button><button class="filter-chip" type="button" data-category="computers" aria-pressed="false">Computers</button><button class="filter-chip" type="button" data-category="electronics" aria-pressed="false">Electronics</button><button class="filter-chip" type="button" data-category="accessories" aria-pressed="false">Accessories</button><button class="filter-chip" type="button" data-category="home-tech" aria-pressed="false">Home Tech</button></div><label class="store-search"><span>Search products</span><input id="catalog-search" type="search" placeholder="Search the collection…" autocomplete="off"></label></div>
+      <div id="catalog-grid" class="store-grid"></div>
+      <p id="catalog-empty" class="store-empty" hidden>No products match your search. Try another term or category.</p>
+    </section>
+    <aside class="store-note store-container"><span class="store-note__icon" aria-hidden="true">✳</span><div><strong>A portfolio demonstration</strong><p>These products, images and prices are illustrative. The live WordPress and WooCommerce build is in development; this preview has no purchases or payments.</p></div></aside>
+  </main>
+  <footer class="preview-footer"><div class="is-home-container"><strong>Interactive Store</strong><p>WordPress + WooCommerce storefront concept. Browse the design, explore a product, and try the local demo bag. Checkout is unavailable.</p></div></footer>
+</body>
+</html>

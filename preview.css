@@ -1,6 +1,7 @@
 :root { color-scheme: light; }
 html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 body { margin: 0; background: #fff; color: #111b35; font-family: Arial, Helvetica, sans-serif; }
+.is-home-container { width: min(100% - 48px, 1220px); margin-inline: auto; }
 .preview-skip { position: absolute; z-index: 10; top: -100px; left: 12px; padding: 10px 14px; background: #fff; color: #111b35; }
 .preview-skip:focus { top: 10px; }
 .preview-header { position: relative; z-index: 3; border-bottom: 1px solid #eef0f4; background: #fff; }
