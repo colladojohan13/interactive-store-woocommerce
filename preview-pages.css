@@ -231,7 +231,8 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .comparison-grid b { margin-top: auto; font-size: 17px; }
 .comparison-note { margin: 15px 0 0; color: #64718a; font-size: 12px; }
 .orders-admin-proof, .product-admin-proof { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); align-items: center; gap: 32px; margin: 75px 0 0; padding: clamp(24px, 4vw, 42px); border-radius: 12px; background: #eef2f8; }
-.product-admin-proof { margin: 0 0 80px; }
+.product-admin-proof { grid-template-columns: 1fr; margin: 0 0 80px; }
+.product-admin-proof > div { max-width: 760px; }
 .orders-admin-proof h2, .product-admin-proof h2 { margin: 10px 0 15px; font-size: clamp(29px, 3vw, 43px); line-height: 1.1; letter-spacing: -.05em; }
 .orders-admin-proof p:not(.store-eyebrow), .product-admin-proof p:not(.store-eyebrow) { color: #64718a; font-size: 14px; line-height: 1.65; }
 .orders-admin-proof figure, .product-admin-proof figure { min-width: 0; margin: 0; }
