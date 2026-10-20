@@ -139,11 +139,35 @@ function setWishState(button, saved) {
   button.setAttribute('aria-label', `${saved ? 'Remove' : 'Save'} ${productById[button.dataset.wishId].name} ${saved ? 'from' : 'to'} wishlist`);
   button.textContent = saved ? '♥' : '♡';
 }
+function openQuickView(product, trigger) {
+  let dialog = document.getElementById('quick-view');
+  if (!dialog) {
+    dialog = document.createElement('dialog'); dialog.id = 'quick-view'; dialog.className = 'quick-view';
+    dialog.setAttribute('aria-labelledby', 'quick-view-title');
+    dialog.innerHTML = `<button class="quick-view__close" type="button" aria-label="Close quick view">×</button><div class="quick-view__layout"><div class="quick-view__media"><img id="quick-view-image" width="600" height="600" alt=""></div><div class="quick-view__info"><p class="store-eyebrow" id="quick-view-category"></p><h2 id="quick-view-title"></h2><p id="quick-view-kind" class="quick-view__kind"></p><strong id="quick-view-price" class="quick-view__price"></strong><p id="quick-view-description" class="quick-view__description"></p><p class="quick-view__note">Fictional concept · Demo bag only · No payment</p><div class="quick-view__actions"><button id="quick-view-add" class="store-button" type="button">Add to demo bag</button><button id="quick-view-save" class="quick-view__save" type="button"></button></div><a id="quick-view-details" class="quick-view__details" href="product.html">See full product details ↗</a></div></div>`;
+    document.body.append(dialog);
+    dialog.querySelector('.quick-view__close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  }
+  const set = (id, value) => { dialog.querySelector(id).textContent = value; };
+  const image = dialog.querySelector('#quick-view-image'); image.src = product.image; image.alt = `${product.name} ${product.kind}`;
+  set('#quick-view-category', `${product.categoryName} · Concept collection`);
+  set('#quick-view-title', product.name); set('#quick-view-kind', product.kind);
+  set('#quick-view-price', money(product.price)); set('#quick-view-description', product.description);
+  dialog.querySelector('#quick-view-details').href = `product.html?item=${encodeURIComponent(product.id)}`;
+  dialog.querySelector('#quick-view-add').onclick = () => { addToBag(product.id); dialog.close(); showBagNotice(product); };
+  const save = dialog.querySelector('#quick-view-save');
+  const syncSave = () => { const saved = getWishlist().includes(product.id); save.textContent = saved ? '♥ Saved' : '♡ Save'; save.setAttribute('aria-pressed', String(saved)); };
+  save.onclick = () => { toggleWishlist(product.id); syncSave(); }; syncSave();
+  dialog.addEventListener('close', () => trigger.focus(), { once: true });
+  if (dialog.showModal) dialog.showModal(); else location.href = `product.html?item=${encodeURIComponent(product.id)}`;
+}
 function card(product) {
   const article = document.createElement('article'); article.className = 'store-card';
-  article.innerHTML = `<a class="store-card__link" href="product.html?item=${encodeURIComponent(product.id)}"><span class="store-card__media"><img src="${product.image}" width="1024" height="1024" alt="${product.name} ${product.kind}" loading="lazy"></span><span class="store-card__body"><span class="store-card__eyebrow">${product.categoryName} · Concept</span><strong>${product.name}</strong><span class="store-card__kind">${product.kind}</span><span class="store-card__bottom"><b>${money(product.price)}</b><span aria-hidden="true">↗</span></span></span></a><button class="wish-button" type="button" data-wish-id="${product.id}"></button><div class="store-card__actions"><button class="store-card__add" type="button" aria-label="Add ${product.name} to demo bag">Add to demo bag <span aria-hidden="true">+</span></button></div>`;
+  article.innerHTML = `<a class="store-card__link" href="product.html?item=${encodeURIComponent(product.id)}"><span class="store-card__media"><img src="${product.image}" width="1024" height="1024" alt="${product.name} ${product.kind}" loading="lazy"></span><span class="store-card__body"><span class="store-card__eyebrow">${product.categoryName} · Concept</span><strong>${product.name}</strong><span class="store-card__kind">${product.kind}</span><span class="store-card__bottom"><b>${money(product.price)}</b><span aria-hidden="true">↗</span></span></span></a><button class="wish-button" type="button" data-wish-id="${product.id}"></button><div class="store-card__actions"><button class="store-card__peek" type="button" aria-label="Quick view ${product.name}">Quick view</button><button class="store-card__add" type="button" aria-label="Add ${product.name} to demo bag">Add to bag <span aria-hidden="true">+</span></button></div>`;
   const button = article.querySelector('.wish-button'); setWishState(button, getWishlist().includes(product.id));
   button.addEventListener('click', () => toggleWishlist(product.id));
+  article.querySelector('.store-card__peek').addEventListener('click', event => openQuickView(product, event.currentTarget));
   article.querySelector('.store-card__add').addEventListener('click', () => { addToBag(product.id); showBagNotice(product); });
   return article;
 }
