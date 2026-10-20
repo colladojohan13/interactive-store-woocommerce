@@ -484,6 +484,79 @@ function renderOrders() {
 function renderHome() {
   const arrivals = document.getElementById('home-new-grid');
   if (arrivals) arrivals.replaceChildren(...products.slice(4).map(card));
+  const featured = document.getElementById('home-featured-grid');
+  if (featured) featured.replaceChildren(...products.slice(0, 4).map(card));
+  const stage = document.getElementById('moment-stage');
+  if (!stage) return;
+  const video = document.getElementById('moment-video');
+  const image = document.getElementById('moment-image');
+  const choices = [...document.querySelectorAll('.home-moments__choice')];
+  const replay = document.getElementById('moment-replay');
+  const sceneById = {
+    'arc-14': { start: 0, label: 'Focus / 01', heading: 'Ideas in motion.', description: 'A focused companion for your everyday workspace.' },
+    pulse: { start: 3, label: 'Move / 02', heading: 'Sound, everywhere.', description: 'A considered listening concept for days in motion.' },
+    haven: { start: 6, label: 'Unwind / 03', heading: 'Room to breathe.', description: 'Bring a softer rhythm into your favorite space.' }
+  };
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let selectedId = 'arc-14';
+  let hasEntered = false;
+  let videoReady = false;
+  let pendingSeek;
+  function playScene() {
+    if (!videoReady) return;
+    const start = sceneById[selectedId].start;
+    video.pause();
+    stage.classList.remove('is-video-ready');
+    if (pendingSeek) video.removeEventListener('seeked', pendingSeek);
+    const begin = () => {
+      pendingSeek = null;
+      stage.classList.add('is-video-ready');
+      video.play().catch(() => stage.classList.remove('is-video-ready'));
+    };
+    if (Math.abs(video.currentTime - start) < .03) begin();
+    else { pendingSeek = begin; video.addEventListener('seeked', begin, { once: true }); video.currentTime = start; }
+  }
+  function select(id, userInitiated = false) {
+    const product = productById[id];
+    if (!product || !sceneById[id]) return;
+    selectedId = id;
+    video.pause();
+    stage.classList.remove('is-video-ready');
+    image.src = product.image;
+    image.alt = `${product.name} ${product.kind}`;
+    document.getElementById('moment-name').textContent = product.name;
+    document.getElementById('moment-kind').textContent = product.kind;
+    document.getElementById('moment-description').textContent = sceneById[id].description;
+    document.getElementById('moment-screen-heading').textContent = sceneById[id].heading;
+    document.getElementById('moment-scene-label').textContent = sceneById[id].label;
+    document.getElementById('moment-link').href = `product.html?item=${encodeURIComponent(id)}`;
+    choices.forEach(button => {
+      const active = button.dataset.moment === id;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    if (userInitiated) playScene();
+  }
+  choices.forEach(button => button.addEventListener('click', () => select(button.dataset.moment, true)));
+  replay.addEventListener('click', playScene);
+  document.getElementById('moment-add').addEventListener('click', () => { const product = productById[selectedId]; addToBag(selectedId); showBagNotice(product); });
+  const markVideoReady = () => {
+    videoReady = Number.isFinite(video.duration) && video.duration >= 8.5;
+    replay.hidden = !videoReady;
+    if (videoReady && hasEntered && !reducedMotion.matches) playScene();
+  };
+  video.addEventListener('loadedmetadata', markVideoReady);
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) markVideoReady();
+  video.addEventListener('error', () => { videoReady = false; replay.hidden = true; stage.classList.remove('is-video-ready'); });
+  video.addEventListener('timeupdate', () => {
+    if (video.currentTime >= sceneById[selectedId].start + 2.92) video.pause();
+  });
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { hasEntered = true; observer.disconnect(); if (!reducedMotion.matches) playScene(); }
+    }, { threshold: .35 });
+    observer.observe(stage);
+  } else hasEntered = true;
 }
 setupHeader();
 updateCounters();

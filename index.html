@@ -6,10 +6,10 @@
   <meta name="description" content="Interactive Store: a WordPress and WooCommerce storefront concept. Explore the homepage design and fictional product collection.">
   <title>Interactive Store — Storefront Preview</title>
   <link rel="icon" type="image/svg+xml" href="assets/interactive-store-mark.svg">
-  <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=3d-1">
+  <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261020a">
   <link rel="stylesheet" href="preview.css?v=20261019b">
   <link rel="stylesheet" href="preview-pages.css?v=20261019e">
-  <script src="preview.js?v=20261019e" defer></script>
+  <script src="preview.js?v=20261020a" defer></script>
 </head>
 <body data-page="home">
   <a class="preview-skip" href="#main">Skip to content</a>
@@ -54,6 +54,35 @@
       <div><span>03</span><strong>Try the journey</strong><p>Place a fictional order and see it in Demo orders.</p></div>
     </section>
 
+    <section id="moments" class="home-moments is-home-section" aria-labelledby="moments-title">
+      <div class="is-home-container home-moments__layout">
+        <div class="home-moments__copy">
+          <p class="is-home-eyebrow">Choose your moment</p>
+          <h2 id="moments-title">Technology for the way you move.</h2>
+          <p class="home-moments__intro">Pick a moment and explore a concept that fits it. Each scene is a short HyperFrames animation made for this storefront.</p>
+          <div class="home-moments__choices" role="group" aria-label="Choose a moment">
+            <button type="button" class="home-moments__choice is-active" data-moment="arc-14" aria-pressed="true"><span>01</span><strong>Focus</strong><small>Make space for ideas</small></button>
+            <button type="button" class="home-moments__choice" data-moment="pulse" aria-pressed="false"><span>02</span><strong>Move</strong><small>Bring the sound along</small></button>
+            <button type="button" class="home-moments__choice" data-moment="haven" aria-pressed="false"><span>03</span><strong>Unwind</strong><small>Settle into your space</small></button>
+          </div>
+        </div>
+        <div class="home-moments__stage" id="moment-stage">
+          <div class="home-moments__screen">
+            <img id="moment-image" src="assets/arc-14-laptop-concept.jpg" width="1024" height="1024" alt="Arc 14 laptop concept on a light background" loading="lazy">
+            <video id="moment-video" muted playsinline preload="metadata" aria-hidden="true"><source src="assets/home-moments-hyperframes.mp4" type="video/mp4"></video>
+            <div class="home-moments__overlay"><span>THE INTERACTIVE EDIT</span><strong id="moment-screen-heading">Ideas in motion.</strong></div>
+            <span class="home-moments__scene-label" id="moment-scene-label">Focus / 01</span>
+            <button class="home-moments__replay" id="moment-replay" type="button" aria-label="Replay this scene" hidden>↻ <span>Replay scene</span></button>
+          </div>
+          <div class="home-moments__product" aria-live="polite">
+            <div><span id="moment-kind">Laptop concept</span><h3 id="moment-name">Arc 14</h3><p id="moment-description">A focused companion for your everyday workspace.</p></div>
+            <div class="home-moments__actions"><a id="moment-link" href="product.html?item=arc-14">Explore product ↗</a><button id="moment-add" type="button">Add to cart</button></div>
+          </div>
+          <p class="home-moments__note">Fictional product concepts · Animation illustrates the collection</p>
+        </div>
+      </div>
+    </section>
+
     <section id="categories" class="is-home-section is-home-categories" aria-labelledby="is-home-categories-title">
       <div class="is-home-container">
         <div class="is-home-section__heading is-home-section__heading--compact">
@@ -84,40 +113,13 @@
 
     <section class="is-home-section home-new" aria-labelledby="home-new-title"><div class="is-home-container"><div class="is-home-section__heading"><div><p class="is-home-eyebrow">Fresh ideas</p><h2 id="home-new-title">More to explore</h2></div><a class="is-home-text-link" href="shop.html">Shop the collection <span aria-hidden="true">↗</span></a></div><div id="home-new-grid" class="store-grid"></div></div></section>
 
-    <section class="home-collections is-home-section" aria-labelledby="home-collections-title"><div class="is-home-container"><div class="is-home-section__heading"><div><p class="is-home-eyebrow">Find a starting point</p><h2 id="home-collections-title">Curated by mood</h2></div></div><div class="home-collections__grid"><a href="shop.html?category=accessories"><span>01 / The focused desk</span><strong>Details that make the day flow.</strong><span>Explore accessories ↗</span></a><a href="shop.html?category=home-tech"><span>02 / The comfortable home</span><strong>Technology that feels at home.</strong><span>Explore home tech ↗</span></a></div></div></section>
-
     <section id="products" class="is-home-section is-home-products" aria-labelledby="is-home-products-title">
       <div class="is-home-container">
         <div class="is-home-section__heading">
           <div><p class="is-home-eyebrow">Our picks</p><h2 id="is-home-products-title">Featured products</h2></div>
           <a class="is-home-text-link" href="shop.html">View all products <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="is-home-products__grid">
-          <article id="arc-14" class="is-home-product">
-            <a class="preview-product is-home-product__link" href="product.html?item=arc-14">
-              <span class="is-home-product__media"><img src="assets/arc-14-laptop-concept.jpg" width="1024" height="1024" alt="Arc 14 graphite laptop concept" loading="lazy"></span>
-              <span class="is-home-product__body"><strong class="is-home-product__title">Arc 14</strong><span class="is-home-product__kind">Laptop concept</span><span class="is-home-product__bottom"><span class="is-home-product__soon">Demo product</span></span></span>
-            </a>
-          </article>
-          <article id="pulse" class="is-home-product">
-            <a class="preview-product is-home-product__link" href="product.html?item=pulse">
-              <span class="is-home-product__media"><img src="assets/pulse-headphones-concept.png" width="1024" height="1024" alt="Pulse wireless headphones concept" loading="lazy"></span>
-              <span class="is-home-product__body"><strong class="is-home-product__title">Pulse</strong><span class="is-home-product__kind">Wireless headphones concept</span><span class="is-home-product__bottom"><span class="is-home-product__soon">Demo product</span></span></span>
-            </a>
-          </article>
-          <article id="link" class="is-home-product">
-            <a class="preview-product is-home-product__link" href="product.html?item=link">
-              <span class="is-home-product__media"><img src="assets/link-usbc-dock-concept.png" width="1024" height="1024" alt="Link USB-C dock concept" loading="lazy"></span>
-              <span class="is-home-product__body"><strong class="is-home-product__title">Link</strong><span class="is-home-product__kind">USB-C dock concept</span><span class="is-home-product__bottom"><span class="is-home-product__soon">Demo product</span></span></span>
-            </a>
-          </article>
-          <article id="haven" class="is-home-product">
-            <a class="preview-product is-home-product__link" href="product.html?item=haven">
-              <span class="is-home-product__media"><img src="assets/haven-smart-speaker-concept.png" width="1024" height="1024" alt="Haven smart speaker concept" loading="lazy"></span>
-              <span class="is-home-product__body"><strong class="is-home-product__title">Haven</strong><span class="is-home-product__kind">Smart speaker concept</span><span class="is-home-product__bottom"><span class="is-home-product__soon">Demo product</span></span></span>
-            </a>
-          </article>
-        </div>
+        <div id="home-featured-grid" class="is-home-products__grid"></div>
       </div>
     </section>
 

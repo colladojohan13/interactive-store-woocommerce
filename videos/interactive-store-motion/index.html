@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Interactive Store — product motion</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1280px; height: 720px; overflow: hidden; }
+      body { background: #f2f5ff; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .scene { position: absolute; inset: 0; overflow: hidden; isolation: isolate; }
+      .scene::before { content: ""; position: absolute; inset: 0; z-index: 0; }
+      .scene-focus::before { background: linear-gradient(112deg, #ecf1ff 2%, #f8faff 47%, #eff2fb 100%); }
+      .scene-move::before { background: linear-gradient(112deg, #eaf2fa 2%, #f9fbfd 47%, #ebf1fa 100%); }
+      .scene-unwind::before { background: linear-gradient(112deg, #eff0fc 2%, #fcfbff 47%, #eeeefa 100%); }
+      .scene::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5; background: linear-gradient(90deg, rgba(249,251,255,.8) 0%, rgba(249,251,255,.22) 39%, rgba(249,251,255,0) 64%); }
+      .halo { position: absolute; top: -165px; left: 485px; width: 850px; height: 850px; border-radius: 50%; background: radial-gradient(circle, rgba(82,103,242,.29) 0%, rgba(112,131,248,.10) 43%, transparent 68%); z-index: 1; }
+      .scene-move .halo { background: radial-gradient(circle, rgba(73,122,206,.23) 0%, rgba(103,171,222,.09) 43%, transparent 68%); }
+      .scene-unwind .halo { background: radial-gradient(circle, rgba(109,95,212,.24) 0%, rgba(157,144,230,.09) 43%, transparent 68%); }
+      .orbit { position: absolute; top: 78px; left: 600px; width: 550px; height: 550px; border: 1px solid rgba(58,79,162,.13); border-radius: 50%; z-index: 1; }
+      .orbit-inner { top: 133px; left: 655px; width: 440px; height: 440px; border-color: rgba(58,79,162,.09); }
+      .orbit::after { content: ""; position: absolute; top: 78px; right: 24px; width: 9px; height: 9px; border-radius: 50%; background: #4659dc; box-shadow: 0 0 0 7px rgba(70,89,220,.08); }
+      .orbit-inner::after { top: auto; bottom: 54px; right: 40px; width: 6px; height: 6px; }
+      .product-visual { position: absolute; width: 705px; height: 705px; top: 7px; left: 525px; object-fit: contain; z-index: 2; mix-blend-mode: multiply; -webkit-mask-image: radial-gradient(ellipse 64% 64% at 50% 50%, #000 53%, transparent 99%); mask-image: radial-gradient(ellipse 64% 64% at 50% 50%, #000 53%, transparent 99%); will-change: transform; }
+      .scene-move .product-visual { width: 660px; height: 660px; top: 38px; left: 562px; }
+      .scene-unwind .product-visual { width: 650px; height: 650px; top: 40px; left: 565px; }
+      .blue-rule { position: absolute; left: 64px; top: 86px; width: 96px; height: 5px; border-radius: 4px; background: #4352df; opacity: .65; }
+      .fine-rule { position: absolute; left: 64px; top: 106px; width: 192px; height: 1px; background: rgba(37,54,121,.16); }
+      .corner-mark { position: absolute; left: 65px; bottom: 67px; width: 38px; height: 38px; border-left: 2px solid rgba(52,72,158,.28); border-bottom: 2px solid rgba(52,72,158,.28); }
+      .corner-mark-right { left: auto; right: 65px; top: 67px; bottom: auto; border-left: 0; border-bottom: 0; border-right: 2px solid rgba(52,72,158,.28); border-top: 2px solid rgba(52,72,158,.28); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="interactive-store-motion" data-start="0" data-duration="9" data-width="1280" data-height="720">
+      <section class="clip" id="focus" data-start="0" data-duration="3" data-track-index="0">
+        <div class="scene scene-focus">
+          <div class="halo" id="focus-halo"></div><div class="orbit"></div><div class="orbit orbit-inner"></div>
+          <div class="blue-rule"></div><div class="fine-rule"></div><div class="corner-mark"></div><div class="corner-mark corner-mark-right"></div>
+          <img class="product-visual" id="focus-product" src="assets/arc-14-laptop-concept.webp" alt="" />
+        </div>
+      </section>
+      <section class="clip" id="move" data-start="3" data-duration="3" data-track-index="0">
+        <div class="scene scene-move">
+          <div class="halo" id="move-halo"></div><div class="orbit"></div><div class="orbit orbit-inner"></div>
+          <div class="blue-rule"></div><div class="fine-rule"></div><div class="corner-mark"></div><div class="corner-mark corner-mark-right"></div>
+          <img class="product-visual" id="move-product" src="assets/pulse-headphones-concept.webp" alt="" />
+        </div>
+      </section>
+      <section class="clip" id="unwind" data-start="6" data-duration="3" data-track-index="0">
+        <div class="scene scene-unwind">
+          <div class="halo" id="unwind-halo"></div><div class="orbit"></div><div class="orbit orbit-inner"></div>
+          <div class="blue-rule"></div><div class="fine-rule"></div><div class="corner-mark"></div><div class="corner-mark corner-mark-right"></div>
+          <img class="product-visual" id="unwind-product" src="assets/haven-smart-speaker-concept.webp" alt="" />
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      [
+        { id: "focus", at: 0 },
+        { id: "move", at: 3 },
+        { id: "unwind", at: 6 }
+      ].forEach(({ id, at }) => {
+        tl.fromTo(`#${id}-product`, { x: 18, scale: 1.0 }, { x: -18, scale: 1.065, duration: 3, ease: "sine.inOut", immediateRender: false }, at);
+        tl.fromTo(`#${id}-halo`, { scale: 0.96, opacity: 0.24 }, { scale: 1.04, opacity: 0.42, duration: 2.7, ease: "sine.inOut", immediateRender: false }, at);
+      });
+      window.__timelines["interactive-store-motion"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
