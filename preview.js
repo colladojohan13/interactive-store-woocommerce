@@ -25,8 +25,10 @@ function setupHeader() {
   const nav = header.querySelector('.preview-nav');
   const oldBag = header.querySelector('.preview-header__cta');
   const page = document.body.dataset.page;
+  const currentCategory = page === 'shop' ? new URLSearchParams(location.search).get('category') : null;
   const active = (name) => page === name ? ' aria-current="page"' : '';
-  nav.innerHTML = `<a href="index.html"${active('home')}>Home</a><a href="shop.html"${['shop', 'product'].includes(page) ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers">Computers</a><a href="shop.html?category=electronics">Electronics</a><a href="shop.html?category=accessories">Accessories</a><a href="shop.html?category=home-tech">Home Tech</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
+  const categoryActive = (name) => currentCategory === name ? ' aria-current="page"' : '';
+  nav.innerHTML = `<a href="index.html"${active('home')}>Home</a><a href="shop.html"${(page === 'shop' && !currentCategory) || page === 'product' ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
   nav.id = 'preview-main-nav';
   oldBag?.remove();
   const actions = document.createElement('div'); actions.className = 'preview-header__actions';
