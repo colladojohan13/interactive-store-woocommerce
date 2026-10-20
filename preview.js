@@ -18,6 +18,61 @@ const money = value => `RD$${Math.round(value).toLocaleString('en-US')}`;
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const read = (key, fallback) => { try { const value = localStorage.getItem(key); return value === null ? fallback : JSON.parse(value); } catch { return fallback; } };
 const write = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } };
+function setupHeader() {
+  const header = document.querySelector('.preview-header');
+  if (!header) return;
+  const inner = header.querySelector('.preview-header__inner');
+  const nav = header.querySelector('.preview-nav');
+  const oldBag = header.querySelector('.preview-header__cta');
+  const page = document.body.dataset.page;
+  const active = (name) => page === name ? ' aria-current="page"' : '';
+  nav.innerHTML = `<a href="index.html"${active('home')}>Home</a><a href="shop.html"${['shop', 'product'].includes(page) ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers">Computers</a><a href="shop.html?category=electronics">Electronics</a><a href="shop.html?category=accessories">Accessories</a><a href="shop.html?category=home-tech">Home Tech</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
+  nav.id = 'preview-main-nav';
+  oldBag?.remove();
+  const actions = document.createElement('div'); actions.className = 'preview-header__actions';
+  actions.innerHTML = `<button id="header-search-toggle" class="header-icon-button" type="button" aria-label="Search products" aria-expanded="false" aria-controls="header-search-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button><a class="header-account" href="orders.html"${active('orders')}>My demo orders</a><a class="header-bag" href="bag.html" aria-label="Demo bag"${active('bag')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 11.2h11.8L21 8H6"></path><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg><span class="bag-count">0</span></a><button id="header-menu-toggle" class="header-icon-button header-menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="preview-main-nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>`;
+  inner.append(actions);
+  const panel = document.createElement('div'); panel.id = 'header-search-panel'; panel.className = 'header-search-panel'; panel.hidden = true;
+  panel.innerHTML = `<form id="header-search-form" role="search"><label for="header-search-input">Search the concept collection</label><div class="header-search-panel__field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><input id="header-search-input" type="search" placeholder="Try laptop, camera, accessories…" autocomplete="off" maxlength="80"><button type="submit">Search</button></div></form><div id="header-search-results" class="header-search-results" aria-live="polite"></div><a id="header-search-all" class="header-search-all" href="shop.html">View all products ↗</a>`;
+  inner.append(panel);
+  const searchToggle = document.getElementById('header-search-toggle');
+  const menuToggle = document.getElementById('header-menu-toggle');
+  const searchInput = document.getElementById('header-search-input');
+  const results = document.getElementById('header-search-results');
+  const allLink = document.getElementById('header-search-all');
+  function closeSearch(returnFocus = false) { panel.hidden = true; searchToggle.setAttribute('aria-expanded', 'false'); if (returnFocus) searchToggle.focus(); }
+  function closeMenu(returnFocus = false) { nav.classList.remove('is-open'); menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Open menu'); if (returnFocus) menuToggle.focus(); }
+  function drawSuggestions() {
+    const term = searchInput.value.trim().toLowerCase();
+    const matches = products.filter(product => `${product.name} ${product.kind} ${product.categoryName}`.toLowerCase().includes(term)).slice(0, 4);
+    results.replaceChildren();
+    if (!matches.length) { const empty = document.createElement('p'); empty.textContent = 'No products found. Try another search or browse the collection.'; results.append(empty); }
+    else matches.forEach(product => {
+      const link = document.createElement('a'); link.href = `product.html?item=${encodeURIComponent(product.id)}`;
+      link.innerHTML = `<img src="${product.image}" alt="" width="64" height="64"><span><strong>${product.name}</strong><small>${product.kind}</small></span><b>${money(product.price)}</b>`;
+      results.append(link);
+    });
+    allLink.href = term ? `shop.html?q=${encodeURIComponent(searchInput.value.trim())}` : 'shop.html';
+    allLink.textContent = term ? `View all results for “${searchInput.value.trim()}” ↗` : 'View all products ↗';
+  }
+  searchToggle.addEventListener('click', () => {
+    const opening = panel.hidden; closeMenu(); panel.hidden = !opening; searchToggle.setAttribute('aria-expanded', String(opening));
+    if (opening) { drawSuggestions(); searchInput.focus(); }
+  });
+  menuToggle.addEventListener('click', () => {
+    const opening = !nav.classList.contains('is-open'); closeSearch(); nav.classList.toggle('is-open', opening);
+    menuToggle.setAttribute('aria-expanded', String(opening)); menuToggle.setAttribute('aria-label', opening ? 'Close menu' : 'Open menu');
+  });
+  searchInput.addEventListener('input', drawSuggestions);
+  document.getElementById('header-search-form').addEventListener('submit', event => {
+    event.preventDefault();
+    location.href = searchInput.value.trim() ? `shop.html?q=${encodeURIComponent(searchInput.value.trim())}` : 'shop.html';
+  });
+  nav.addEventListener('click', () => closeMenu());
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') { if (!panel.hidden) closeSearch(true); else if (nav.classList.contains('is-open')) closeMenu(true); } });
+  document.addEventListener('click', event => { if (!header.contains(event.target)) { closeSearch(); closeMenu(); } });
+  matchMedia('(min-width: 1051px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+}
 function getBag() {
   const value = read(bagKey, {});
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
@@ -48,6 +103,7 @@ function getOrders() {
 function updateCounters() {
   const count = Object.values(getBag()).reduce((sum, qty) => sum + qty, 0);
   document.querySelectorAll('.bag-count').forEach(el => { el.textContent = count; el.setAttribute('aria-label', `${count} items in bag`); });
+  document.querySelector('.header-bag')?.setAttribute('aria-label', `Demo bag, ${count} ${count === 1 ? 'item' : 'items'}`);
   document.querySelectorAll('.wish-count').forEach(el => { const n = getWishlist().length; el.textContent = n; el.setAttribute('aria-label', `${n} saved products`); });
 }
 function saveBag(bag) { write(bagKey, bag); updateCounters(); }
@@ -329,6 +385,7 @@ function renderHome() {
   const arrivals = document.getElementById('home-new-grid');
   if (arrivals) arrivals.replaceChildren(...products.slice(4).map(card));
 }
+setupHeader();
 updateCounters();
 const page = document.body.dataset.page;
 if (page === 'home') renderHome();
