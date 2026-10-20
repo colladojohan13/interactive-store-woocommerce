@@ -131,6 +131,13 @@ add_action( 'woocommerce_before_shop_loop', function () {
 	echo '</select><button type="submit">Apply filters</button></form></div>';
 }, 15 );
 
+/** Show recently visited catalog items after the native WooCommerce shop grid. */
+add_action( 'woocommerce_after_shop_loop', function () {
+	if ( is_shop() || is_product_category() ) {
+		echo '<section id="is-recently-viewed" class="is-recently-viewed" aria-labelledby="is-recent-title" hidden><div class="is-recently-viewed__head"><div><span>Pick up where you left off</span><h2 id="is-recent-title">Recently viewed</h2></div><a href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '">Explore all products ↗</a></div><div id="is-recent-grid" class="is-recently-viewed__grid"></div><p>Saved only in this browser.</p></section>';
+	}
+}, 20 );
+
 /** Arc 14 is a fictional product, so its extra information stays descriptive. */
 add_filter( 'woocommerce_product_tabs', function ( $tabs ) {
 	global $product;

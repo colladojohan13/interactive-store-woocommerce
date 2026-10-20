@@ -1,5 +1,36 @@
 /* Small, progressive interactions for the WooCommerce concept storefront. */
 (() => {
+  const recentKey = 'interactive-store-wc-recent-v1';
+  const catalog = Array.isArray(window.interactiveStoreWishlist) ? window.interactiveStoreWishlist : [];
+  const getRecent = () => {
+    try {
+      const value = JSON.parse(localStorage.getItem(recentKey) || '[]');
+      return Array.isArray(value) ? [...new Set(value.map(Number).filter(Number.isInteger))].slice(0, 4) : [];
+    } catch { return []; }
+  };
+  const single = document.querySelector('.is-wishlist-button--single[data-product-id]');
+  if (single) {
+    const id = Number(single.dataset.productId);
+    if (catalog.some(item => Number(item.id) === id)) {
+      try { localStorage.setItem(recentKey, JSON.stringify([id, ...getRecent().filter(item => item !== id)].slice(0, 4))); } catch { /* Browsing still works without storage. */ }
+    }
+  }
+  const recentSection = document.getElementById('is-recently-viewed');
+  if (recentSection) {
+    const grid = document.getElementById('is-recent-grid');
+    const visited = getRecent().map(id => catalog.find(item => Number(item.id) === id)).filter(Boolean);
+    visited.forEach(item => {
+      const card = document.createElement('a'); card.className = 'is-recently-viewed__card'; card.href = item.url;
+      if (item.image) {
+        const image = document.createElement('img'); image.src = item.image; image.alt = ''; image.loading = 'lazy'; card.append(image);
+      }
+      const details = document.createElement('span'); details.className = 'is-recently-viewed__details';
+      const name = document.createElement('strong'); name.textContent = item.name;
+      const price = document.createElement('span'); price.textContent = item.price;
+      details.append(name, price); card.append(details); grid.append(card);
+    });
+    recentSection.hidden = visited.length === 0;
+  }
   const panel = document.getElementById('is-shop-toolbar');
   const open = document.getElementById('is-shop-mobile-open');
   const close = document.getElementById('is-shop-mobile-close');

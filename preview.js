@@ -13,6 +13,7 @@ const productById = Object.fromEntries(products.map(product => [product.id, prod
 const bagKey = 'interactive-store-demo-bag-v1';
 const wishlistKey = 'interactive-store-demo-wishlist-v1';
 const ordersKey = 'interactive-store-demo-orders-v1';
+const recentKey = 'interactive-store-demo-recent-v1';
 const money = value => `RD$${Math.round(value).toLocaleString('en-US')}`;
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const read = (key, fallback) => { try { const value = localStorage.getItem(key); return value === null ? fallback : JSON.parse(value); } catch { return fallback; } };
@@ -26,6 +27,11 @@ function getWishlist() {
   const value = read(wishlistKey, []);
   return Array.isArray(value) ? [...new Set(value.filter(id => productById[id]))] : [];
 }
+function getRecent() {
+  const value = read(recentKey, []);
+  return Array.isArray(value) ? [...new Set(value.filter(id => productById[id]))].slice(0, 4) : [];
+}
+function rememberProduct(id) { write(recentKey, [id, ...getRecent().filter(item => item !== id)].slice(0, 4)); }
 function sampleOrders() {
   const daysAgo = days => new Date(Date.now() - days * 86400000).toISOString();
   return [
@@ -49,6 +55,19 @@ function addToBag(id, qty = 1) {
   if (!productById[id]) return;
   const bag = getBag(); bag[id] = Math.min(9, (bag[id] || 0) + qty); saveBag(bag);
 }
+let noticeTimer;
+function showBagNotice(product) {
+  let notice = document.getElementById('bag-notice');
+  if (!notice) {
+    notice = document.createElement('div'); notice.id = 'bag-notice'; notice.className = 'bag-notice';
+    notice.setAttribute('role', 'status'); document.body.append(notice);
+  }
+  notice.replaceChildren(document.createTextNode(`${product.name} added to your demo bag. `));
+  const link = document.createElement('a'); link.href = 'bag.html'; link.textContent = 'View bag ↗'; notice.append(link);
+  notice.hidden = false;
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => { notice.hidden = true; }, 6000);
+}
 function toggleWishlist(id) {
   const saved = getWishlist();
   const next = saved.includes(id) ? saved.filter(item => item !== id) : [...saved, id];
@@ -64,9 +83,10 @@ function setWishState(button, saved) {
 }
 function card(product) {
   const article = document.createElement('article'); article.className = 'store-card';
-  article.innerHTML = `<a class="store-card__link" href="product.html?item=${encodeURIComponent(product.id)}"><span class="store-card__media"><img src="${product.image}" width="1024" height="1024" alt="${product.name} ${product.kind}" loading="lazy"></span><span class="store-card__body"><span class="store-card__eyebrow">${product.categoryName} · Concept</span><strong>${product.name}</strong><span class="store-card__kind">${product.kind}</span><span class="store-card__bottom"><b>${money(product.price)}</b><span aria-hidden="true">↗</span></span></span></a><button class="wish-button" type="button" data-wish-id="${product.id}"></button>`;
+  article.innerHTML = `<a class="store-card__link" href="product.html?item=${encodeURIComponent(product.id)}"><span class="store-card__media"><img src="${product.image}" width="1024" height="1024" alt="${product.name} ${product.kind}" loading="lazy"></span><span class="store-card__body"><span class="store-card__eyebrow">${product.categoryName} · Concept</span><strong>${product.name}</strong><span class="store-card__kind">${product.kind}</span><span class="store-card__bottom"><b>${money(product.price)}</b><span aria-hidden="true">↗</span></span></span></a><button class="wish-button" type="button" data-wish-id="${product.id}"></button><div class="store-card__actions"><button class="store-card__add" type="button" aria-label="Add ${product.name} to demo bag">Add to demo bag <span aria-hidden="true">+</span></button></div>`;
   const button = article.querySelector('.wish-button'); setWishState(button, getWishlist().includes(product.id));
   button.addEventListener('click', () => toggleWishlist(product.id));
+  article.querySelector('.store-card__add').addEventListener('click', () => { addToBag(product.id); showBagNotice(product); });
   return article;
 }
 function renderShop() {
@@ -80,11 +100,14 @@ function renderShop() {
   const trigger = document.getElementById('mobile-filter-open');
   const applied = document.getElementById('applied-filters');
   const mobile = matchMedia('(max-width: 650px)');
-  const queryCategory = new URLSearchParams(location.search).get('category');
+  const params = new URLSearchParams(location.search);
+  const queryCategory = params.get('category');
   let category = chips.some(chip => chip.dataset.category === queryCategory) ? queryCategory : 'all';
   let draftCategory = category;
-  let committedPrice = '';
-  let committedSort = 'featured';
+  let committedPrice = [...price.options].some(option => option.value && option.value === params.get('price')) ? params.get('price') : '';
+  let committedSort = [...sort.options].some(option => option.value === params.get('sort')) ? params.get('sort') : 'featured';
+  search.value = (params.get('q') || '').slice(0, 80);
+  price.value = committedPrice; sort.value = committedSort;
   function matchesFor(selectedCategory, selectedPrice, selectedSort) {
     const term = search.value.trim().toLowerCase();
     const ceiling = Number(selectedPrice) || Infinity;
@@ -95,7 +118,12 @@ function renderShop() {
     return matches;
   }
   function syncChips(selected) { chips.forEach(chip => { const active = chip.dataset.category === selected; chip.classList.toggle('is-active', active); chip.setAttribute('aria-pressed', String(active)); }); }
-  function syncUrl() { const url = new URL(location.href); category === 'all' ? url.searchParams.delete('category') : url.searchParams.set('category', category); history.replaceState(null, '', url); }
+  function syncUrl() {
+    const url = new URL(location.href);
+    const values = { category: category === 'all' ? '' : category, q: search.value.trim(), price: committedPrice, sort: committedSort === 'featured' ? '' : committedSort };
+    Object.entries(values).forEach(([key, value]) => value ? url.searchParams.set(key, value) : url.searchParams.delete(key));
+    history.replaceState(null, '', url);
+  }
   function addApplied(label, reset) {
     const button = document.createElement('button'); button.type = 'button'; button.textContent = `${label} ×`;
     button.setAttribute('aria-label', `Remove ${label} filter`); button.addEventListener('click', reset); applied.append(button);
@@ -107,9 +135,10 @@ function renderShop() {
     document.getElementById('catalog-empty').hidden = matches.length !== 0;
     if (!controls.classList.contains('is-open')) syncChips(category);
     applied.replaceChildren();
+    if (search.value.trim()) addApplied(`Search: ${search.value.trim()}`, () => { search.value = ''; syncUrl(); draw(); search.focus(); });
     if (category !== 'all') addApplied(chips.find(chip => chip.dataset.category === category).textContent, () => { category = 'all'; draftCategory = category; syncUrl(); draw(); });
-    if (committedPrice) addApplied([...price.options].find(option => option.value === committedPrice).textContent, () => { committedPrice = ''; price.value = ''; draw(); });
-    if (committedSort !== 'featured') addApplied([...sort.options].find(option => option.value === committedSort).textContent, () => { committedSort = 'featured'; sort.value = 'featured'; draw(); });
+    if (committedPrice) addApplied([...price.options].find(option => option.value === committedPrice).textContent, () => { committedPrice = ''; price.value = ''; syncUrl(); draw(); });
+    if (committedSort !== 'featured') addApplied([...sort.options].find(option => option.value === committedSort).textContent, () => { committedSort = 'featured'; sort.value = 'featured'; syncUrl(); draw(); });
     const activeCount = (category !== 'all') + Boolean(committedPrice) + (committedSort !== 'featured');
     document.getElementById('mobile-filter-count').textContent = activeCount;
     trigger.setAttribute('aria-label', `Filter and sort, ${activeCount} active filters`);
@@ -143,13 +172,18 @@ function renderShop() {
   });
   mobile.addEventListener('change', () => { if (!mobile.matches && controls.classList.contains('is-open')) closeFilters(); });
   chips.forEach(chip => chip.addEventListener('click', () => { if (mobile.matches && controls.classList.contains('is-open')) { draftCategory = chip.dataset.category; syncChips(draftCategory); updateApply(); } else { category = chip.dataset.category; draftCategory = category; syncUrl(); draw(); } }));
-  [sort, price].forEach(input => input.addEventListener('change', () => { if (mobile.matches && controls.classList.contains('is-open')) updateApply(); else { committedPrice = price.value; committedSort = sort.value; draw(); } }));
-  search.addEventListener('input', () => { draw(); if (controls.classList.contains('is-open')) updateApply(); });
+  [sort, price].forEach(input => input.addEventListener('change', () => { if (mobile.matches && controls.classList.contains('is-open')) updateApply(); else { committedPrice = price.value; committedSort = sort.value; syncUrl(); draw(); } }));
+  search.addEventListener('input', () => { syncUrl(); draw(); if (controls.classList.contains('is-open')) updateApply(); });
+  const recent = getRecent();
+  const recentSection = document.getElementById('recently-viewed');
+  recentSection.hidden = recent.length === 0;
+  if (recent.length) document.getElementById('recent-grid').replaceChildren(...recent.map(id => card(productById[id])));
   draw();
 }
 function renderProduct() {
   const product = productById[new URLSearchParams(location.search).get('item')];
   if (!product) { location.replace('shop.html'); return; }
+  rememberProduct(product.id);
   document.title = `${product.name} — Interactive Store`;
   document.querySelector('meta[name="description"]').content = `${product.name}: ${product.kind} in the fictional Interactive Store concept collection.`;
   document.getElementById('breadcrumb-product').textContent = product.name;
@@ -187,7 +221,7 @@ function renderProduct() {
   document.getElementById('product-description').textContent = product.description;
   document.getElementById('story-title').textContent = `Meet ${product.name}.`;
   document.getElementById('story-description').textContent = product.story;
-  document.getElementById('related-grid').replaceChildren(...products.filter(item => item.id !== product.id).slice(0, 3).map(card));
+  document.getElementById('related-grid').replaceChildren(...products.filter(item => item.id !== product.id).sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category)).slice(0, 3).map(card));
   const wish = document.getElementById('product-wish'); wish.dataset.wishId = product.id; setWishState(wish, getWishlist().includes(product.id)); wish.addEventListener('click', () => toggleWishlist(product.id));
   const isArc = product.id === 'arc-14';
   ['product-details', 'product-comparison', 'arc-3d'].forEach(id => { document.getElementById(id).hidden = !isArc; });

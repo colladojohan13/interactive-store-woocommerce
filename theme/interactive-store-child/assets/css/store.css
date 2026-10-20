@@ -47,6 +47,20 @@
 .is-wishlist-card button { margin: 16px 15px; padding: 0; border: 0; background: transparent; color: var(--is-blue); font-size: 12px; text-align: left; text-decoration: underline; cursor: pointer; }
 .is-wishlist-empty { padding: 40px; border: 1px dashed var(--is-line); border-radius: 9px; color: var(--is-muted); }
 .is-wishlist-empty a { color: var(--is-blue); }
+.is-recently-viewed { clear: both; margin: 70px 0; }
+.is-recently-viewed__head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 23px; }
+.is-recently-viewed__head span { color: #56688e; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.is-recently-viewed__head h2 { margin: 6px 0 0; color: var(--is-ink); font-size: clamp(29px, 3vw, 42px); letter-spacing: -.055em; }
+.is-recently-viewed__head > a { color: var(--is-blue); font-size: 13px; font-weight: 700; text-decoration: none; }
+.is-recently-viewed__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.is-recently-viewed__card { overflow: hidden; border: 1px solid var(--is-line); border-radius: 9px; background: #fff; color: var(--is-ink); text-decoration: none; }
+.is-recently-viewed__card:hover { border-color: #cbd5ef; box-shadow: 0 12px 28px #111b3515; }
+.is-recently-viewed__card img { display: block; width: 100%; aspect-ratio: 1.05; object-fit: cover; background: #f2f4f8; }
+.is-recently-viewed__details { display: flex; flex-direction: column; gap: 5px; padding: 15px; }
+.is-recently-viewed__details strong { font-size: 17px; }
+.is-recently-viewed__details span { color: var(--is-muted); font-size: 14px; }
+.is-recently-viewed > p { margin: 13px 0 0; color: var(--is-muted); font-size: 12px; }
+@media (max-width: 900px) { .is-recently-viewed__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 900px) { .is-wishlist-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 @media (max-width: 600px) { .woocommerce ul.products { gap: 12px; } .woocommerce ul.products li.product .woocommerce-loop-product__title { padding-inline: 12px; font-size: 14px; } .woocommerce ul.products li.product .price { padding-inline: 12px; font-size: 14px; } .woocommerce ul.products li.product .button { margin-inline: 12px; font-size: 11px; } .is-wishlist-button { margin-left: 12px; margin-right: 12px; } }
 @media (prefers-reduced-motion: reduce) { .woocommerce ul.products li.product { transition: none; } }

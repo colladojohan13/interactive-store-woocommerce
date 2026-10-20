@@ -114,8 +114,17 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .shop-category-strip small { color: #64718a; font-size: 11px; font-weight: 400; white-space: nowrap; }
 .store-control-fields { display: flex; align-items: end; gap: 10px; }
 .store-search select, .orders-toolbar select { min-height: 37px; padding: 7px 12px; border: 1px solid #dce2ed; border-radius: 5px; background: #fff; color: #111b35; font-size: 13px; }
-.store-card { position: relative; }
-.store-card__link { display: block; height: 100%; text-decoration: none; }
+.store-card { position: relative; display: flex; flex-direction: column; }
+.store-card__link { display: flex; flex: 1; flex-direction: column; text-decoration: none; }
+.store-card__link .store-card__body { flex: 1; }
+.store-card__actions { padding: 0 17px 17px; }
+.store-card__add { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 42px; padding: 9px 13px; border: 1px solid #cbd5ef; border-radius: 6px; background: #f6f8ff; color: #2447eb; font-size: 12px; font-weight: 700; cursor: pointer; }
+.store-card__add:hover { border-color: #2447eb; background: #eaf0ff; }
+.store-card__add span { font-size: 19px; line-height: 1; }
+.bag-notice { position: fixed; z-index: 90; right: 20px; bottom: 20px; max-width: min(400px, calc(100vw - 40px)); padding: 16px 20px; border: 1px solid #cbd5ef; border-radius: 8px; background: #111b35; box-shadow: 0 16px 42px #111b3540; color: #fff; font-size: 13px; line-height: 1.5; }
+.bag-notice a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.recently-viewed { padding-bottom: 75px; }
+.recently-viewed > p { margin: 15px 0 0; color: #64718a; font-size: 12px; }
 .wish-button { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #dce2ed; border-radius: 50%; background: rgba(255,255,255,.95); color: #526078; font-size: 23px; line-height: 1; cursor: pointer; }
 .wish-button:hover, .wish-button.is-saved { border-color: #2447eb; color: #2447eb; }
 .product-wish { display: grid; place-items: center; width: 49px; height: 49px; flex: none; border: 1px solid #dce2ed; border-radius: 6px; background: #fff; color: #526078; font-size: 27px; cursor: pointer; }
@@ -241,6 +250,8 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 select:focus-visible, .product-thumbnails button:focus-visible { outline: 3px solid #2447eb; outline-offset: 3px; }
 
 @media (max-width: 650px) {
+  .store-card__actions { padding: 0 12px 12px; }
+  .store-card__add { min-height: 40px; padding-inline: 9px; font-size: 11px; }
   .store-search-row { align-items: stretch; margin-bottom: 17px; }
   .store-search-row .store-search { flex: 1; min-width: 0; }
   .store-search-row input { min-height: 46px; }
