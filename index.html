@@ -6,10 +6,10 @@
   <meta name="description" content="Interactive Store: a WordPress and WooCommerce storefront concept. Explore the homepage design and fictional product collection.">
   <title>Interactive Store — Storefront Preview</title>
   <link rel="icon" type="image/svg+xml" href="assets/interactive-store-mark.svg">
-  <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261020a">
+  <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261020b">
   <link rel="stylesheet" href="preview.css?v=20261019b">
   <link rel="stylesheet" href="preview-pages.css?v=20261019e">
-  <script src="preview.js?v=20261020a" defer></script>
+  <script src="preview.js?v=20261020b" defer></script>
 </head>
 <body data-page="home">
   <a class="preview-skip" href="#main">Skip to content</a>
@@ -54,32 +54,25 @@
       <div><span>03</span><strong>Try the journey</strong><p>Place a fictional order and see it in Demo orders.</p></div>
     </section>
 
-    <section id="moments" class="home-moments is-home-section" aria-labelledby="moments-title">
-      <div class="is-home-container home-moments__layout">
-        <div class="home-moments__copy">
-          <p class="is-home-eyebrow">Choose your moment</p>
-          <h2 id="moments-title">Technology for the way you move.</h2>
-          <p class="home-moments__intro">Pick a moment and explore a concept that fits it. Each scene is a short HyperFrames animation made for this storefront.</p>
-          <div class="home-moments__choices" role="group" aria-label="Choose a moment">
-            <button type="button" class="home-moments__choice is-active" data-moment="arc-14" aria-pressed="true"><span>01</span><strong>Focus</strong><small>Make space for ideas</small></button>
-            <button type="button" class="home-moments__choice" data-moment="pulse" aria-pressed="false"><span>02</span><strong>Move</strong><small>Bring the sound along</small></button>
-            <button type="button" class="home-moments__choice" data-moment="haven" aria-pressed="false"><span>03</span><strong>Unwind</strong><small>Settle into your space</small></button>
-          </div>
+    <section id="moments" class="home-carousel is-home-section" aria-labelledby="moments-title">
+      <div class="is-home-container">
+        <div class="home-carousel__heading">
+          <p class="is-home-eyebrow">The concept collection</p>
+          <h2 id="moments-title">Take a closer look.</h2>
+          <p>Explore the collection. Hover to turn a card, or tap it on your phone.</p>
         </div>
-        <div class="home-moments__stage" id="moment-stage">
-          <div class="home-moments__screen">
-            <img id="moment-image" src="assets/arc-14-laptop-concept.jpg" width="1024" height="1024" alt="Arc 14 laptop concept on a light background" loading="lazy">
-            <video id="moment-video" muted playsinline preload="metadata" aria-hidden="true"><source src="assets/home-moments-hyperframes.mp4" type="video/mp4"></video>
-            <div class="home-moments__overlay"><span>THE INTERACTIVE EDIT</span><strong id="moment-screen-heading">Ideas in motion.</strong></div>
-            <span class="home-moments__scene-label" id="moment-scene-label">Focus / 01</span>
-            <button class="home-moments__replay" id="moment-replay" type="button" aria-label="Replay this scene" hidden>↻ <span>Replay scene</span></button>
-          </div>
-          <div class="home-moments__product" aria-live="polite">
-            <div><span id="moment-kind">Laptop concept</span><h3 id="moment-name">Arc 14</h3><p id="moment-description">A focused companion for your everyday workspace.</p></div>
-            <div class="home-moments__actions"><a id="moment-link" href="product.html?item=arc-14">Explore product ↗</a><button id="moment-add" type="button">Add to cart</button></div>
-          </div>
-          <p class="home-moments__note">Fictional product concepts · Animation illustrates the collection</p>
+        <div class="home-carousel__experience" id="home-carousel" aria-roledescription="carousel" aria-label="Interactive product carousel">
+          <button class="home-carousel__arrow home-carousel__arrow--prev" id="carousel-prev" type="button" aria-label="Previous product">←</button>
+          <div class="home-carousel__viewport" id="carousel-viewport"><div class="home-carousel__track" id="carousel-track"></div></div>
+          <button class="home-carousel__arrow home-carousel__arrow--next" id="carousel-next" type="button" aria-label="Next product">→</button>
+          <p class="home-carousel__count"><span id="carousel-current">01</span> / <span id="carousel-total">08</span></p>
         </div>
+        <div class="home-carousel__details" aria-live="polite">
+          <div class="home-carousel__summary"><span id="carousel-category" class="home-carousel__category">Computers</span><h3 id="carousel-name">Arc 14</h3><p id="carousel-description">A refined laptop concept for focused work and everyday creativity.</p><div id="carousel-rating"></div></div>
+          <div class="home-carousel__purchase"><div id="carousel-price" class="home-carousel__price"></div><div class="home-carousel__actions"><a id="carousel-link" href="product.html?item=arc-14">View details ↗</a><button id="carousel-add" type="button">Add to cart</button><button id="carousel-save" class="home-carousel__save" type="button" data-wish-id="arc-14" aria-label="Save Arc 14 to wishlist">♡</button></div></div>
+        </div>
+        <div id="carousel-dots" class="home-carousel__dots" role="group" aria-label="Choose a product"></div>
+        <p class="home-carousel__note">Concept products · Illustrative prices and reviews · Demo checkout</p>
       </div>
     </section>
 
