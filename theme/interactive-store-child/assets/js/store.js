@@ -2,6 +2,41 @@
 (() => {
   const recentKey = 'interactive-store-wc-recent-v1';
   const catalog = Array.isArray(window.interactiveStoreWishlist) ? window.interactiveStoreWishlist : [];
+  if (document.querySelector('.is-quick-view-trigger') && typeof HTMLDialogElement !== 'undefined') {
+    const dialog = document.createElement('dialog');
+    dialog.className = 'is-quick-view';
+    dialog.setAttribute('aria-label', 'Product quick view');
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button'; closeButton.className = 'is-quick-view__close';
+    closeButton.setAttribute('aria-label', 'Close quick view'); closeButton.textContent = '×';
+    const content = document.createElement('div'); content.className = 'is-quick-view__content';
+    dialog.append(closeButton, content); document.body.append(dialog);
+    closeButton.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('.is-quick-view-trigger');
+      if (!trigger) return;
+      const item = catalog.find(entry => Number(entry.id) === Number(trigger.dataset.productId));
+      if (!item) return;
+      const media = document.createElement('div'); media.className = 'is-quick-view__media';
+      if (item.image) {
+        const img = document.createElement('img'); img.src = item.image; img.alt = item.name; media.append(img);
+      }
+      const details = document.createElement('div'); details.className = 'is-quick-view__details';
+      const category = document.createElement('span'); category.className = 'is-quick-view__category'; category.textContent = item.category || 'Collection';
+      const title = document.createElement('h2'); title.textContent = item.name;
+      const rating = document.createElement('p'); rating.className = 'is-quick-view__rating';
+      rating.textContent = item.reviews ? `★ ${Number(item.rating).toFixed(1)} · ${item.reviews} sample reviews` : 'New in the collection';
+      const price = document.createElement('strong'); price.className = 'is-quick-view__price'; price.textContent = item.price;
+      const description = document.createElement('p'); description.className = 'is-quick-view__description'; description.textContent = item.description || 'Explore this fictional product concept in the full detail page.';
+      const actions = document.createElement('div'); actions.className = 'is-quick-view__actions';
+      const link = document.createElement('a'); link.href = item.url; link.textContent = 'View details ↗'; actions.append(link);
+      if (item.cartUrl) { const add = document.createElement('a'); add.href = item.cartUrl; add.className = 'is-quick-view__cart'; add.textContent = 'Add to cart'; actions.append(add); }
+      details.append(category, title, rating, price, description, actions);
+      content.replaceChildren(media, details);
+      dialog.showModal(); closeButton.focus();
+    });
+  }
   const getRecent = () => {
     try {
       const value = JSON.parse(localStorage.getItem(recentKey) || '[]');

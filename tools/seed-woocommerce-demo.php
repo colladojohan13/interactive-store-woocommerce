@@ -18,13 +18,13 @@ add_filter( 'pre_wp_mail', '__return_true' );
 $asset_dir = dirname( __DIR__ ) . '/assets';
 $catalog   = array(
 	array( 'sku' => 'IS-ARC14-DEMO', 'name' => 'Arc 14 Laptop — Concept', 'category' => 'computers', 'price' => 64900, 'image' => 'arc-14-laptop-concept.png', 'short' => 'A fictional graphite laptop concept for focused work.' ),
-	array( 'sku' => 'IS-PULSE-DEMO', 'name' => 'Pulse Wireless Headphones — Concept', 'category' => 'electronics', 'price' => 8900, 'image' => 'pulse-headphones-concept.png', 'short' => 'A fictional over-ear headphones concept in charcoal.' ),
+	array( 'sku' => 'IS-PULSE-DEMO', 'name' => 'Pulse Wireless Headphones — Concept', 'category' => 'electronics', 'price' => 8900, 'regular' => 10900, 'image' => 'pulse-headphones-concept.png', 'short' => 'A fictional over-ear headphones concept in charcoal.' ),
 	array( 'sku' => 'IS-LINK-DEMO', 'name' => 'Link USB-C Dock — Concept', 'category' => 'accessories', 'price' => 3900, 'image' => 'link-usbc-dock-concept.png', 'short' => 'A fictional compact desktop dock concept.' ),
 	array( 'sku' => 'IS-HAVEN-DEMO', 'name' => 'Haven Smart Speaker — Concept', 'category' => 'home-tech', 'price' => 6900, 'image' => 'haven-smart-speaker-concept.png', 'short' => 'A fictional smart speaker concept with woven texture.' ),
-	array( 'sku' => 'IS-VISTA-DEMO', 'name' => 'Vista Desktop Monitor — Concept', 'category' => 'computers', 'price' => 28900, 'image' => 'vista-monitor-concept.png', 'short' => 'A fictional slim graphite monitor concept.' ),
+	array( 'sku' => 'IS-VISTA-DEMO', 'name' => 'Vista Desktop Monitor — Concept', 'category' => 'computers', 'price' => 28900, 'regular' => 32900, 'image' => 'vista-monitor-concept.png', 'short' => 'A fictional slim graphite monitor concept.' ),
 	array( 'sku' => 'IS-FRAME-DEMO', 'name' => 'Frame Digital Camera — Concept', 'category' => 'electronics', 'price' => 35900, 'image' => 'frame-camera-concept.png', 'short' => 'A fictional compact camera concept for everyday makers.' ),
 	array( 'sku' => 'IS-FORM-DEMO', 'name' => 'Form Wireless Keyboard — Concept', 'category' => 'accessories', 'price' => 5400, 'image' => 'form-keyboard-concept.png', 'short' => 'A fictional graphite wireless keyboard concept.' ),
-	array( 'sku' => 'IS-GLOW-DEMO', 'name' => 'Glow Desk Lamp — Concept', 'category' => 'home-tech', 'price' => 7900, 'image' => 'glow-lamp-concept.png', 'short' => 'A fictional desk lamp concept with a warm glow.' ),
+	array( 'sku' => 'IS-GLOW-DEMO', 'name' => 'Glow Desk Lamp — Concept', 'category' => 'home-tech', 'price' => 7900, 'regular' => 9900, 'image' => 'glow-lamp-concept.png', 'short' => 'A fictional desk lamp concept with a warm glow.' ),
 	array( 'sku' => 'IS-DRIFT-DEMO', 'name' => 'Drift Hoodie — Concept', 'category' => 'fashion', 'price' => 3900, 'regular' => 4800, 'image' => 'forest-hoodie-concept.webp', 'short' => 'A fictional forest green heavyweight hoodie concept.' ),
 	array( 'sku' => 'IS-STUDIO-DEMO', 'name' => 'Studio Overshirt — Concept', 'category' => 'fashion', 'price' => 4800, 'image' => 'sand-overshirt-concept.webp', 'short' => 'A fictional relaxed sand overshirt concept.' ),
 	array( 'sku' => 'IS-NIGHTFALL-DEMO', 'name' => 'Nightfall Bomber — Concept', 'category' => 'fashion', 'price' => 6900, 'image' => 'charcoal-bomber-concept.webp', 'short' => 'A fictional lightweight charcoal bomber jacket concept.' ),
@@ -68,6 +68,17 @@ foreach ( $catalog as $item ) {
 	}
 	$existing = wc_get_product_id_by_sku( $item['sku'] );
 	if ( $existing ) {
+		$existing_product = wc_get_product( $existing );
+		if ( $existing_product && ! $existing_product->get_reviews_allowed() ) {
+			$existing_product->set_reviews_allowed( true );
+		}
+		if ( $existing_product && isset( $item['regular'] ) && '' === $existing_product->get_sale_price() && (float) $existing_product->get_regular_price() === (float) $item['price'] ) {
+			$existing_product->set_regular_price( (string) $item['regular'] );
+			$existing_product->set_sale_price( (string) $item['price'] );
+		}
+		if ( $existing_product ) {
+			$existing_product->save();
+		}
 		$ids[ $item['sku'] ] = (int) $existing;
 		WP_CLI::log( 'Preserved product ' . $item['sku'] );
 		continue;
@@ -85,13 +96,53 @@ foreach ( $catalog as $item ) {
 	$product->set_short_description( $item['short'] . ' Portfolio demonstration; image and price are illustrative.' );
 	$product->set_description( $item['short'] . ' This is a fictional portfolio product. There is no physical inventory and no manufacturer specifications are claimed.' );
 	$product->set_manage_stock( false );
-	$product->set_reviews_allowed( false );
+	$product->set_reviews_allowed( true );
 	$image_id = interactive_store_seed_image( $item['image'], $asset_dir );
 	if ( $image_id ) {
 		$product->set_image_id( $image_id );
 	}
 	$ids[ $item['sku'] ] = $product->save();
 	WP_CLI::log( 'Created product ' . $item['sku'] );
+}
+
+// Clearly labeled sample reviews make ratings visible in native WooCommerce views.
+$review_copy = array(
+	'IS-ARC14-DEMO' => array( 'The gallery makes this laptop concept easy to inspect.', 'The product page explains the separate 3D demonstration clearly.' ),
+	'IS-PULSE-DEMO' => array( 'The close-up image gives the headphones a polished look.', 'A clear presentation of this headphone concept.' ),
+	'IS-LINK-DEMO' => array( 'The compact dock fits this fictional desk setup well.', 'Easy to find alongside the other workspace concepts.' ),
+	'IS-HAVEN-DEMO' => array( 'The woven texture stands out in the speaker image.', 'The speaker concept is presented clearly.' ),
+	'IS-VISTA-DEMO' => array( 'A calm monitor design that fits the collection.', 'The large image helps imagine it on a desk.' ),
+	'IS-FRAME-DEMO' => array( 'The camera concept has a clean, familiar shape.', 'Moving from the catalog to the product page is easy.' ),
+	'IS-FORM-DEMO' => array( 'The keyboard looks at home in a minimal workspace.', 'The image and description are easy to understand.' ),
+	'IS-GLOW-DEMO' => array( 'The warm light adds contrast to the graphite collection.', 'The image tells the story of this lamp concept.' ),
+	'IS-DRIFT-DEMO' => array( 'The forest green color works beautifully here.', 'The hanging image makes the hoodie easy to inspect.' ),
+	'IS-STUDIO-DEMO' => array( 'The neutral color and pockets give this overshirt a versatile look.', 'The front view shows the garment clearly.' ),
+	'IS-NIGHTFALL-DEMO' => array( 'A clean bomber silhouette with understated details.', 'The charcoal finish fits the wider collection.' ),
+	'IS-SOFTLINE-DEMO' => array( 'The mauve tone adds a softer option to the collection.', 'A simple piece to imagine in a wardrobe.' ),
+);
+foreach ( $review_copy as $sku => $comments ) {
+	if ( empty( $ids[ $sku ] ) ) {
+		continue;
+	}
+	foreach ( $comments as $index => $copy ) {
+		$key = $sku . '-' . ( $index + 1 );
+		$found = get_comments( array( 'post_id' => $ids[ $sku ], 'meta_key' => '_interactive_store_demo_review_key', 'meta_value' => $key, 'count' => true ) );
+		if ( $found ) {
+			continue;
+		}
+		$comment_id = wp_insert_comment( array(
+			'comment_post_ID' => $ids[ $sku ],
+			'comment_author' => 0 === $index ? 'Alex Example (demo)' : 'Jordan Sample (demo)',
+			'comment_content' => 'Illustrative portfolio review: ' . $copy,
+			'comment_type' => 'review',
+			'comment_approved' => 1,
+		) );
+		if ( $comment_id ) {
+			add_comment_meta( $comment_id, '_interactive_store_demo_review_key', $key, true );
+			add_comment_meta( $comment_id, 'rating', 0 === $index ? 5 : 4, true );
+		}
+	}
+	WC_Comments::clear_transients( $ids[ $sku ] );
 }
 
 $fashion_term = get_term_by( 'slug', 'fashion', 'product_cat' );

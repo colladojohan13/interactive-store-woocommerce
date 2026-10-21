@@ -15,7 +15,20 @@
     });
     name.textContent = item.dataset.fashionName;
     description.textContent = item.dataset.fashionDescription;
-    price.textContent = item.dataset.fashionPrice;
+    const amount = Number(item.dataset.fashionPrice);
+    const regular = Number(item.dataset.fashionRegular);
+    const money = value => `RD$${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value)}`;
+    price.replaceChildren();
+    if (Number.isFinite(amount)) {
+      const current = document.createElement('span');
+      current.textContent = money(amount);
+      price.append(current);
+      if (item.dataset.fashionSale === 'true' && Number.isFinite(regular) && regular > amount) {
+        const previous = document.createElement('del');
+        previous.textContent = money(regular);
+        price.append(previous);
+      }
+    }
     link.href = item.dataset.fashionUrl;
     add.href = item.dataset.fashionCartUrl;
   }

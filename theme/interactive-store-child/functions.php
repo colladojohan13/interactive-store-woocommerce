@@ -21,6 +21,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 	$rail_js = get_stylesheet_directory() . '/assets/js/home-fashion.js';
 	wp_enqueue_script( 'interactive-store-home-fashion', get_stylesheet_directory_uri() . '/assets/js/home-fashion.js', array(), file_exists( $rail_js ) ? (string) filemtime( $rail_js ) : '1.0.0', true );
+	$carousel_js = get_stylesheet_directory() . '/assets/js/home-carousel.js';
+	wp_enqueue_script( 'interactive-store-home-carousel', get_stylesheet_directory_uri() . '/assets/js/home-carousel.js', array(), file_exists( $carousel_js ) ? (string) filemtime( $carousel_js ) : '1.0.0', true );
 }, 20 );
 
 /**
@@ -57,15 +59,19 @@ add_action( 'wp_enqueue_scripts', function () {
 		return;
 	}
 	$store_page = is_woocommerce() || is_cart() || is_checkout() || is_account_page() || is_page( 'wishlist' );
-	if ( ! $store_page ) {
+	if ( ! $store_page && ! is_front_page() ) {
 		return;
 	}
-	$css = get_stylesheet_directory() . '/assets/css/store.css';
-	wp_enqueue_style( 'interactive-store-shop', get_stylesheet_directory_uri() . '/assets/css/store.css', array(), file_exists( $css ) ? (string) filemtime( $css ) : '1.0.0' );
+	if ( $store_page ) {
+		$css = get_stylesheet_directory() . '/assets/css/store.css';
+		wp_enqueue_style( 'interactive-store-shop', get_stylesheet_directory_uri() . '/assets/css/store.css', array(), file_exists( $css ) ? (string) filemtime( $css ) : '1.0.0' );
+	}
 	$js = get_stylesheet_directory() . '/assets/js/wishlist.js';
 	wp_enqueue_script( 'interactive-store-wishlist', get_stylesheet_directory_uri() . '/assets/js/wishlist.js', array(), file_exists( $js ) ? (string) filemtime( $js ) : '1.0.0', true );
-	$store_js = get_stylesheet_directory() . '/assets/js/store.js';
-	wp_enqueue_script( 'interactive-store-interactions', get_stylesheet_directory_uri() . '/assets/js/store.js', array(), file_exists( $store_js ) ? (string) filemtime( $store_js ) : '1.0.0', true );
+	if ( $store_page ) {
+		$store_js = get_stylesheet_directory() . '/assets/js/store.js';
+		wp_enqueue_script( 'interactive-store-interactions', get_stylesheet_directory_uri() . '/assets/js/store.js', array(), file_exists( $store_js ) ? (string) filemtime( $store_js ) : '1.0.0', true );
+	}
 	$items = array();
 	foreach ( wc_get_products( array( 'status' => 'publish', 'limit' => 100 ) ) as $product ) {
 		$id = $product->get_id();
@@ -77,7 +83,12 @@ add_action( 'wp_enqueue_scripts', function () {
 			'name' => $product->get_name(),
 			'url' => get_permalink( $id ),
 			'image' => wp_get_attachment_image_url( $product->get_image_id(), 'woocommerce_thumbnail' ),
-			'price' => wp_strip_all_tags( $product->get_price_html() ),
+			'price' => html_entity_decode( wp_strip_all_tags( wc_price( (float) $product->get_price() ) ), ENT_QUOTES, get_bloginfo( 'charset' ) ),
+			'category' => wc_get_product_category_list( $id, ', ', '', '' ) ? wp_strip_all_tags( wc_get_product_category_list( $id, ', ', '', '' ) ) : 'Collection',
+			'description' => wp_strip_all_tags( $product->get_short_description() ),
+			'rating' => (float) $product->get_average_rating(),
+			'reviews' => (int) $product->get_review_count(),
+			'cartUrl' => $product->is_purchasable() && $product->is_in_stock() && $product->is_type( 'simple' ) ? $product->add_to_cart_url() : '',
 		);
 	}
 	wp_add_inline_script( 'interactive-store-wishlist', 'window.interactiveStoreWishlist = ' . wp_json_encode( $items, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
@@ -90,6 +101,13 @@ add_action( 'woocommerce_after_shop_loop_item', function () {
 	}
 }, 11 );
 
+add_action( 'woocommerce_after_shop_loop_item', function () {
+	global $product;
+	if ( $product && $product->is_visible() ) {
+		echo '<button class="is-quick-view-trigger" type="button" data-product-id="' . esc_attr( $product->get_id() ) . '" aria-label="Quick view of ' . esc_attr( $product->get_name() ) . '">Quick view ↗</button>';
+	}
+}, 12 );
+
 add_action( 'woocommerce_single_product_summary', function () {
 	global $product;
 	if ( $product ) {
@@ -97,11 +115,49 @@ add_action( 'woocommerce_single_product_summary', function () {
 	}
 }, 35 );
 
+/** Identify illustrative ratings on the local demo catalog. */
+add_filter( 'woocommerce_product_tabs', function ( $tabs ) {
+	global $product;
+	if ( $product && str_starts_with( (string) $product->get_sku(), 'IS-' ) && isset( $tabs['reviews'] ) ) {
+		$tabs['reviews']['title'] = 'Reviews (demo)';
+	}
+	return $tabs;
+}, 25 );
+add_action( 'woocommerce_single_product_summary', function () {
+	global $product;
+	if ( $product && str_starts_with( (string) $product->get_sku(), 'IS-' ) ) {
+		echo '<p class="is-demo-review-note">Fictional product. Ratings and example reviews are illustrative portfolio data.</p>';
+	}
+}, 34 );
+
 add_shortcode( 'interactive_store_wishlist', function () {
 	return '<div class="is-wishlist-page"><p class="is-wishlist-intro">Your saved products stay in this browser only.</p><div id="is-wishlist-items" class="is-wishlist-grid"></div><p id="is-wishlist-empty" class="is-wishlist-empty" hidden>Nothing saved yet. Browse the <a href="' . esc_url( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ) ) . '">shop</a> and save a product you like.</p></div>';
 } );
 
 /** Simple category and price controls above the native WooCommerce product grid. */
+add_action( 'woocommerce_before_shop_loop', function () {
+	if ( ! is_shop() ) {
+		return;
+	}
+	echo '<section class="is-shop-intro" aria-label="Discover the collection"><div class="is-shop-intro__head"><div><span>Curated for everyday life</span><h1>Discover your everyday edit.</h1><p>Explore twelve fictional concepts across technology, accessories and fashion.</p></div><p>The concept collection <strong>01—12</strong></p></div><div class="is-shop-category-strip">';
+	foreach ( array( 'computers', 'electronics', 'accessories', 'home-tech', 'fashion' ) as $slug ) {
+		$term = get_term_by( 'slug', $slug, 'product_cat' );
+		if ( ! $term ) {
+			continue;
+		}
+		$url = get_term_link( $term );
+		if ( is_wp_error( $url ) ) {
+			continue;
+		}
+		$image_id = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+		echo '<a class="is-shop-category-strip__' . esc_attr( $slug ) . '" href="' . esc_url( $url ) . '">';
+		if ( $image_id ) {
+			echo wp_get_attachment_image( $image_id, 'medium', false, array( 'loading' => 'lazy', 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+		echo '<span>' . esc_html( $term->name ) . '<small>' . esc_html( $term->count ) . ' concepts ↗</small></span></a>';
+	}
+	echo '</div></section>';
+}, 5 );
 add_action( 'woocommerce_before_shop_loop', function () {
 	if ( ! is_shop() && ! is_product_category() ) {
 		return;
@@ -110,7 +166,7 @@ add_action( 'woocommerce_before_shop_loop', function () {
 	$current  = is_product_category() ? get_queried_object() : false;
 	$max_price = isset( $_GET['max_price'] ) ? absint( wp_unslash( $_GET['max_price'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$orderby = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( $_GET['orderby'] ) ) : 'menu_order'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	echo '<button id="is-shop-mobile-open" class="is-shop-mobile-open" type="button" aria-controls="is-shop-toolbar" aria-expanded="false">Filter &amp; sort</button><div id="is-shop-backdrop" class="is-shop-backdrop" hidden></div><div id="is-shop-toolbar" class="is-shop-toolbar"><div class="is-shop-mobile-head"><strong>Filter &amp; sort</strong><button id="is-shop-mobile-close" type="button" aria-label="Close filters">×</button></div><nav class="is-shop-categories" aria-label="Product categories"><a ' . ( ! $current ? 'aria-current="page" ' : '' ) . 'href="' . esc_url( $shop_url ) . '">All products</a>';
+	echo '<form class="is-shop-search" role="search" method="get" action="' . esc_url( $shop_url ) . '"><label for="is-shop-search-input">Search products</label><div><input id="is-shop-search-input" type="search" name="s" placeholder="Search the collection…" value="' . esc_attr( get_search_query() ) . '"><input type="hidden" name="post_type" value="product"><button type="submit">Search</button></div></form><button id="is-shop-mobile-open" class="is-shop-mobile-open" type="button" aria-controls="is-shop-toolbar" aria-expanded="false">Filter &amp; sort</button><div id="is-shop-backdrop" class="is-shop-backdrop" hidden></div><div id="is-shop-toolbar" class="is-shop-toolbar"><div class="is-shop-mobile-head"><strong>Filter &amp; sort</strong><button id="is-shop-mobile-close" type="button" aria-label="Close filters">×</button></div><nav class="is-shop-categories" aria-label="Product categories"><a ' . ( ! $current ? 'aria-current="page" ' : '' ) . 'href="' . esc_url( $shop_url ) . '">All products</a>';
 	foreach ( array( 'computers', 'electronics', 'accessories', 'home-tech', 'fashion' ) as $slug ) {
 		$term = get_term_by( 'slug', $slug, 'product_cat' );
 		if ( ! $term ) {
