@@ -6,10 +6,10 @@
   <meta name="description" content="Interactive Store: a WordPress and WooCommerce storefront concept. Explore the homepage design and fictional product collection.">
   <title>Interactive Store — Storefront Preview</title>
   <link rel="icon" type="image/svg+xml" href="assets/interactive-store-mark.svg">
-  <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261020b">
+  <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261020c">
   <link rel="stylesheet" href="preview.css?v=20261019b">
-  <link rel="stylesheet" href="preview-pages.css?v=20261019e">
-  <script src="preview.js?v=20261020b" defer></script>
+  <link rel="stylesheet" href="preview-pages.css?v=20261020c">
+  <script src="preview.js?v=20261020c" defer></script>
 </head>
 <body data-page="home">
   <a class="preview-skip" href="#main">Skip to content</a>
@@ -49,7 +49,7 @@
     </section>
 
     <section class="home-promise is-home-container" aria-label="Explore the store">
-      <div><span>01</span><strong>Discover your fit</strong><p>Browse eight concepts across four focused categories.</p></div>
+      <div><span>01</span><strong>Discover your fit</strong><p>Browse twelve concepts across technology and everyday style.</p></div>
       <div><span>02</span><strong>Save what inspires you</strong><p>Keep a personal shortlist in this browser.</p></div>
       <div><span>03</span><strong>Try the journey</strong><p>Place a fictional order and see it in Demo orders.</p></div>
     </section>
@@ -98,7 +98,20 @@
             <span class="is-home-category__media"><img src="assets/category-home-tech-wide.png" width="1024" height="640" alt="Charcoal fabric smart speaker" loading="lazy"></span>
             <span class="is-home-category__footer"><strong>Home Tech</strong><span aria-hidden="true">↗</span></span>
           </a>
+          <a class="is-home-category" href="shop.html?category=fashion">
+            <span class="is-home-category__media is-home-category__media--fashion"><img src="assets/forest-hoodie-concept.webp" width="900" height="900" alt="Forest green hoodie concept" loading="lazy"></span>
+            <span class="is-home-category__footer"><strong>Fashion</strong><span aria-hidden="true">↗</span></span>
+          </a>
         </div>
+      </div>
+    </section>
+
+    <section id="fashion" class="fashion-rail is-home-section" aria-labelledby="fashion-title">
+      <div class="is-home-container">
+        <div class="fashion-rail__heading"><p class="is-home-eyebrow">New category · The everyday edit</p><h2 id="fashion-title">Style, on your terms.</h2><p>Move across the rail to discover each piece. Tap a garment on mobile.</p></div>
+        <div class="fashion-rail__display"><div id="fashion-rail-items" class="fashion-rail__items" role="group" aria-label="Explore fashion concepts"></div></div>
+        <div class="fashion-rail__details" aria-live="polite"><div><span class="fashion-rail__eyebrow">Fashion / concept collection</span><h3 id="fashion-name">Drift Hoodie</h3><p id="fashion-description"></p><div id="fashion-rating"></div></div><div class="fashion-rail__purchase"><div id="fashion-price"></div><div class="fashion-rail__actions"><a id="fashion-link" href="product.html?item=drift-hoodie">View product ↗</a><button id="fashion-add" type="button">Add to cart</button><button id="fashion-save" type="button" data-wish-id="drift-hoodie" aria-label="Save Drift Hoodie to wishlist">♡</button></div></div></div>
+        <div class="fashion-rail__footer"><p>Fictional garments, prices and reviews for this portfolio preview.</p><a href="shop.html?category=fashion">Shop the fashion collection ↗</a></div>
       </div>
     </section>
 

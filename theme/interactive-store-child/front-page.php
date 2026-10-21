@@ -19,6 +19,7 @@ $categories = array(
 	array( 'slug' => 'electronics', 'name' => 'Electronics', 'number' => '02' ),
 	array( 'slug' => 'accessories', 'name' => 'Accessories', 'number' => '03' ),
 	array( 'slug' => 'home-tech', 'name' => 'Home Tech', 'number' => '04' ),
+	array( 'slug' => 'fashion', 'name' => 'Fashion', 'number' => '05' ),
 );
 
 $showcase = array(
@@ -34,6 +35,18 @@ $new_showcase = array(
 	array( 'sku' => 'IS-FORM-DEMO', 'name' => 'Form', 'kind' => 'Wireless keyboard concept', 'shape' => 'keyboard' ),
 	array( 'sku' => 'IS-GLOW-DEMO', 'name' => 'Glow', 'kind' => 'Desk lamp concept', 'shape' => 'lamp' ),
 );
+$fashion_skus = array( 'IS-DRIFT-DEMO', 'IS-STUDIO-DEMO', 'IS-NIGHTFALL-DEMO', 'IS-SOFTLINE-DEMO' );
+$fashion_items = array();
+foreach ( $fashion_skus as $fashion_sku ) {
+	$fashion_product_id = function_exists( 'wc_get_product_id_by_sku' ) ? wc_get_product_id_by_sku( $fashion_sku ) : 0;
+	$fashion_product = $fashion_product_id && function_exists( 'wc_get_product' ) ? wc_get_product( $fashion_product_id ) : false;
+	if ( $fashion_product && 'publish' === $fashion_product->get_status() && $fashion_product->is_visible() ) {
+		$fashion_items[] = $fashion_product;
+	}
+}
+$fashion_term = taxonomy_exists( 'product_cat' ) ? get_term_by( 'slug', 'fashion', 'product_cat' ) : false;
+$fashion_url = $fashion_term ? get_term_link( $fashion_term ) : $shop_url;
+$fashion_url = is_wp_error( $fashion_url ) ? $shop_url : $fashion_url;
 $computers_term = taxonomy_exists( 'product_cat' ) ? get_term_by( 'slug', 'computers', 'product_cat' ) : false;
 $computers_image_id = $computers_term ? (int) get_term_meta( $computers_term->term_id, 'thumbnail_id', true ) : 0;
 $computers_url = $computers_term ? get_term_link( $computers_term ) : $shop_url;
@@ -68,7 +81,7 @@ get_header();
 		</div>
 	</section>
 	<div class="is-home-promise is-home-container" aria-label="Explore the store">
-		<div><span>01</span><strong>Discover your fit</strong><p>Browse eight concepts across four focused categories.</p></div>
+		<div><span>01</span><strong>Discover your fit</strong><p>Browse technology and fashion across five categories.</p></div>
 		<div><span>02</span><strong>Find your favorites</strong><p>Build a shortlist while exploring the collection.</p></div>
 		<div><span>03</span><strong>Try the journey</strong><p>See a real WooCommerce catalog and demo orders.</p></div>
 	</div>
@@ -99,6 +112,24 @@ get_header();
 			</div>
 		</div>
 	</section>
+
+	<?php if ( $fashion_items ) : $first_fashion = $fashion_items[0]; ?>
+	<section id="fashion" class="fashion-rail is-home-section" aria-labelledby="fashion-title">
+		<div class="is-home-container">
+			<div class="fashion-rail__heading"><p class="is-home-eyebrow">New category · The everyday edit</p><h2 id="fashion-title">Style, on your terms.</h2><p>Move across the rail to discover each piece. Tap a garment on mobile.</p></div>
+			<div class="fashion-rail__display"><div class="fashion-rail__items" role="group" aria-label="Explore fashion concepts">
+				<?php foreach ( $fashion_items as $index => $fashion_product ) : ?>
+				<button class="fashion-rail__item<?php echo 0 === $index ? ' is-active' : ''; ?>" type="button" data-fashion-name="<?php echo esc_attr( $fashion_product->get_name() ); ?>" data-fashion-description="<?php echo esc_attr( wp_strip_all_tags( $fashion_product->get_short_description() ) ); ?>" data-fashion-price="<?php echo esc_attr( wp_strip_all_tags( $fashion_product->get_price_html() ) ); ?>" data-fashion-url="<?php echo esc_url( get_permalink( $fashion_product->get_id() ) ); ?>" data-fashion-cart-url="<?php echo esc_url( $fashion_product->add_to_cart_url() ); ?>" aria-label="Show <?php echo esc_attr( $fashion_product->get_name() ); ?>" aria-pressed="<?php echo 0 === $index ? 'true' : 'false'; ?>">
+					<?php echo wp_get_attachment_image( $fashion_product->get_image_id(), 'medium_large', false, array( 'loading' => 'lazy', 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<span><?php echo esc_html( sprintf( '%02d / %s', $index + 1, $fashion_product->get_name() ) ); ?></span>
+				</button>
+				<?php endforeach; ?>
+			</div></div>
+			<div class="fashion-rail__details"><div><span class="fashion-rail__eyebrow">Fashion / concept collection</span><h3 id="fashion-name"><?php echo esc_html( $first_fashion->get_name() ); ?></h3><p id="fashion-description"><?php echo esc_html( wp_strip_all_tags( $first_fashion->get_short_description() ) ); ?></p></div><div class="fashion-rail__purchase"><div id="fashion-price"><?php echo wp_kses_post( $first_fashion->get_price_html() ); ?></div><div class="fashion-rail__actions"><a id="fashion-link" href="<?php echo esc_url( get_permalink( $first_fashion->get_id() ) ); ?>">View product ↗</a><a id="fashion-add" class="fashion-rail__cart" href="<?php echo esc_url( $first_fashion->add_to_cart_url() ); ?>">Add to cart</a></div></div></div>
+			<div class="fashion-rail__footer"><p>Fictional garments and illustrative prices for this portfolio store.</p><a href="<?php echo esc_url( $fashion_url ); ?>">Shop the fashion collection ↗</a></div>
+		</div>
+	</section>
+	<?php endif; ?>
 
 	<section class="is-home-section is-home-products" aria-labelledby="is-home-products-title">
 		<div class="is-home-container">

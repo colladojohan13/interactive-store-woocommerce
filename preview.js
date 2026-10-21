@@ -7,7 +7,11 @@ const products = [
   { id: 'vista', name: 'Vista', kind: 'Desktop monitor concept', category: 'computers', categoryName: 'Computers', price: 28900, compareAt: 32900, image: 'assets/vista-monitor-concept.png', label: 'New concept', description: 'A slim graphite desktop monitor concept with a calm, expansive screen for creative work.', story: 'Vista brings a quiet, spacious focal point to a desk. The restrained frame lets the screen take center stage.' },
   { id: 'frame', name: 'Frame', kind: 'Digital camera concept', category: 'electronics', categoryName: 'Electronics', price: 35900, image: 'assets/frame-camera-concept.png', label: 'New concept', description: 'A compact graphite camera concept made for capturing the moments worth keeping.', story: 'Frame is imagined for everyday makers. Its straightforward form keeps attention on the moment in front of the lens.' },
   { id: 'form', name: 'Form', kind: 'Wireless keyboard concept', category: 'accessories', categoryName: 'Accessories', price: 5400, image: 'assets/form-keyboard-concept.png', label: 'New concept', description: 'A compact graphite keyboard concept for a focused, uncluttered workspace.', story: 'Form balances familiar keys with an understated silhouette. It feels at home alongside the rest of the collection.' },
-  { id: 'glow', name: 'Glow', kind: 'Desk lamp concept', category: 'home-tech', categoryName: 'Home Tech', price: 7900, compareAt: 9900, image: 'assets/glow-lamp-concept.png', label: 'New concept', description: 'A slim graphite desk lamp concept with a warm, comfortable glow for late projects.', story: 'Glow adds a warmer note to the workspace. Its curved arm and simple base keep the look light and composed.' }
+  { id: 'glow', name: 'Glow', kind: 'Desk lamp concept', category: 'home-tech', categoryName: 'Home Tech', price: 7900, compareAt: 9900, image: 'assets/glow-lamp-concept.png', label: 'New concept', description: 'A slim graphite desk lamp concept with a warm, comfortable glow for late projects.', story: 'Glow adds a warmer note to the workspace. Its curved arm and simple base keep the look light and composed.' },
+  { id: 'drift-hoodie', name: 'Drift Hoodie', kind: 'Forest green hoodie concept', category: 'fashion', categoryName: 'Fashion', price: 3900, compareAt: 4800, image: 'assets/forest-hoodie-concept.webp', label: 'Everyday edit', description: 'A relaxed forest green hoodie concept with a heavyweight feel for easy everyday layering.', story: 'Drift brings a calm color and comfortable shape to the collection. The garment, image and price are fictional portfolio concepts.' },
+  { id: 'studio-overshirt', name: 'Studio Overshirt', kind: 'Sand overshirt concept', category: 'fashion', categoryName: 'Fashion', price: 4800, image: 'assets/sand-overshirt-concept.webp', label: 'Everyday edit', description: 'A versatile sand-colored overshirt concept with a relaxed cut and considered pocket details.', story: 'Studio is imagined as the layer you reach for across changing seasons. Its neutral color works with the rest of the everyday edit.' },
+  { id: 'night-bomber', name: 'Nightfall Bomber', kind: 'Charcoal bomber concept', category: 'fashion', categoryName: 'Fashion', price: 6900, image: 'assets/charcoal-bomber-concept.webp', label: 'Everyday edit', description: 'A clean charcoal bomber concept with understated hardware and a lightweight silhouette.', story: 'Nightfall keeps the familiar bomber shape minimal, with subtle texture and a dark finish designed for daily wear.' },
+  { id: 'softline-tee', name: 'Softline Tee', kind: 'Mauve T-shirt concept', category: 'fashion', categoryName: 'Fashion', price: 2500, image: 'assets/mauve-tee-concept.webp', label: 'Everyday edit', description: 'A soft dusty-mauve crewneck tee concept with a relaxed fit and simple, timeless shape.', story: 'Softline gives the collection a gentle accent color. Its easy silhouette brings comfort into the everyday edit.' }
 ];
 const sampleReviews = {
   'arc-14': [{ name: 'Avery Example', rating: 5, comment: 'The gallery makes it easy to see the laptop concept from different angles.' }, { name: 'Jordan Demo', rating: 4, comment: 'I like the clean presentation and the separate 3D preview.' }],
@@ -17,7 +21,11 @@ const sampleReviews = {
   vista: [{ name: 'Jamie Demo', rating: 5, comment: 'A calm monitor design that fits the rest of the collection.' }, { name: 'Robin Sample', rating: 4, comment: 'The large image helps me imagine it on a desk.' }],
   frame: [{ name: 'Drew Example', rating: 4, comment: 'The camera concept has a clean, familiar shape.' }, { name: 'Lee Demo', rating: 5, comment: 'I like how quickly I can move from the catalog to the full view.' }],
   form: [{ name: 'Sky Sample', rating: 5, comment: 'The keyboard looks right at home in a minimal workspace.' }, { name: 'Pat Demo', rating: 4, comment: 'Good balance of image, description and clear actions.' }],
-  glow: [{ name: 'Quinn Example', rating: 5, comment: 'The warm light adds a nice contrast to the graphite collection.' }, { name: 'Devon Demo', rating: 4, comment: 'The image tells the story of this desk lamp concept well.' }]
+  glow: [{ name: 'Quinn Example', rating: 5, comment: 'The warm light adds a nice contrast to the graphite collection.' }, { name: 'Devon Demo', rating: 4, comment: 'The image tells the story of this desk lamp concept well.' }],
+  'drift-hoodie': [{ name: 'Alex Example', rating: 5, comment: 'The forest green color works beautifully in this clothing concept.' }, { name: 'Morgan Demo', rating: 4, comment: 'The hanging product image makes the hoodie easy to inspect.' }],
+  'studio-overshirt': [{ name: 'Riley Sample', rating: 5, comment: 'The neutral color and pockets give the overshirt a versatile look.' }, { name: 'Jamie Demo', rating: 4, comment: 'I like seeing the garment presented clearly from the front.' }],
+  'night-bomber': [{ name: 'Casey Example', rating: 5, comment: 'A clean bomber silhouette with understated details.' }, { name: 'Taylor Demo', rating: 4, comment: 'The charcoal finish fits the wider collection.' }],
+  'softline-tee': [{ name: 'Sam Sample', rating: 5, comment: 'The mauve tone adds a softer option to the edit.' }, { name: 'Jordan Demo', rating: 4, comment: 'A simple piece that is easy to imagine in a wardrobe.' }]
 };
 const productById = Object.fromEntries(products.map(product => [product.id, product]));
 const bagKey = 'interactive-store-demo-bag-v1';
@@ -55,7 +63,7 @@ function setupHeader() {
   const currentCategory = page === 'shop' ? new URLSearchParams(location.search).get('category') : null;
   const active = (name) => page === name ? ' aria-current="page"' : '';
   const categoryActive = (name) => currentCategory === name ? ' aria-current="page"' : '';
-  nav.innerHTML = `<a href="index.html"${active('home')}>Home</a><a href="shop.html"${(page === 'shop' && !currentCategory) || page === 'product' ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
+  nav.innerHTML = `<a href="index.html"${active('home')}>Home</a><a href="shop.html"${(page === 'shop' && !currentCategory) || page === 'product' ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a><a href="shop.html?category=fashion"${categoryActive('fashion')}>Fashion</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
   nav.id = 'preview-main-nav';
   oldBag?.remove();
   const actions = document.createElement('div'); actions.className = 'preview-header__actions';
@@ -481,9 +489,51 @@ function renderOrders() {
   }
   filter.addEventListener('change', draw); draw();
 }
+function renderFashionRail() {
+  const rail = document.getElementById('fashion-rail-items');
+  if (!rail) return;
+  const clothing = products.filter(product => product.category === 'fashion');
+  let selected = clothing[0];
+  const items = clothing.map((product, index) => {
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'fashion-rail__item';
+    button.setAttribute('aria-label', `Show ${product.name}`);
+    button.innerHTML = `<img src="${product.image}" width="900" height="900" alt="" loading="lazy"><span>${String(index + 1).padStart(2, '0')} / ${product.name}</span>`;
+    button.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') select(product); });
+    button.addEventListener('focus', () => select(product));
+    button.addEventListener('click', () => select(product));
+    return button;
+  });
+  rail.replaceChildren(...items);
+  const save = document.getElementById('fashion-save');
+  function select(product) {
+    selected = product;
+    items.forEach((button, index) => {
+      const current = clothing[index].id === product.id;
+      button.classList.toggle('is-active', current);
+      button.setAttribute('aria-pressed', String(current));
+    });
+    document.getElementById('fashion-name').textContent = product.name;
+    document.getElementById('fashion-description').textContent = product.description;
+    document.getElementById('fashion-price').innerHTML = priceMarkup(product);
+    document.getElementById('fashion-rating').innerHTML = ratingMarkup(product.id);
+    document.getElementById('fashion-link').href = `product.html?item=${encodeURIComponent(product.id)}`;
+    save.dataset.wishId = product.id;
+    setWishState(save, getWishlist().includes(product.id));
+  }
+  rail.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const next = (clothing.indexOf(selected) + (event.key === 'ArrowRight' ? 1 : -1) + clothing.length) % clothing.length;
+    items[next].focus();
+  });
+  document.getElementById('fashion-add').addEventListener('click', () => { addToBag(selected.id); showBagNotice(selected); });
+  save.addEventListener('click', () => toggleWishlist(selected.id));
+  select(selected);
+}
 function renderHome() {
   const arrivals = document.getElementById('home-new-grid');
-  if (arrivals) arrivals.replaceChildren(...products.slice(4).map(card));
+  if (arrivals) arrivals.replaceChildren(...products.slice(4, 8).map(card));
   const featured = document.getElementById('home-featured-grid');
   if (featured) featured.replaceChildren(...products.slice(0, 4).map(card));
   const carousel = document.getElementById('home-carousel');
@@ -562,7 +612,7 @@ function renderHome() {
 setupHeader();
 updateCounters();
 const page = document.body.dataset.page;
-if (page === 'home') renderHome();
+if (page === 'home') { renderHome(); renderFashionRail(); }
 if (page === 'shop') renderShop();
 if (page === 'product') renderProduct();
 if (page === 'bag') renderBag();

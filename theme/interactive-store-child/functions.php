@@ -19,6 +19,8 @@ add_action( 'wp_enqueue_scripts', function () {
 		array(),
 		file_exists( $path ) ? (string) filemtime( $path ) : '1.0.0'
 	);
+	$rail_js = get_stylesheet_directory() . '/assets/js/home-fashion.js';
+	wp_enqueue_script( 'interactive-store-home-fashion', get_stylesheet_directory_uri() . '/assets/js/home-fashion.js', array(), file_exists( $rail_js ) ? (string) filemtime( $rail_js ) : '1.0.0', true );
 }, 20 );
 
 /**
@@ -109,7 +111,7 @@ add_action( 'woocommerce_before_shop_loop', function () {
 	$max_price = isset( $_GET['max_price'] ) ? absint( wp_unslash( $_GET['max_price'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$orderby = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( $_GET['orderby'] ) ) : 'menu_order'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	echo '<button id="is-shop-mobile-open" class="is-shop-mobile-open" type="button" aria-controls="is-shop-toolbar" aria-expanded="false">Filter &amp; sort</button><div id="is-shop-backdrop" class="is-shop-backdrop" hidden></div><div id="is-shop-toolbar" class="is-shop-toolbar"><div class="is-shop-mobile-head"><strong>Filter &amp; sort</strong><button id="is-shop-mobile-close" type="button" aria-label="Close filters">×</button></div><nav class="is-shop-categories" aria-label="Product categories"><a ' . ( ! $current ? 'aria-current="page" ' : '' ) . 'href="' . esc_url( $shop_url ) . '">All products</a>';
-	foreach ( array( 'computers', 'electronics', 'accessories', 'home-tech' ) as $slug ) {
+	foreach ( array( 'computers', 'electronics', 'accessories', 'home-tech', 'fashion' ) as $slug ) {
 		$term = get_term_by( 'slug', $slug, 'product_cat' );
 		if ( ! $term ) {
 			continue;

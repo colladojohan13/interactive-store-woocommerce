@@ -8,6 +8,9 @@
 if ( ! defined( 'WP_CLI' ) || ! WP_CLI || ! class_exists( 'WC_Product_Simple' ) ) {
 	return;
 }
+if ( 'interactive-store.local' !== wp_parse_url( home_url(), PHP_URL_HOST ) ) {
+	WP_CLI::error( 'Refusing to seed products outside interactive-store.local.' );
+}
 
 // The script creates fictional records only. Suppress any email notification.
 add_filter( 'pre_wp_mail', '__return_true' );
@@ -22,6 +25,10 @@ $catalog   = array(
 	array( 'sku' => 'IS-FRAME-DEMO', 'name' => 'Frame Digital Camera — Concept', 'category' => 'electronics', 'price' => 35900, 'image' => 'frame-camera-concept.png', 'short' => 'A fictional compact camera concept for everyday makers.' ),
 	array( 'sku' => 'IS-FORM-DEMO', 'name' => 'Form Wireless Keyboard — Concept', 'category' => 'accessories', 'price' => 5400, 'image' => 'form-keyboard-concept.png', 'short' => 'A fictional graphite wireless keyboard concept.' ),
 	array( 'sku' => 'IS-GLOW-DEMO', 'name' => 'Glow Desk Lamp — Concept', 'category' => 'home-tech', 'price' => 7900, 'image' => 'glow-lamp-concept.png', 'short' => 'A fictional desk lamp concept with a warm glow.' ),
+	array( 'sku' => 'IS-DRIFT-DEMO', 'name' => 'Drift Hoodie — Concept', 'category' => 'fashion', 'price' => 3900, 'regular' => 4800, 'image' => 'forest-hoodie-concept.webp', 'short' => 'A fictional forest green heavyweight hoodie concept.' ),
+	array( 'sku' => 'IS-STUDIO-DEMO', 'name' => 'Studio Overshirt — Concept', 'category' => 'fashion', 'price' => 4800, 'image' => 'sand-overshirt-concept.webp', 'short' => 'A fictional relaxed sand overshirt concept.' ),
+	array( 'sku' => 'IS-NIGHTFALL-DEMO', 'name' => 'Nightfall Bomber — Concept', 'category' => 'fashion', 'price' => 6900, 'image' => 'charcoal-bomber-concept.webp', 'short' => 'A fictional lightweight charcoal bomber jacket concept.' ),
+	array( 'sku' => 'IS-SOFTLINE-DEMO', 'name' => 'Softline Tee — Concept', 'category' => 'fashion', 'price' => 2500, 'image' => 'mauve-tee-concept.webp', 'short' => 'A fictional relaxed dusty-mauve crewneck tee concept.' ),
 );
 
 function interactive_store_seed_image( $filename, $asset_dir ) {
@@ -39,7 +46,8 @@ function interactive_store_seed_image( $filename, $asset_dir ) {
 		WP_CLI::warning( $upload['error'] );
 		return 0;
 	}
-	$attachment_id = wp_insert_attachment( array( 'post_mime_type' => 'image/png', 'post_title' => ucwords( str_replace( array( '-', '.png' ), array( ' ', '' ), $filename ) ), 'post_status' => 'inherit' ), $upload['file'] );
+	$filetype = wp_check_filetype( $filename );
+	$attachment_id = wp_insert_attachment( array( 'post_mime_type' => $filetype['type'] ?: 'image/png', 'post_title' => ucwords( str_replace( '-', ' ', pathinfo( $filename, PATHINFO_FILENAME ) ) ), 'post_status' => 'inherit' ), $upload['file'] );
 	if ( is_wp_error( $attachment_id ) ) {
 		WP_CLI::warning( $attachment_id->get_error_message() );
 		return 0;
@@ -69,7 +77,10 @@ foreach ( $catalog as $item ) {
 	$product->set_sku( $item['sku'] );
 	$product->set_status( 'publish' );
 	$product->set_catalog_visibility( 'visible' );
-	$product->set_regular_price( (string) $item['price'] );
+	$product->set_regular_price( (string) ( $item['regular'] ?? $item['price'] ) );
+	if ( isset( $item['regular'] ) ) {
+		$product->set_sale_price( (string) $item['price'] );
+	}
 	$product->set_category_ids( $term ? array( (int) $term->term_id ) : array() );
 	$product->set_short_description( $item['short'] . ' Portfolio demonstration; image and price are illustrative.' );
 	$product->set_description( $item['short'] . ' This is a fictional portfolio product. There is no physical inventory and no manufacturer specifications are claimed.' );
@@ -81,6 +92,14 @@ foreach ( $catalog as $item ) {
 	}
 	$ids[ $item['sku'] ] = $product->save();
 	WP_CLI::log( 'Created product ' . $item['sku'] );
+}
+
+$fashion_term = get_term_by( 'slug', 'fashion', 'product_cat' );
+if ( $fashion_term && ! get_term_meta( $fashion_term->term_id, 'thumbnail_id', true ) ) {
+	$fashion_image_id = interactive_store_seed_image( 'forest-hoodie-concept.webp', $asset_dir );
+	if ( $fashion_image_id ) {
+		update_term_meta( $fashion_term->term_id, 'thumbnail_id', $fashion_image_id );
+	}
 }
 
 $samples = array(
