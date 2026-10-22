@@ -1,0 +1,112 @@
+/* Portfolio homepage additions. These styles apply only to the public preview. */
+.home-benefits {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: -20px;
+  padding: 22px 24px;
+  border: 1px solid #e9edf3;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 18px 50px #10264712;
+}
+.home-benefits > div { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 0 10px; }
+.home-benefits > div + div { border-left: 1px solid #e9edf3; }
+.home-benefits__icon { display: grid; flex: 0 0 40px; width: 40px; height: 40px; place-items: center; border-radius: 12px; background: #eef3ff; color: #2447eb; font-size: 25px; line-height: 1; }
+.home-benefits strong, .home-benefits small { display: block; }
+.home-benefits strong { color: #111b35; font-size: 12px; line-height: 1.3; }
+.home-benefits small { margin-top: 3px; color: #6b7890; font-size: 10px; line-height: 1.35; }
+
+.is-home-categories { padding-top: 76px; }
+.is-home-categories .is-home-section__heading { margin-bottom: 25px; }
+.is-home-categories__grid { gap: 18px; }
+.is-home-category { overflow: visible; border: 0; border-radius: 0; background: transparent; text-align: center; transition: transform .2s ease; }
+.is-home-category:hover { box-shadow: none; }
+.is-home-category__media { width: clamp(126px, 13vw, 170px); height: clamp(126px, 13vw, 170px); margin-inline: auto; overflow: hidden; border: 1px solid #e9edf3; border-radius: 50%; background: #f1f4f8; box-shadow: 0 10px 25px #132b5210; }
+.is-home-category__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.is-home-category:hover img { transform: scale(1.07); }
+.is-home-category__media--fashion img { padding: 8px; object-fit: contain; }
+.is-home-category__footer { display: flex; flex-direction: column; justify-content: start; gap: 2px; min-height: 0; padding: 14px 5px 4px; }
+.is-home-category__footer strong { color: #111b35; font-size: 14px; }
+.is-home-category__footer small { color: #8490a5; font-size: 11px; }
+
+.home-style-banner { padding-top: 64px; }
+.home-style-banner__inner { position: relative; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); min-height: 415px; overflow: hidden; border-radius: 22px; background: radial-gradient(circle at 73% 50%, #dbf2ee 0, #e7f4f5 32%, #eef5fa 63%, #f4f8fa 100%); }
+.home-style-banner__copy { position: relative; z-index: 2; align-self: center; padding: clamp(34px, 5vw, 70px); }
+.home-style-banner__copy .is-home-eyebrow { color: #49777a; }
+.home-style-banner__copy h2 { max-width: 530px; margin: 13px 0 17px; color: #132b35; font-size: clamp(43px, 4.9vw, 70px); line-height: .99; letter-spacing: -.065em; }
+.home-style-banner__copy h2 em { color: #247b78; font-style: normal; }
+.home-style-banner__copy > p:not(.is-home-eyebrow) { max-width: 420px; color: #576d79; font-size: 15px; line-height: 1.65; }
+.home-style-banner__copy .is-home-button { margin-top: 25px; }
+.home-style-banner__visual { position: relative; min-width: 0; }
+.home-style-banner__orb { position: absolute; top: 5%; right: 7%; width: min(84%, 485px); aspect-ratio: 1; border-radius: 50%; background: #d2ece7; box-shadow: inset 0 0 65px #ffffff95; }
+.home-style-banner__visual img { position: absolute; display: block; width: auto; height: auto; max-width: none; object-fit: contain; filter: drop-shadow(0 28px 22px #1b4b431c); }
+.home-style-banner__hoodie { z-index: 2; right: 20%; bottom: -11%; width: min(77%, 430px) !important; }
+.home-style-banner__overshirt { z-index: 1; right: -6%; bottom: 0; width: min(63%, 340px) !important; transform: rotate(8deg); opacity: .9; }
+.home-style-banner__tag { position: absolute; z-index: 3; right: 25px; bottom: 22px; padding: 9px 12px; border: 1px solid #ffffffaa; border-radius: 30px; background: #ffffffbd; color: #315b60; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; backdrop-filter: blur(8px); }
+
+.home-promo-pair { padding-top: 18px; }
+.home-promo-pair__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.home-promo-card { position: relative; display: block; min-height: 284px; overflow: hidden; border-radius: 16px; background: #f0f2f4; color: #12213a !important; }
+.home-promo-card--sound { background: #dfeef4; }
+.home-promo-card::after { position: absolute; z-index: 1; inset: 0; content: ''; background: linear-gradient(90deg, #f0f2f4 0%, #f0f2f4 35%, #f0f2f4c9 51%, transparent 76%); pointer-events: none; }
+.home-promo-card--sound::after { background: linear-gradient(90deg, #dfeef4 0%, #dfeef4 36%, #dfeef4c4 56%, transparent 85%); }
+.home-promo-card img { position: absolute; top: 0; right: 0; width: 78%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.home-promo-card--sound img { right: -5%; width: 71%; object-fit: contain; mix-blend-mode: multiply; }
+.home-promo-card:hover img { transform: scale(1.05); }
+.home-promo-card__copy { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; height: 100%; min-height: 284px; padding: 31px; }
+.home-promo-card__copy small { color: #526a80; font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+.home-promo-card__copy strong { margin: 21px 0 auto; font-size: clamp(27px, 2.7vw, 38px); line-height: 1.05; letter-spacing: -.055em; }
+.home-promo-card__copy > span { padding: 10px 14px; border-radius: 30px; background: #122c38; color: #fff; font-size: 11px; font-weight: 750; }
+
+.is-home-products { padding-top: 82px; padding-bottom: 70px; }
+.home-picks__intro { margin-top: 9px !important; color: #68768c; font-size: 13px; line-height: 1.5; }
+.home-carousel { padding-top: 70px; }
+
+@media (max-width: 900px) {
+  .home-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 17px; }
+  .home-benefits > div:nth-child(3) { border-left: 0; }
+  .home-style-banner__inner { min-height: 390px; }
+  .home-style-banner__hoodie { right: 10%; width: min(86%, 400px) !important; }
+  .home-style-banner__overshirt { right: -12%; }
+}
+@media (max-width: 760px) {
+  .home-benefits { margin-top: 0; border-top: 0; border-radius: 0 0 14px 14px; }
+  .is-home-categories { padding-top: 55px; }
+  .is-home-categories__grid { display: grid; grid-auto-flow: column; grid-auto-columns: 138px; grid-template-columns: none; gap: 8px; margin-right: -16px; padding: 0 16px 15px 0; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-color: #cbd5e8 transparent; }
+  .is-home-categories__grid .is-home-category:last-child { grid-column: auto; }
+  .is-home-category { scroll-snap-align: start; }
+  .is-home-category__media { width: 112px; height: 112px; }
+  .is-home-category__footer strong { font-size: 12px; }
+  .home-style-banner { padding-top: 35px; }
+  .home-style-banner__inner { grid-template-columns: 1fr; }
+  .home-style-banner__copy { padding: 35px 29px 0; }
+  .home-style-banner__copy h2 { max-width: 460px; font-size: clamp(41px, 8vw, 55px); }
+  .home-style-banner__visual { height: 320px; }
+  .home-style-banner__orb { top: 0; right: 12%; width: min(76%, 360px); }
+  .home-style-banner__hoodie { right: 24%; bottom: -14%; width: min(65%, 310px) !important; }
+  .home-style-banner__overshirt { right: 0; bottom: -8%; width: min(51%, 250px) !important; }
+  .home-promo-pair__grid { grid-template-columns: 1fr; gap: 12px; }
+  .home-promo-card, .home-promo-card__copy { min-height: 255px; }
+  .is-home-products { padding-block: 57px 55px; }
+}
+@media (max-width: 430px) {
+  .home-benefits { gap: 15px 5px; padding: 19px 13px; }
+  .home-benefits > div { gap: 8px; padding: 0 3px; }
+  .home-benefits__icon { flex-basis: 33px; width: 33px; height: 33px; font-size: 20px; }
+  .home-benefits strong { font-size: 10px; }
+  .home-benefits small { font-size: 9px; }
+  .is-home-categories .is-home-section__heading { align-items: end; }
+  .is-home-categories .is-home-text-link { font-size: 11px; }
+  .home-style-banner__copy { padding: 32px 24px 0; }
+  .home-style-banner__copy h2 { font-size: 42px; }
+  .home-style-banner__visual { height: 285px; }
+  .home-promo-card, .home-promo-card__copy { min-height: 235px; }
+  .home-promo-card__copy { padding: 23px; }
+  .home-promo-card__copy strong { font-size: 29px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-promo-card img, .is-home-category__media img { transition: none; }
+}

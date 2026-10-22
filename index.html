@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261021a">
   <link rel="stylesheet" href="preview.css?v=20261019b">
   <link rel="stylesheet" href="preview-pages.css?v=20261020c">
-  <script src="preview.js?v=20261020c" defer></script>
+  <link rel="stylesheet" href="preview-home.css?v=20261021a">
+  <script src="preview.js?v=20261021a" defer></script>
 </head>
 <body data-page="home">
   <a class="preview-skip" href="#main">Skip to content</a>
@@ -48,10 +49,64 @@
       </div>
     </section>
 
-    <section class="home-promise is-home-container" aria-label="Explore the store">
-      <div><span>01</span><strong>Discover your fit</strong><p>Browse twelve concepts across technology and everyday style.</p></div>
-      <div><span>02</span><strong>Save what inspires you</strong><p>Keep a personal shortlist in this browser.</p></div>
-      <div><span>03</span><strong>Try the journey</strong><p>Place a fictional order and see it in Demo orders.</p></div>
+    <section class="home-benefits is-home-container" aria-label="What you can explore">
+      <div><span class="home-benefits__icon" aria-hidden="true">⌕</span><span><strong>Explore every detail</strong><small>Product stories, galleries and reviews</small></span></div>
+      <div><span class="home-benefits__icon" aria-hidden="true">♡</span><span><strong>Save your favorites</strong><small>Your wishlist stays in this browser</small></span></div>
+      <div><span class="home-benefits__icon" aria-hidden="true">▣</span><span><strong>Try the checkout</strong><small>Fictional orders, never a payment</small></span></div>
+      <div><span class="home-benefits__icon" aria-hidden="true">◇</span><span><strong>See the 3D preview</strong><small>Explore a separate demo model</small></span></div>
+    </section>
+
+    <section id="categories" class="is-home-section is-home-categories" aria-labelledby="is-home-categories-title">
+      <div class="is-home-container">
+        <div class="is-home-section__heading is-home-section__heading--compact">
+          <div><p class="is-home-eyebrow">Start somewhere good</p><h2 id="is-home-categories-title">Shop by category</h2></div>
+          <a class="is-home-text-link" href="shop.html">View all products <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="is-home-categories__grid">
+          <a class="is-home-category" href="shop.html?category=computers">
+            <span class="is-home-category__media"><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop on a bright desk" loading="lazy"></span>
+            <span class="is-home-category__footer"><strong>Computers</strong><small>2 concepts</small></span>
+          </a>
+          <a class="is-home-category" href="shop.html?category=electronics">
+            <span class="is-home-category__media"><img src="assets/category-electronics-wide.png" width="1024" height="640" alt="Black wireless headphones" loading="lazy"></span>
+            <span class="is-home-category__footer"><strong>Electronics</strong><small>2 concepts</small></span>
+          </a>
+          <a class="is-home-category" href="shop.html?category=accessories">
+            <span class="is-home-category__media"><img src="assets/category-accessories-wide.png" width="1024" height="640" alt="Graphite USB-C dock" loading="lazy"></span>
+            <span class="is-home-category__footer"><strong>Accessories</strong><small>2 concepts</small></span>
+          </a>
+          <a class="is-home-category" href="shop.html?category=home-tech">
+            <span class="is-home-category__media"><img src="assets/category-home-tech-wide.png" width="1024" height="640" alt="Charcoal fabric smart speaker" loading="lazy"></span>
+            <span class="is-home-category__footer"><strong>Home Tech</strong><small>2 concepts</small></span>
+          </a>
+          <a class="is-home-category" href="shop.html?category=fashion">
+            <span class="is-home-category__media is-home-category__media--fashion"><img src="assets/forest-hoodie-concept.webp" width="900" height="900" alt="Forest green hoodie concept" loading="lazy"></span>
+            <span class="is-home-category__footer"><strong>Fashion</strong><small>4 concepts</small></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-style-banner is-home-section" aria-labelledby="home-style-title">
+      <div class="is-home-container home-style-banner__inner">
+        <div class="home-style-banner__copy"><p class="is-home-eyebrow">The everyday edit · New to the collection</p><h2 id="home-style-title">Style that moves <em>with you.</em></h2><p>Considered layers and easy essentials. Explore four fictional fashion concepts designed for everyday moments.</p><a class="is-home-button is-home-button--primary" href="shop.html?category=fashion">Explore fashion <span aria-hidden="true">↗</span></a></div>
+        <div class="home-style-banner__visual" aria-hidden="true"><span class="home-style-banner__orb"></span><img class="home-style-banner__hoodie" src="assets/forest-hoodie-concept.webp" width="900" height="900" alt="" loading="lazy"><img class="home-style-banner__overshirt" src="assets/sand-overshirt-concept.webp" width="900" height="900" alt="" loading="lazy"><span class="home-style-banner__tag">01—04 / Everyday style</span></div>
+      </div>
+    </section>
+
+    <section class="home-promo-pair is-home-section" aria-label="Explore more collections"><div class="is-home-container home-promo-pair__grid">
+      <a class="home-promo-card home-promo-card--desk" href="shop.html?category=computers"><span class="home-promo-card__copy"><small>Computers · Concepts</small><strong>Make space<br>for big ideas.</strong><span>Explore computers ↗</span></span><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop concept on a bright desk" loading="lazy"></a>
+      <a class="home-promo-card home-promo-card--sound" href="shop.html?category=electronics"><span class="home-promo-card__copy"><small>Electronics · Concepts</small><strong>Find your<br>everyday rhythm.</strong><span>Explore electronics ↗</span></span><img src="assets/pulse-headphones-concept.png" width="1024" height="1024" alt="Black Pulse headphone concept" loading="lazy"></a>
+    </div></section>
+
+    <section id="products" class="is-home-section is-home-products" aria-labelledby="is-home-products-title">
+      <div class="is-home-container">
+        <div class="is-home-section__heading">
+          <div><p class="is-home-eyebrow">Curated from the collection</p><h2 id="is-home-products-title">The standout edit.</h2><p class="home-picks__intro">Four favorites to start exploring. Ratings and offers are illustrative demo content.</p></div>
+          <a class="is-home-text-link" href="shop.html">View all products <span aria-hidden="true">↗</span></a>
+        </div>
+        <div id="home-featured-grid" class="is-home-products__grid"></div>
+      </div>
     </section>
 
     <section id="moments" class="home-carousel is-home-section" aria-labelledby="moments-title">
@@ -76,36 +131,6 @@
       </div>
     </section>
 
-    <section id="categories" class="is-home-section is-home-categories" aria-labelledby="is-home-categories-title">
-      <div class="is-home-container">
-        <div class="is-home-section__heading is-home-section__heading--compact">
-          <div><p class="is-home-eyebrow">Find your fit</p><h2 id="is-home-categories-title">Shop by category</h2></div>
-        </div>
-        <div class="is-home-categories__grid">
-          <a class="is-home-category" href="shop.html?category=computers">
-            <span class="is-home-category__media"><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop on a bright desk" loading="lazy"></span>
-            <span class="is-home-category__footer"><strong>Computers</strong><span aria-hidden="true">↗</span></span>
-          </a>
-          <a class="is-home-category" href="shop.html?category=electronics">
-            <span class="is-home-category__media"><img src="assets/category-electronics-wide.png" width="1024" height="640" alt="Black wireless headphones" loading="lazy"></span>
-            <span class="is-home-category__footer"><strong>Electronics</strong><span aria-hidden="true">↗</span></span>
-          </a>
-          <a class="is-home-category" href="shop.html?category=accessories">
-            <span class="is-home-category__media"><img src="assets/category-accessories-wide.png" width="1024" height="640" alt="Graphite USB-C dock" loading="lazy"></span>
-            <span class="is-home-category__footer"><strong>Accessories</strong><span aria-hidden="true">↗</span></span>
-          </a>
-          <a class="is-home-category" href="shop.html?category=home-tech">
-            <span class="is-home-category__media"><img src="assets/category-home-tech-wide.png" width="1024" height="640" alt="Charcoal fabric smart speaker" loading="lazy"></span>
-            <span class="is-home-category__footer"><strong>Home Tech</strong><span aria-hidden="true">↗</span></span>
-          </a>
-          <a class="is-home-category" href="shop.html?category=fashion">
-            <span class="is-home-category__media is-home-category__media--fashion"><img src="assets/forest-hoodie-concept.webp" width="900" height="900" alt="Forest green hoodie concept" loading="lazy"></span>
-            <span class="is-home-category__footer"><strong>Fashion</strong><span aria-hidden="true">↗</span></span>
-          </a>
-        </div>
-      </div>
-    </section>
-
     <section id="fashion" class="fashion-rail is-home-section" aria-labelledby="fashion-title">
       <div class="is-home-container">
         <div class="fashion-rail__heading"><p class="is-home-eyebrow">New category · The everyday edit</p><h2 id="fashion-title">Style, on your terms.</h2><p>Move across the rail to discover each piece. Tap a garment on mobile.</p></div>
@@ -115,19 +140,7 @@
       </div>
     </section>
 
-    <section class="home-editorial is-home-section" aria-labelledby="home-editorial-title"><div class="is-home-container home-editorial__inner"><div class="home-editorial__copy"><p class="is-home-eyebrow">The focused workspace</p><h2 id="home-editorial-title">Make room for better ideas.</h2><p>Build a setup around the pieces you use every day. Explore our computer and accessory concepts in one calm collection.</p><a class="is-home-button is-home-button--primary" href="shop.html?category=computers">Explore computers <span aria-hidden="true">↗</span></a></div><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop concept on a bright desk" loading="lazy"></div></section>
-
     <section class="is-home-section home-new" aria-labelledby="home-new-title"><div class="is-home-container"><div class="is-home-section__heading"><div><p class="is-home-eyebrow">Fresh ideas</p><h2 id="home-new-title">More to explore</h2></div><a class="is-home-text-link" href="shop.html">Shop the collection <span aria-hidden="true">↗</span></a></div><div id="home-new-grid" class="store-grid"></div></div></section>
-
-    <section id="products" class="is-home-section is-home-products" aria-labelledby="is-home-products-title">
-      <div class="is-home-container">
-        <div class="is-home-section__heading">
-          <div><p class="is-home-eyebrow">Our picks</p><h2 id="is-home-products-title">Featured products</h2></div>
-          <a class="is-home-text-link" href="shop.html">View all products <span aria-hidden="true">↗</span></a>
-        </div>
-        <div id="home-featured-grid" class="is-home-products__grid"></div>
-      </div>
-    </section>
 
     <section id="experience" class="is-home-section is-home-three-d" aria-label="Explore in 3D">
       <div class="is-home-container">

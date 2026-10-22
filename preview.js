@@ -535,7 +535,7 @@ function renderHome() {
   const arrivals = document.getElementById('home-new-grid');
   if (arrivals) arrivals.replaceChildren(...products.slice(4, 8).map(card));
   const featured = document.getElementById('home-featured-grid');
-  if (featured) featured.replaceChildren(...products.slice(0, 4).map(card));
+  if (featured) featured.replaceChildren(...['pulse', 'drift-hoodie', 'arc-14', 'haven'].map(id => card(productById[id])));
   const carousel = document.getElementById('home-carousel');
   if (!carousel) return;
   const track = document.getElementById('carousel-track');
