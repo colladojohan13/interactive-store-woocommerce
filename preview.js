@@ -33,10 +33,16 @@ const wishlistKey = 'interactive-store-demo-wishlist-v1';
 const ordersKey = 'interactive-store-demo-orders-v1';
 const recentKey = 'interactive-store-demo-recent-v1';
 const reviewsKey = 'interactive-store-demo-reviews-v1';
+const deliveryAddressKey = 'interactive-store-demo-delivery-address-v1';
 const money = value => `RD$${Math.round(value).toLocaleString('en-US')}`;
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const read = (key, fallback) => { try { const value = localStorage.getItem(key); return value === null ? fallback : JSON.parse(value); } catch { return fallback; } };
 const write = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } };
+function getDeliveryAddress() {
+  const value = read(deliveryAddressKey, null);
+  return value && typeof value.city === 'string' && typeof value.street === 'string' && value.city.trim() && value.street.trim()
+    ? { city: value.city.slice(0, 60), street: value.street.slice(0, 100) } : null;
+}
 function getLocalReviews(id) {
   const all = read(reviewsKey, {});
   const entries = all && typeof all === 'object' && !Array.isArray(all) ? all[id] : null;
@@ -81,8 +87,44 @@ function setupHeader() {
   actions.innerHTML = `<a class="header-account" href="orders.html"${active('orders')}>Demo orders</a><a class="header-bag" href="bag.html" aria-label="Demo bag"${active('bag')}>${icons.bag}<span class="bag-count">0</span></a>`;
   inner.append(actions);
   const searchShell = document.createElement('div'); searchShell.className = 'header-search-shell';
-  searchShell.innerHTML = `<div class="header-search-line"><form id="header-search-form" class="header-search-form" role="search"><button class="header-search-submit" type="submit" aria-label="Search products">${icons.search}</button><label class="header-visually-hidden" for="header-search-input">Search products and categories</label><input id="header-search-input" type="search" placeholder="Search products and categories" autocomplete="off" maxlength="80"><span class="header-search-tools"><button type="button" disabled title="Image search coming soon" aria-label="Image search, coming soon">${icons.camera}</button><button type="button" disabled title="Voice search coming soon" aria-label="Voice search, coming soon">${icons.mic}</button></span></form><button class="header-location" type="button" disabled title="Location search coming soon" aria-label="Location search, coming soon">${icons.pin}</button></div><div id="header-search-panel" class="header-search-panel" hidden><p>Popular in the store</p><div id="header-search-results" class="header-search-results" aria-live="polite"></div><a id="header-search-all" class="header-search-all" href="shop.html">View all products ↗</a></div>`;
+  searchShell.innerHTML = `<div class="header-search-line"><form id="header-search-form" class="header-search-form" role="search"><button class="header-search-submit" type="submit" aria-label="Search products">${icons.search}</button><label class="header-visually-hidden" for="header-search-input">Search products and categories</label><input id="header-search-input" type="search" placeholder="Search products and categories" autocomplete="off" maxlength="80"><span class="header-search-tools"><button type="button" disabled title="Image search coming soon" aria-label="Image search, coming soon">${icons.camera}</button><button type="button" disabled title="Voice search coming soon" aria-label="Voice search, coming soon">${icons.mic}</button></span></form><button class="header-location" type="button" aria-label="Choose demo delivery address" title="Choose demo delivery address">${icons.pin}<span class="header-location-text">Deliver to<strong id="header-location-city">Choose address</strong></span></button></div><div id="header-search-panel" class="header-search-panel" hidden><p>Popular in the store</p><div id="header-search-results" class="header-search-results" aria-live="polite"></div><a id="header-search-all" class="header-search-all" href="shop.html">View all products ↗</a></div>`;
   inner.append(searchShell);
+  const addressDialog = document.createElement('dialog'); addressDialog.className = 'delivery-dialog';
+  addressDialog.innerHTML = `<form id="delivery-address-form" class="delivery-address-form"><div class="delivery-dialog__top"><span class="delivery-dialog__icon">${icons.pin}</span><button class="delivery-dialog__close" type="button" aria-label="Close address selector">×</button></div><p class="delivery-dialog__eyebrow">DELIVERY PREVIEW</p><h2>Where should we deliver?</h2><p>Choose a fictional address for this store demo. It stays in this browser and fills the demo checkout.</p><div class="delivery-presets" aria-label="Sample addresses"><button type="button" data-city="Santo Domingo" data-street="Demo Street 101, Zona Colonial">Santo Domingo <small>Zona Colonial</small></button><button type="button" data-city="Santiago" data-street="Demo Avenue 24, Centro">Santiago <small>Centro</small></button></div><label>City<input name="city" required maxlength="60" autocomplete="off" placeholder="e.g. Santiago"></label><label>Address line<input name="street" required maxlength="100" autocomplete="off" placeholder="e.g. Demo Avenue 24, Centro"></label><p class="delivery-dialog__note">Demo only · no real shipping or location tracking</p><button class="delivery-dialog__save" type="submit">Use this address</button><p id="delivery-address-error" role="alert"></p></form>`;
+  document.body.append(addressDialog);
+  const locationButton = searchShell.querySelector('.header-location');
+  const addressForm = addressDialog.querySelector('form');
+  function showDeliveryAddress() {
+    const address = getDeliveryAddress();
+    document.getElementById('header-location-city').textContent = address ? address.city : 'Choose address';
+    locationButton.setAttribute('aria-label', address ? `Delivery to ${address.city}. Change demo address` : 'Choose demo delivery address');
+    locationButton.title = address ? `Delivery to ${address.street}, ${address.city}. Change demo address` : 'Choose demo delivery address';
+  }
+  showDeliveryAddress();
+  locationButton.addEventListener('click', () => {
+    const address = getDeliveryAddress();
+    addressForm.elements.city.value = address?.city || '';
+    addressForm.elements.street.value = address?.street || '';
+    closeSearch(); closeMenu();
+    addressDialog.showModal();
+  });
+  addressDialog.querySelector('.delivery-dialog__close').addEventListener('click', () => addressDialog.close());
+  addressDialog.addEventListener('click', event => { if (event.target === addressDialog) addressDialog.close(); });
+  addressDialog.querySelectorAll('.delivery-presets button').forEach(button => button.addEventListener('click', () => {
+    addressForm.elements.city.value = button.dataset.city;
+    addressForm.elements.street.value = button.dataset.street;
+    addressForm.elements.street.focus();
+  }));
+  addressForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!addressForm.reportValidity()) return;
+    const address = { city: addressForm.elements.city.value.trim(), street: addressForm.elements.street.value.trim() };
+    if (!address.city || !address.street) return;
+    if (!write(deliveryAddressKey, address)) { addressDialog.querySelector('#delivery-address-error').textContent = 'Could not save this demo address. Check browser storage.'; return; }
+    showDeliveryAddress();
+    document.dispatchEvent(new CustomEvent('demo-address-change', { detail: address }));
+    addressDialog.close();
+  });
   const categoryStrip = document.createElement('nav'); categoryStrip.className = 'header-category-strip'; categoryStrip.setAttribute('aria-label', 'Quick categories');
   categoryStrip.innerHTML = `<a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=fashion"${categoryActive('fashion')}>Fashion</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a>`;
   inner.append(categoryStrip);
@@ -510,24 +552,31 @@ function renderCheckout() {
   const form = document.getElementById('checkout-form');
   const delivery = form.elements.delivery;
   const promo = document.getElementById('promo-code');
+  const selectedAddress = getDeliveryAddress();
+  if (selectedAddress) { form.elements.city.value = selectedAddress.city; form.elements.street.value = selectedAddress.street; }
   const items = document.getElementById('checkout-items');
   items.replaceChildren(...Object.entries(bag).map(([id, qty]) => { const row = document.createElement('div'); row.className = 'checkout-line'; row.innerHTML = `<span>${productById[id].name} × ${qty}</span><strong>${money(productById[id].price * qty)}</strong>`; return row; }));
   function update() {
     const t = totals(bag, delivery.value, promo.value);
+    const streetField = form.elements.street;
+    streetField.required = delivery.value === 'standard';
+    streetField.disabled = delivery.value === 'pickup';
+    document.getElementById('checkout-address-summary').textContent = delivery.value === 'pickup' ? 'Demo pickup · no delivery address' : `Deliver to ${streetField.value.trim() || 'your demo address'}, ${form.elements.city.value.trim() || 'your city'}`;
     document.getElementById('checkout-subtotal').textContent = money(t.subtotal);
     document.getElementById('checkout-discount').textContent = t.discount ? `−${money(t.discount)}` : money(0);
     document.getElementById('checkout-shipping').textContent = money(t.shipping);
     document.getElementById('checkout-total').textContent = money(t.total);
   }
-  form.addEventListener('change', update); promo.addEventListener('input', update); update();
+  form.addEventListener('change', update); form.elements.city.addEventListener('input', update); form.elements.street.addEventListener('input', update); promo.addEventListener('input', update); document.addEventListener('demo-address-change', event => { form.elements.city.value = event.detail.city; form.elements.street.value = event.detail.street; update(); }); update();
   form.addEventListener('submit', event => {
     event.preventDefault();
     if (!form.reportValidity()) return;
-    const customer = form.elements.customer.value.trim(); const city = form.elements.city.value.trim();
-    if (!customer || !city) return;
+    const customer = form.elements.customer.value.trim(); const city = form.elements.city.value.trim(); const street = delivery.value === 'standard' ? form.elements.street.value.trim() : '';
+    if (!customer || !city || (delivery.value === 'standard' && !street)) return;
     const t = totals(bag, delivery.value, promo.value);
-    const order = { id: `IS-DEMO-${Date.now().toString(36).toUpperCase()}`, date: new Date().toISOString(), status: 'Demo placed', sample: false, customer: customer.slice(0, 60), city: city.slice(0, 60), delivery: delivery.value, items: Object.entries(bag).map(([id, qty]) => ({ id, qty, price: productById[id].price })), ...t };
+    const order = { id: `IS-DEMO-${Date.now().toString(36).toUpperCase()}`, date: new Date().toISOString(), status: 'Demo placed', sample: false, customer: customer.slice(0, 60), city: city.slice(0, 60), street: street.slice(0, 100), delivery: delivery.value, items: Object.entries(bag).map(([id, qty]) => ({ id, qty, price: productById[id].price })), ...t };
     if (!write(ordersKey, [order, ...getOrders()])) { document.getElementById('checkout-error').textContent = 'This browser could not save the demo order. Check that site storage is enabled.'; return; }
+    if (delivery.value === 'standard') write(deliveryAddressKey, { city: order.city, street: order.street });
     saveBag({}); location.href = `orders.html?order=${encodeURIComponent(order.id)}`;
   });
 }
@@ -540,7 +589,7 @@ function renderOrders() {
       const row = document.createElement('article'); row.className = `order-card${order.id === selectedId ? ' is-highlighted' : ''}`;
       const date = new Date(order.date); const dateText = Number.isNaN(date.getTime()) ? '' : new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(date);
       const names = order.items.filter(item => item && productById[item.id]).map(item => `${productById[item.id].name} × ${item.qty}`).join(', ');
-      row.innerHTML = `<div class="order-card__head"><div><span class="store-eyebrow">${order.sample ? 'Sample data' : 'Your browser demo'}</span><h2>${escapeHTML(order.id)}</h2></div><span class="order-status">${escapeHTML(order.status)}</span></div><p>${escapeHTML(dateText)} · ${escapeHTML(order.customer || '')} · ${escapeHTML(order.city || '')}</p><p>${escapeHTML(names)}</p><div class="order-card__foot"><span>${order.delivery === 'pickup' ? 'Demo pickup' : 'Demo delivery'}</span><strong>${money(Number(order.total) || 0)}</strong></div>`;
+      row.innerHTML = `<div class="order-card__head"><div><span class="store-eyebrow">${order.sample ? 'Sample data' : 'Your browser demo'}</span><h2>${escapeHTML(order.id)}</h2></div><span class="order-status">${escapeHTML(order.status)}</span></div><p>${escapeHTML(dateText)} · ${escapeHTML(order.customer || '')} · ${escapeHTML(order.city || '')}</p>${order.street ? `<p>Delivery address: ${escapeHTML(order.street)}</p>` : ''}<p>${escapeHTML(names)}</p><div class="order-card__foot"><span>${order.delivery === 'pickup' ? 'Demo pickup' : 'Demo delivery'}</span><strong>${money(Number(order.total) || 0)}</strong></div>`;
       return row;
     }));
     document.getElementById('orders-empty').hidden = shown.length !== 0;
