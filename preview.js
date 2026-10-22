@@ -588,7 +588,7 @@ function renderOrders() {
   const dateLabel = date => Number.isNaN(date.getTime()) ? 'Date unavailable' : new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
   const addDays = (date, days) => new Date(date.getTime() + days * 86400000);
   const dateRange = (start, end) => start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()
-    ? `${new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(start)}–${new Intl.DateTimeFormat('en', { day: 'numeric', year: 'numeric' }).format(end)}`
+    ? `${new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(start)}–${end.getDate()}, ${end.getFullYear()}`
     : `${dateLabel(start)}–${dateLabel(end)}`;
   function orderState(order) {
     const status = String(order.status || '').toLowerCase();
