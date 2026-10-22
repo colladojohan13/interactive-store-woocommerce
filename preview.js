@@ -63,21 +63,38 @@ function setupHeader() {
   const currentCategory = page === 'shop' ? new URLSearchParams(location.search).get('category') : null;
   const active = (name) => page === name ? ' aria-current="page"' : '';
   const categoryActive = (name) => currentCategory === name ? ' aria-current="page"' : '';
-  nav.innerHTML = `<a href="index.html"${active('home')}>Home</a><a href="shop.html"${(page === 'shop' && !currentCategory) || page === 'product' ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a><a href="shop.html?category=fashion"${categoryActive('fashion')}>Fashion</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
+  nav.innerHTML = `<strong class="preview-nav__title">Browse Interactive Store</strong><a href="index.html"${active('home')}>Home</a><a href="shop.html"${(page === 'shop' && !currentCategory) || page === 'product' ? ' aria-current="page"' : ''}>Shop</a><a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a><a href="shop.html?category=fashion"${categoryActive('fashion')}>Fashion</a><a href="wishlist.html"${active('wishlist')}>Wishlist <span class="wish-count">0</span></a><a class="nav-mobile-orders" href="orders.html"${active('orders')}>My demo orders</a>`;
   nav.id = 'preview-main-nav';
   oldBag?.remove();
+  const icons = {
+    search: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>',
+    camera: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l1.5-2h7L17 7h4v12H3z"></path><circle cx="12" cy="13" r="3.5"></circle><path d="m19 2 1 2 2 1-2 1-1 2-1-2-2-1 2-1z"></path></svg>',
+    mic: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"></rect><path d="M6 11a6 6 0 0 0 12 0M12 17v4m-4 0h8"></path></svg>',
+    pin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-7.1 7-12a7 7 0 0 0-14 0c0 4.9 7 12 7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>',
+    bag: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 11.2h11.8L21 8H6"></path><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg>',
+    home: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10h-6v-6H9v6H3z"></path></svg>',
+    shop: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.5 12h-15zM5 9l2-6h10l2 6M9 13v4m6-4v4"></path></svg>',
+    heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.5c0 4.2-8.8 11-8.8 11s-8.8-6.8-8.8-11a5.2 5.2 0 0 1 8.8-3.7 5.2 5.2 0 0 1 8.8 3.7z"></path></svg>',
+    menu: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>'
+  };
   const actions = document.createElement('div'); actions.className = 'preview-header__actions';
-  actions.innerHTML = `<button id="header-search-toggle" class="header-icon-button" type="button" aria-label="Search products" aria-expanded="false" aria-controls="header-search-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button><a class="header-account" href="orders.html"${active('orders')}>My demo orders</a><a class="header-bag" href="bag.html" aria-label="Demo bag"${active('bag')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 11.2h11.8L21 8H6"></path><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg><span class="bag-count">0</span></a><button id="header-menu-toggle" class="header-icon-button header-menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="preview-main-nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>`;
+  actions.innerHTML = `<a class="header-account" href="orders.html"${active('orders')}>Demo orders</a><a class="header-bag" href="bag.html" aria-label="Demo bag"${active('bag')}>${icons.bag}<span class="bag-count">0</span></a>`;
   inner.append(actions);
-  const panel = document.createElement('div'); panel.id = 'header-search-panel'; panel.className = 'header-search-panel'; panel.hidden = true;
-  panel.innerHTML = `<form id="header-search-form" role="search"><label for="header-search-input">Search the concept collection</label><div class="header-search-panel__field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><input id="header-search-input" type="search" placeholder="Try laptop, camera, accessories…" autocomplete="off" maxlength="80"><button type="submit">Search</button></div></form><div id="header-search-results" class="header-search-results" aria-live="polite"></div><a id="header-search-all" class="header-search-all" href="shop.html">View all products ↗</a>`;
-  inner.append(panel);
-  const searchToggle = document.getElementById('header-search-toggle');
+  const searchShell = document.createElement('div'); searchShell.className = 'header-search-shell';
+  searchShell.innerHTML = `<div class="header-search-line"><form id="header-search-form" class="header-search-form" role="search"><button class="header-search-submit" type="submit" aria-label="Search products">${icons.search}</button><label class="header-visually-hidden" for="header-search-input">Search products and categories</label><input id="header-search-input" type="search" placeholder="Search products and categories" autocomplete="off" maxlength="80"><span class="header-search-tools"><button type="button" disabled title="Image search coming soon" aria-label="Image search, coming soon">${icons.camera}</button><button type="button" disabled title="Voice search coming soon" aria-label="Voice search, coming soon">${icons.mic}</button></span></form><button class="header-location" type="button" disabled title="Location search coming soon" aria-label="Location search, coming soon">${icons.pin}</button></div><div id="header-search-panel" class="header-search-panel" hidden><p>Popular in the store</p><div id="header-search-results" class="header-search-results" aria-live="polite"></div><a id="header-search-all" class="header-search-all" href="shop.html">View all products ↗</a></div>`;
+  inner.append(searchShell);
+  const categoryStrip = document.createElement('nav'); categoryStrip.className = 'header-category-strip'; categoryStrip.setAttribute('aria-label', 'Quick categories');
+  categoryStrip.innerHTML = `<a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=fashion"${categoryActive('fashion')}>Fashion</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a>`;
+  inner.append(categoryStrip);
+  const bottomNav = document.createElement('nav'); bottomNav.className = 'mobile-bottom-nav'; bottomNav.setAttribute('aria-label', 'Mobile navigation');
+  bottomNav.innerHTML = `<a href="index.html"${active('home')}>${icons.home}<span>Home</span></a><a href="shop.html"${page === 'shop' || page === 'product' ? ' aria-current="page"' : ''}>${icons.shop}<span>Shop</span></a><a href="wishlist.html"${active('wishlist')}>${icons.heart}<span>Saved</span><b class="wish-count">0</b></a><a href="bag.html"${page === 'bag' || page === 'checkout' ? ' aria-current="page"' : ''}>${icons.bag}<span>Bag</span><b class="bag-count">0</b></a><button id="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="preview-main-nav">${icons.menu}<span>Menu</span></button>`;
+  header.append(bottomNav);
+  const panel = document.getElementById('header-search-panel');
   const menuToggle = document.getElementById('header-menu-toggle');
   const searchInput = document.getElementById('header-search-input');
   const results = document.getElementById('header-search-results');
   const allLink = document.getElementById('header-search-all');
-  function closeSearch(returnFocus = false) { panel.hidden = true; searchToggle.setAttribute('aria-expanded', 'false'); if (returnFocus) searchToggle.focus(); }
+  function closeSearch() { panel.hidden = true; }
   function closeMenu(returnFocus = false) { nav.classList.remove('is-open'); menuToggle.setAttribute('aria-expanded', 'false'); menuToggle.setAttribute('aria-label', 'Open menu'); if (returnFocus) menuToggle.focus(); }
   function drawSuggestions() {
     const term = searchInput.value.trim().toLowerCase();
@@ -92,23 +109,20 @@ function setupHeader() {
     allLink.href = term ? `shop.html?q=${encodeURIComponent(searchInput.value.trim())}` : 'shop.html';
     allLink.textContent = term ? `View all results for “${searchInput.value.trim()}” ↗` : 'View all products ↗';
   }
-  searchToggle.addEventListener('click', () => {
-    const opening = panel.hidden; closeMenu(); panel.hidden = !opening; searchToggle.setAttribute('aria-expanded', String(opening));
-    if (opening) { drawSuggestions(); searchInput.focus(); }
-  });
+  searchInput.addEventListener('focus', () => { closeMenu(); drawSuggestions(); panel.hidden = false; });
   menuToggle.addEventListener('click', () => {
     const opening = !nav.classList.contains('is-open'); closeSearch(); nav.classList.toggle('is-open', opening);
     menuToggle.setAttribute('aria-expanded', String(opening)); menuToggle.setAttribute('aria-label', opening ? 'Close menu' : 'Open menu');
   });
-  searchInput.addEventListener('input', drawSuggestions);
+  searchInput.addEventListener('input', () => { drawSuggestions(); panel.hidden = false; });
   document.getElementById('header-search-form').addEventListener('submit', event => {
     event.preventDefault();
     location.href = searchInput.value.trim() ? `shop.html?q=${encodeURIComponent(searchInput.value.trim())}` : 'shop.html';
   });
   nav.addEventListener('click', () => closeMenu());
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') { if (!panel.hidden) closeSearch(true); else if (nav.classList.contains('is-open')) closeMenu(true); } });
-  document.addEventListener('click', event => { if (!header.contains(event.target)) { closeSearch(); closeMenu(); } });
-  matchMedia('(min-width: 1051px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') { if (!panel.hidden) closeSearch(); else if (nav.classList.contains('is-open')) closeMenu(true); } });
+  document.addEventListener('click', event => { if (!searchShell.contains(event.target)) closeSearch(); if (!header.contains(event.target)) closeMenu(); });
+  matchMedia('(min-width: 901px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 }
 function getBag() {
   const value = read(bagKey, {});
