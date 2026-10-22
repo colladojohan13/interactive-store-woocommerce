@@ -175,7 +175,7 @@ function animateProductToBag(product, trigger) {
     { transform: 'translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 0 },
     { transform: `translate(-50%, -50%) translate(${dx * .46}px, ${dy * .26 - 58}px) scale(.82) rotate(-7deg)`, opacity: 1, offset: .46 },
     { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(.16) rotate(8deg)`, opacity: .2, offset: 1 }
-  ], { duration: 760, easing: 'cubic-bezier(.22,.8,.25,1)', fill: 'forwards' });
+  ], { duration: 920, easing: 'ease-in-out', fill: 'forwards' });
   flight.finished.then(() => {
     target.animate([
       { transform: 'scale(1)' }, { transform: 'scale(1.24)', offset: .42 }, { transform: 'scale(1)' }
