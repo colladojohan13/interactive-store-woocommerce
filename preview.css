@@ -52,6 +52,7 @@ body { margin: 0; background: #fff; color: #111b35; font-family: Arial, Helvetic
 .header-account:hover, .header-account[aria-current] { background: #f2f5ff; }
 .header-bag { position: relative; text-decoration: none; }
 .header-bag .bag-count { position: absolute; top: -2px; right: -4px; min-width: 18px; height: 18px; font-size: 10px; }
+.bag-fly-item { position: fixed; z-index: 9999; display: block; width: 82px; height: 82px; padding: 5px; border: 2px solid #3150e9; border-radius: 15px; background: #fff; box-shadow: 0 13px 30px #172b5570; object-fit: contain; pointer-events: none; user-select: none; }
 .header-menu-button { display: none; }
 .header-search-panel { position: absolute; top: calc(100% - 1px); right: 0; width: min(530px, calc(100vw - 48px)); padding: 22px; border: 1px solid #e1e6f0; border-radius: 0 0 10px 10px; background: #fff; box-shadow: 0 20px 46px #111b3526; }
 .header-search-panel form > label { display: block; margin-bottom: 10px; color: #111b35; font-size: 13px; font-weight: 700; }

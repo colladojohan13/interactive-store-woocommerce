@@ -144,9 +144,54 @@ function updateCounters() {
   document.querySelectorAll('.wish-count').forEach(el => { const n = getWishlist().length; el.textContent = n; el.setAttribute('aria-label', `${n} saved products`); });
 }
 function saveBag(bag) { write(bagKey, bag); updateCounters(); }
-function addToBag(id, qty = 1) {
-  if (!productById[id]) return;
-  const bag = getBag(); bag[id] = Math.min(9, (bag[id] || 0) + qty); saveBag(bag);
+function animateProductToBag(product, trigger) {
+  if (!trigger || matchMedia('(prefers-reduced-motion: reduce)').matches || document.visibilityState !== 'visible') return;
+  const target = document.querySelector('.header-bag');
+  if (!target || !Element.prototype.animate) return;
+  const image = trigger.closest('.store-card')?.querySelector('.store-card__media img')
+    || trigger.closest('.quick-view')?.querySelector('#quick-view-image')
+    || trigger.closest('.home-discover')?.querySelector('#discover-image')
+    || trigger.closest('.home-carousel')?.querySelector('.home-carousel__slide[data-position="0"] .home-carousel__face--front img')
+    || trigger.closest('.fashion-rail')?.querySelector('.fashion-rail__item.is-active img')
+    || document.getElementById('product-image');
+  let sourceRect = image?.getBoundingClientRect();
+  if (!sourceRect || sourceRect.width < 10 || sourceRect.left + sourceRect.width / 2 < 0 || sourceRect.left + sourceRect.width / 2 > innerWidth || sourceRect.top + sourceRect.height / 2 < 0 || sourceRect.top + sourceRect.height / 2 > innerHeight) sourceRect = trigger.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const startX = sourceRect.left + sourceRect.width / 2;
+  const startY = sourceRect.top + sourceRect.height / 2;
+  const endX = targetRect.left + targetRect.width / 2;
+  const endY = targetRect.top + targetRect.height / 2;
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const flyer = document.createElement('img');
+  flyer.className = 'bag-fly-item';
+  flyer.src = image?.currentSrc || product.image;
+  flyer.alt = '';
+  flyer.setAttribute('aria-hidden', 'true');
+  flyer.style.left = `${startX}px`;
+  flyer.style.top = `${startY}px`;
+  document.body.append(flyer);
+  const flight = flyer.animate([
+    { transform: 'translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 0 },
+    { transform: `translate(-50%, -50%) translate(${dx * .46}px, ${dy * .26 - 58}px) scale(.82) rotate(-7deg)`, opacity: 1, offset: .46 },
+    { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(.16) rotate(8deg)`, opacity: .2, offset: 1 }
+  ], { duration: 760, easing: 'cubic-bezier(.22,.8,.25,1)', fill: 'forwards' });
+  flight.finished.then(() => {
+    target.animate([
+      { transform: 'scale(1)' }, { transform: 'scale(1.24)', offset: .42 }, { transform: 'scale(1)' }
+    ], { duration: 360, easing: 'ease-out' });
+    flyer.remove();
+  }).catch(() => flyer.remove());
+}
+function addToBag(id, qty = 1, trigger = null) {
+  if (!productById[id]) return false;
+  const bag = getBag();
+  const next = Math.min(9, (bag[id] || 0) + qty);
+  if (next === bag[id]) return false;
+  bag[id] = next;
+  saveBag(bag);
+  animateProductToBag(productById[id], trigger);
+  return true;
 }
 let noticeTimer;
 function showBagNotice(product) {
@@ -192,7 +237,7 @@ function openQuickView(product, trigger) {
   dialog.querySelector('#quick-view-price').innerHTML = priceMarkup(product);
   set('#quick-view-description', product.description);
   dialog.querySelector('#quick-view-details').href = `product.html?item=${encodeURIComponent(product.id)}`;
-  dialog.querySelector('#quick-view-add').onclick = () => { addToBag(product.id); dialog.close(); showBagNotice(product); };
+  dialog.querySelector('#quick-view-add').onclick = event => { const added = addToBag(product.id, 1, event.currentTarget); dialog.close(); if (added) showBagNotice(product); };
   const save = dialog.querySelector('#quick-view-save');
   const syncSave = () => { const saved = getWishlist().includes(product.id); save.textContent = saved ? '♥ Saved' : '♡ Save'; save.setAttribute('aria-pressed', String(saved)); };
   save.onclick = () => { toggleWishlist(product.id); syncSave(); }; syncSave();
@@ -205,7 +250,7 @@ function card(product) {
   const button = article.querySelector('.wish-button'); setWishState(button, getWishlist().includes(product.id));
   button.addEventListener('click', () => toggleWishlist(product.id));
   article.querySelector('.store-card__peek').addEventListener('click', event => openQuickView(product, event.currentTarget));
-  article.querySelector('.store-card__add').addEventListener('click', () => { addToBag(product.id); showBagNotice(product); });
+  article.querySelector('.store-card__add').addEventListener('click', event => { if (addToBag(product.id, 1, event.currentTarget)) showBagNotice(product); });
   return article;
 }
 function renderShop() {
@@ -410,11 +455,11 @@ function renderProduct() {
     load.addEventListener('click', loadViewer);
     demo3d.addEventListener('click', () => { loadViewer(); });
   }
-  document.getElementById('add-to-bag').addEventListener('click', () => {
+  document.getElementById('add-to-bag').addEventListener('click', event => {
     const quantity = Number(document.getElementById('product-quantity').value);
     const feedback = document.getElementById('product-feedback');
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 9) { feedback.textContent = 'Choose a quantity from 1 to 9.'; return; }
-    addToBag(product.id, quantity);
+    if (!addToBag(product.id, quantity, event.currentTarget)) { feedback.textContent = 'The demo bag allows up to 9 of this product.'; return; }
     feedback.replaceChildren(document.createTextNode(`${product.name} added to your demo bag. `));
     const link = document.createElement('a'); link.href = 'bag.html'; link.textContent = 'View bag ↗'; feedback.append(link);
   });
@@ -527,7 +572,7 @@ function renderFashionRail() {
     const next = (clothing.indexOf(selected) + (event.key === 'ArrowRight' ? 1 : -1) + clothing.length) % clothing.length;
     items[next].focus();
   });
-  document.getElementById('fashion-add').addEventListener('click', () => { addToBag(selected.id); showBagNotice(selected); });
+  document.getElementById('fashion-add').addEventListener('click', event => { if (addToBag(selected.id, 1, event.currentTarget)) showBagNotice(selected); });
   save.addEventListener('click', () => toggleWishlist(selected.id));
   select(selected);
 }
@@ -573,7 +618,7 @@ function setupDiscover() {
       select(next.dataset.discover);
     });
   });
-  add.addEventListener('click', () => { addToBag(active.id); showBagNotice(active); });
+  add.addEventListener('click', event => { if (addToBag(active.id, 1, event.currentTarget)) showBagNotice(active); });
 }
 function renderHome() {
   const arrivals = document.getElementById('home-new-grid');
@@ -631,7 +676,7 @@ function renderHome() {
   }
   document.getElementById('carousel-prev').addEventListener('click', () => select(active - 1));
   document.getElementById('carousel-next').addEventListener('click', () => select(active + 1));
-  document.getElementById('carousel-add').addEventListener('click', () => { const product = products[active]; addToBag(product.id); showBagNotice(product); });
+  document.getElementById('carousel-add').addEventListener('click', event => { const product = products[active]; if (addToBag(product.id, 1, event.currentTarget)) showBagNotice(product); });
   save.addEventListener('click', () => toggleWishlist(products[active].id));
   carousel.addEventListener('keydown', event => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
