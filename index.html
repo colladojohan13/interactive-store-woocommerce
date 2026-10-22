@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="theme/interactive-store-child/assets/css/home.css?v=20261021a">
   <link rel="stylesheet" href="preview.css?v=20261019b">
   <link rel="stylesheet" href="preview-pages.css?v=20261020c">
-  <link rel="stylesheet" href="preview-home.css?v=20261021a">
-  <script src="preview.js?v=20261021a" defer></script>
+  <link rel="stylesheet" href="preview-home.css?v=20261021b">
+  <script src="preview.js?v=20261021b" defer></script>
 </head>
 <body data-page="home">
   <a class="preview-skip" href="#main">Skip to content</a>
@@ -50,10 +50,10 @@
     </section>
 
     <section class="home-benefits is-home-container" aria-label="What you can explore">
-      <div><span class="home-benefits__icon" aria-hidden="true">⌕</span><span><strong>Explore every detail</strong><small>Product stories, galleries and reviews</small></span></div>
-      <div><span class="home-benefits__icon" aria-hidden="true">♡</span><span><strong>Save your favorites</strong><small>Your wishlist stays in this browser</small></span></div>
-      <div><span class="home-benefits__icon" aria-hidden="true">▣</span><span><strong>Try the checkout</strong><small>Fictional orders, never a payment</small></span></div>
-      <div><span class="home-benefits__icon" aria-hidden="true">◇</span><span><strong>See the 3D preview</strong><small>Explore a separate demo model</small></span></div>
+      <a href="#products"><span class="home-benefits__icon" aria-hidden="true">⌕</span><span><strong>Explore every detail</strong><small>Product stories, galleries and reviews</small></span></a>
+      <a href="wishlist.html"><span class="home-benefits__icon" aria-hidden="true">♡</span><span><strong>Save your favorites</strong><small>Your wishlist stays in this browser</small></span></a>
+      <a href="shop.html"><span class="home-benefits__icon" aria-hidden="true">▣</span><span><strong>Try the checkout</strong><small>Fictional orders, never a payment</small></span></a>
+      <a href="#experience"><span class="home-benefits__icon" aria-hidden="true">◇</span><span><strong>See the 3D preview</strong><small>Explore a separate demo model</small></span></a>
     </section>
 
     <section id="categories" class="is-home-section is-home-categories" aria-labelledby="is-home-categories-title">
@@ -98,6 +98,28 @@
       <a class="home-promo-card home-promo-card--desk" href="shop.html?category=computers"><span class="home-promo-card__copy"><small>Computers · Concepts</small><strong>Make space<br>for big ideas.</strong><span>Explore computers ↗</span></span><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop concept on a bright desk" loading="lazy"></a>
       <a class="home-promo-card home-promo-card--sound" href="shop.html?category=electronics"><span class="home-promo-card__copy"><small>Electronics · Concepts</small><strong>Find your<br>everyday rhythm.</strong><span>Explore electronics ↗</span></span><img src="assets/pulse-headphones-concept.png" width="1024" height="1024" alt="Black Pulse headphone concept" loading="lazy"></a>
     </div></section>
+
+    <section id="discover" class="home-discover is-home-section" aria-labelledby="discover-title">
+      <div class="is-home-container home-discover__shell">
+        <div class="home-discover__copy">
+          <p class="is-home-eyebrow">Explore your way</p>
+          <h2 id="discover-title">Find what fits your day.</h2>
+          <p class="home-discover__intro">Choose a moment to see a product, then open its details or add it to your demo bag.</p>
+          <div class="home-discover__choices" role="group" aria-label="Choose a moment">
+            <button type="button" class="home-discover__choice is-active" data-discover="arc-14" aria-pressed="true"><span>01</span><strong>Create</strong><small>A clearer workspace</small></button>
+            <button type="button" class="home-discover__choice" data-discover="pulse" aria-pressed="false"><span>02</span><strong>Listen</strong><small>Make room for sound</small></button>
+            <button type="button" class="home-discover__choice" data-discover="drift-hoodie" aria-pressed="false"><span>03</span><strong>Move</strong><small>Comfort, your way</small></button>
+          </div>
+        </div>
+        <div class="home-discover__stage" id="discover-stage">
+          <div class="home-discover__image-wrap"><img id="discover-image" src="assets/arc-14-laptop-concept.jpg" width="1024" height="1024" alt="Arc 14 laptop concept" loading="lazy"></div>
+          <div class="home-discover__product" aria-live="polite">
+            <div><span id="discover-category">Computers · Concept</span><h3 id="discover-name">Arc 14</h3><p id="discover-description">A refined graphite laptop concept for focused work and everyday creativity.</p></div>
+            <div class="home-discover__product-bottom"><strong id="discover-price">RD$64,900</strong><div><a id="discover-link" href="product.html?item=arc-14">View details <span aria-hidden="true">↗</span></a><button id="discover-add" type="button">Add to cart</button></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="products" class="is-home-section is-home-products" aria-labelledby="is-home-products-title">
       <div class="is-home-container">

@@ -531,6 +531,50 @@ function renderFashionRail() {
   save.addEventListener('click', () => toggleWishlist(selected.id));
   select(selected);
 }
+function setupDiscover() {
+  const stage = document.getElementById('discover-stage');
+  if (!stage) return;
+  const choices = [...document.querySelectorAll('[data-discover]')];
+  const image = document.getElementById('discover-image');
+  const add = document.getElementById('discover-add');
+  let active = productById['arc-14'];
+  let animationTimer;
+  function select(id) {
+    const product = productById[id];
+    if (!product || product.id === active.id) return;
+    active = product;
+    choices.forEach(button => {
+      const selected = button.dataset.discover === id;
+      button.classList.toggle('is-active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    image.src = product.image;
+    image.alt = `${product.name} ${product.kind}`;
+    document.getElementById('discover-category').textContent = `${product.categoryName} · Concept`;
+    document.getElementById('discover-name').textContent = product.name;
+    document.getElementById('discover-description').textContent = product.description;
+    document.getElementById('discover-price').textContent = money(product.price);
+    document.getElementById('discover-link').href = `product.html?item=${encodeURIComponent(product.id)}`;
+    if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      stage.classList.remove('is-changing');
+      void stage.offsetWidth;
+      stage.classList.add('is-changing');
+      clearTimeout(animationTimer);
+      animationTimer = setTimeout(() => stage.classList.remove('is-changing'), 450);
+    }
+  }
+  choices.forEach((button, index) => {
+    button.addEventListener('click', () => select(button.dataset.discover));
+    button.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const next = choices[(index + (event.key === 'ArrowRight' ? 1 : -1) + choices.length) % choices.length];
+      next.focus();
+      select(next.dataset.discover);
+    });
+  });
+  add.addEventListener('click', () => { addToBag(active.id); showBagNotice(active); });
+}
 function renderHome() {
   const arrivals = document.getElementById('home-new-grid');
   if (arrivals) arrivals.replaceChildren(...products.slice(4, 8).map(card));
@@ -612,7 +656,7 @@ function renderHome() {
 setupHeader();
 updateCounters();
 const page = document.body.dataset.page;
-if (page === 'home') { renderHome(); renderFashionRail(); }
+if (page === 'home') { renderHome(); renderFashionRail(); setupDiscover(); }
 if (page === 'shop') renderShop();
 if (page === 'product') renderProduct();
 if (page === 'bag') renderBag();
