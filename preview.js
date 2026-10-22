@@ -587,6 +587,9 @@ function renderOrders() {
   let openId = new URLSearchParams(location.search).get('order');
   const dateLabel = date => Number.isNaN(date.getTime()) ? 'Date unavailable' : new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
   const addDays = (date, days) => new Date(date.getTime() + days * 86400000);
+  const dateRange = (start, end) => start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()
+    ? `${new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(start)}–${new Intl.DateTimeFormat('en', { day: 'numeric', year: 'numeric' }).format(end)}`
+    : `${dateLabel(start)}–${dateLabel(end)}`;
   function orderState(order) {
     const status = String(order.status || '').toLowerCase();
     if (status.includes('cancel')) return { key: 'canceled', label: 'Canceled', step: 0, message: 'This demo order was canceled. No delivery is expected.' };
@@ -606,7 +609,7 @@ function renderOrders() {
       const placed = new Date(order.date);
       const estimateBase = new Date(Math.max(Number.isNaN(placed.getTime()) ? 0 : placed.getTime(), Date.now()));
       const pickup = order.delivery === 'pickup';
-      const estimate = state.key === 'canceled' ? 'No delivery expected' : state.key === 'delivered' ? `Delivered ${dateLabel(addDays(placed, pickup ? 1 : 3))}` : `${pickup ? 'Ready' : 'Estimated delivery'} ${dateLabel(addDays(estimateBase, pickup ? 1 : 3))}–${dateLabel(addDays(estimateBase, pickup ? 2 : 6))}`;
+      const estimate = state.key === 'canceled' ? 'No delivery expected' : state.key === 'delivered' ? `Delivered ${dateLabel(addDays(placed, pickup ? 1 : 3))}` : `${pickup ? 'Ready' : 'Estimated delivery'} ${dateRange(addDays(estimateBase, pickup ? 1 : 3), addDays(estimateBase, pickup ? 2 : 6))}`;
       const validItems = order.items.filter(item => item && productById[item.id] && Number.isInteger(item.qty) && item.qty > 0);
       const itemCount = validItems.reduce((sum, item) => sum + item.qty, 0);
       const timeline = state.key === 'canceled' ? ['Order placed', 'Canceled'] : ['Order placed', 'Processing', 'Out for delivery', pickup ? 'Ready for pickup' : 'Delivered'];
