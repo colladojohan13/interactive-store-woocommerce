@@ -582,19 +582,54 @@ function renderCheckout() {
 }
 function renderOrders() {
   const all = getOrders(); const list = document.getElementById('orders-list'); const filter = document.getElementById('orders-filter');
-  const selectedId = new URLSearchParams(location.search).get('order');
+  const tabs = [...document.querySelectorAll('.orders-status-tabs button')];
+  let statusFilter = 'all';
+  let openId = new URLSearchParams(location.search).get('order');
+  const dateLabel = date => Number.isNaN(date.getTime()) ? 'Date unavailable' : new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
+  const addDays = (date, days) => new Date(date.getTime() + days * 86400000);
+  function orderState(order) {
+    const status = String(order.status || '').toLowerCase();
+    if (status.includes('cancel')) return { key: 'canceled', label: 'Canceled', step: 0, message: 'This demo order was canceled. No delivery is expected.' };
+    if (status.includes('deliver') || status.includes('complet')) return { key: 'delivered', label: 'Delivered', step: 3, message: 'This demo order reached its final delivery step.' };
+    if (status.includes('out for delivery')) return { key: 'transit', label: 'Out for delivery', step: 2, message: 'The demo order is on its way.' };
+    if (status.includes('process')) return { key: 'processing', label: 'Processing', step: 1, message: 'The demo order is being prepared.' };
+    return { key: 'placed', label: 'Order placed', step: 0, message: 'Your demo order has been recorded in this browser.' };
+  }
   function draw() {
-    const shown = all.filter(order => filter.value === 'all' || (filter.value === 'sample' ? order.sample : !order.sample));
-    list.replaceChildren(...shown.map(order => {
-      const row = document.createElement('article'); row.className = `order-card${order.id === selectedId ? ' is-highlighted' : ''}`;
-      const date = new Date(order.date); const dateText = Number.isNaN(date.getTime()) ? '' : new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(date);
-      const names = order.items.filter(item => item && productById[item.id]).map(item => `${productById[item.id].name} × ${item.qty}`).join(', ');
-      row.innerHTML = `<div class="order-card__head"><div><span class="store-eyebrow">${order.sample ? 'Sample data' : 'Your browser demo'}</span><h2>${escapeHTML(order.id)}</h2></div><span class="order-status">${escapeHTML(order.status)}</span></div><p>${escapeHTML(dateText)} · ${escapeHTML(order.customer || '')} · ${escapeHTML(order.city || '')}</p>${order.street ? `<p>Delivery address: ${escapeHTML(order.street)}</p>` : ''}<p>${escapeHTML(names)}</p><div class="order-card__foot"><span>${order.delivery === 'pickup' ? 'Demo pickup' : 'Demo delivery'}</span><strong>${money(Number(order.total) || 0)}</strong></div>`;
+    const shown = all.filter(order => {
+      const sourceMatches = filter.value === 'all' || (filter.value === 'sample' ? order.sample : !order.sample);
+      const state = orderState(order).key;
+      return sourceMatches && (statusFilter === 'all' || (statusFilter === 'active' ? !['delivered', 'canceled'].includes(state) : statusFilter === state));
+    });
+    list.replaceChildren(...shown.map((order, index) => {
+      const state = orderState(order);
+      const placed = new Date(order.date);
+      const pickup = order.delivery === 'pickup';
+      const estimate = state.key === 'canceled' ? 'No delivery expected' : state.key === 'delivered' ? `Delivered ${dateLabel(addDays(placed, pickup ? 1 : 3))}` : `${pickup ? 'Ready' : 'Estimated delivery'} ${dateLabel(addDays(placed, pickup ? 1 : 3))}–${dateLabel(addDays(placed, pickup ? 2 : 6))}`;
+      const validItems = order.items.filter(item => item && productById[item.id] && Number.isInteger(item.qty) && item.qty > 0);
+      const itemCount = validItems.reduce((sum, item) => sum + item.qty, 0);
+      const timeline = state.key === 'canceled' ? ['Order placed', 'Canceled'] : ['Order placed', 'Processing', 'Out for delivery', pickup ? 'Ready for pickup' : 'Delivered'];
+      const steps = timeline.map((label, step) => `<li class="${state.key === 'canceled' ? step === 1 ? 'is-canceled' : 'is-complete' : step < state.step ? 'is-complete' : step === state.step ? 'is-current' : ''}"><span class="order-timeline__dot"></span><span>${label}</span></li>`).join('');
+      const productsMarkup = validItems.map(item => `<li><img src="${productById[item.id].image}" width="56" height="56" alt=""><span><strong>${escapeHTML(productById[item.id].name)}</strong><small>Qty ${item.qty} · ${escapeHTML(productById[item.id].kind)}</small></span><b>${money((Number(item.price) || productById[item.id].price) * item.qty)}</b></li>`).join('');
+      const row = document.createElement('article'); row.className = `order-card${order.id === openId ? ' is-highlighted' : ''}`;
+      const detailId = `order-detail-${index}`;
+      row.innerHTML = `<button class="order-card__open" type="button" aria-expanded="${order.id === openId}" aria-controls="${detailId}"><span class="order-card__head"><span><span class="store-eyebrow">${order.sample ? 'SAMPLE ORDER' : 'YOUR BROWSER DEMO'}</span><strong class="order-card__id">${escapeHTML(order.id)}</strong></span><span class="order-status order-status--${state.key}">${state.label}</span></span><span class="order-card__meta">Placed ${dateLabel(placed)} · ${itemCount} ${itemCount === 1 ? 'item' : 'items'}</span><span class="order-card__preview"><span><small>${pickup ? 'PICKUP WINDOW' : 'DELIVERY WINDOW'}</small><strong>${estimate}</strong></span><b>${money(Number(order.total) || 0)}</b></span><span class="order-card__progress" style="--order-progress:${state.key === 'canceled' ? 16 : [16, 43, 72, 100][state.step]}%"><span></span></span><span class="order-card__more">${order.id === openId ? 'Hide order details' : 'View order details'} <span aria-hidden="true">↗</span></span></button><div class="order-card__details" id="${detailId}" ${order.id === openId ? '' : 'hidden'}><div class="order-detail__intro"><div><p class="store-eyebrow">ORDER PROGRESS</p><h3>${state.label}</h3><p>${state.message}</p></div><span class="order-detail__estimate">${estimate}</span></div><ol class="order-timeline${state.key === 'canceled' ? ' order-timeline--canceled' : ''}">${steps}</ol><div class="order-detail__grid"><section><h4>Items in this order</h4><ul class="order-detail__items">${productsMarkup}</ul></section><section><h4>Delivery details</h4><p>${pickup ? 'Demo pickup' : 'Standard demo delivery'}</p><p>${escapeHTML(order.street || (pickup ? 'No delivery address needed' : 'Sample address not provided'))}</p><p>${escapeHTML(order.city || '')}</p><h4>Payment & total</h4><p>No payment was processed.</p><strong>${money(Number(order.total) || 0)}</strong></section></div><p class="order-detail__note">Illustrative progress and dates only. This preview has no carrier tracking or real shipment.</p></div>`;
+      const toggle = row.querySelector('.order-card__open');
+      toggle.addEventListener('click', () => {
+        const opening = row.querySelector('.order-card__details').hidden;
+        openId = opening ? order.id : null;
+        const url = new URL(location.href);
+        if (openId) url.searchParams.set('order', openId); else url.searchParams.delete('order');
+        history.replaceState(null, '', url);
+        draw();
+        list.children[index]?.querySelector('.order-card__open')?.focus();
+      });
       return row;
     }));
     document.getElementById('orders-empty').hidden = shown.length !== 0;
     document.getElementById('orders-count').textContent = `${shown.length} ${shown.length === 1 ? 'order' : 'orders'}`;
   }
+  tabs.forEach(tab => tab.addEventListener('click', () => { statusFilter = tab.dataset.status; tabs.forEach(item => item.setAttribute('aria-pressed', String(item === tab))); draw(); }));
   filter.addEventListener('change', draw); draw();
 }
 function renderFashionRail() {
