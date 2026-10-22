@@ -78,7 +78,7 @@
 .home-discover__stage { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-width: 0; padding: 25px; background: #e9eef8; }
 .home-discover__image-wrap { position: relative; display: grid; min-height: 305px; place-items: center; overflow: hidden; border-radius: 13px 13px 0 0; background: radial-gradient(circle at 50% 38%, #fff 0, #f8faff 40%, #e6ecf7 100%); }
 .home-discover__image-wrap::after { position: absolute; right: 22px; bottom: 14px; color: #8490a6; content: 'INTERACTIVE STORE / CONCEPT'; font-size: 9px; font-weight: 750; letter-spacing: .13em; pointer-events: none; }
-.home-discover__image-wrap img { display: block; width: min(78%, 380px); height: min(33vw, 335px); min-height: 270px; object-fit: contain; mix-blend-mode: multiply; }
+.home-discover__image-wrap img { display: block; width: min(78%, 380px); height: min(33vw, 335px); min-height: 270px; object-fit: contain; mix-blend-mode: multiply; -webkit-mask-image: radial-gradient(ellipse at center, #000 63%, transparent 96%); mask-image: radial-gradient(ellipse at center, #000 63%, transparent 96%); }
 .home-discover__product { display: flex; flex-direction: column; gap: 16px; min-height: 164px; padding: 20px 23px 22px; border-radius: 0 0 13px 13px; background: #fff; }
 .home-discover__product span#discover-category { color: #596c95; font-size: 10px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
 .home-discover__product h3 { margin: 5px 0 3px; color: #101b35; font-size: 26px; letter-spacing: -.04em; line-height: 1.1; }
@@ -145,6 +145,7 @@
   .home-discover__copy h2 { max-width: 450px; font-size: clamp(40px, 8vw, 52px); }
   .home-discover__choices { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-top: 0; padding-top: 24px; }
   .home-discover__choice { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 75px; padding: 10px 12px; }
+  .home-discover__choice strong, .home-discover__choice small { align-self: auto; }
   .home-discover__choice small { font-size: 10px; }
   .home-discover__stage { padding: 14px; }
   .home-discover__image-wrap { min-height: 280px; }
