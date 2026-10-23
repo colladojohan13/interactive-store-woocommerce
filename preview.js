@@ -125,9 +125,15 @@ function setupHeader() {
     document.dispatchEvent(new CustomEvent('demo-address-change', { detail: address }));
     addressDialog.close();
   });
-  const categoryStrip = document.createElement('nav'); categoryStrip.className = 'header-category-strip'; categoryStrip.setAttribute('aria-label', 'Quick categories');
-  categoryStrip.innerHTML = `<a href="shop.html?category=computers"${categoryActive('computers')}>Computers</a><a href="shop.html?category=electronics"${categoryActive('electronics')}>Electronics</a><a href="shop.html?category=fashion"${categoryActive('fashion')}>Fashion</a><a href="shop.html?category=accessories"${categoryActive('accessories')}>Accessories</a><a href="shop.html?category=home-tech"${categoryActive('home-tech')}>Home Tech</a>`;
+  const categoryStrip = document.createElement('nav'); categoryStrip.className = 'header-category-strip'; categoryStrip.setAttribute('aria-label', 'Store navigation');
+  categoryStrip.innerHTML = [...nav.querySelectorAll('a:not(.nav-mobile-orders)')].map(link => link.outerHTML).join('');
   inner.append(categoryStrip);
+  requestAnimationFrame(() => {
+    const selected = categoryStrip.querySelector('[aria-current]');
+    if (selected && matchMedia('(max-width: 900px)').matches) {
+      categoryStrip.scrollLeft = Math.max(0, selected.offsetLeft - categoryStrip.offsetLeft - 12);
+    }
+  });
   const bottomNav = document.createElement('nav'); bottomNav.className = 'mobile-bottom-nav'; bottomNav.setAttribute('aria-label', 'Mobile navigation');
   bottomNav.innerHTML = `<a href="index.html"${active('home')}>${icons.home}<span>Home</span></a><a href="shop.html"${page === 'shop' || page === 'product' ? ' aria-current="page"' : ''}>${icons.shop}<span>Shop</span></a><a href="wishlist.html"${active('wishlist')}>${icons.heart}<span>Saved</span><b class="wish-count">0</b></a><a href="bag.html"${page === 'bag' || page === 'checkout' ? ' aria-current="page"' : ''}>${icons.bag}<span>Bag</span><b class="bag-count">0</b></a><button id="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="preview-main-nav">${icons.menu}<span>Menu</span></button>`;
   header.append(bottomNav);

@@ -160,10 +160,12 @@ html { scroll-padding-top: 145px; }
   .header-search-shell { margin-bottom: 0; }
   .header-location { width: 48px; min-width: 48px; padding: 0; border-radius: 50%; }
   .header-location-text { display: none; }
-  .header-category-strip { grid-area: categories; display: flex; align-items: center; gap: 8px; margin-inline: -15px; padding: 0 15px 10px; overflow-x: auto; scrollbar-width: none; }
+  .header-category-strip { grid-area: categories; display: flex; align-items: center; gap: 4px; min-width: 0; margin-bottom: 9px; padding: 5px; overflow-x: auto; border: 1px solid #e7ebf3; border-radius: 12px; background: #f7f9fd; scrollbar-width: none; scroll-snap-type: x proximity; overscroll-behavior-inline: contain; }
   .header-category-strip::-webkit-scrollbar { display: none; }
-  .header-category-strip a { display: inline-flex; flex: none; align-items: center; min-height: 33px; padding: 6px 13px; border: 1px solid #e1e6f0; border-radius: 18px; background: #f7f9fc; color: #293a5b; font-size: 11px; font-weight: 700; text-decoration: none; }
-  .header-category-strip a[aria-current], .header-category-strip a:hover { border-color: #9cafff; background: #eaf0ff; color: #2447eb; }
+  .header-category-strip a { display: inline-flex; flex: none; align-items: center; gap: 5px; min-height: 38px; padding: 8px 12px; border-radius: 8px; background: transparent; color: #18223b; font-size: 11px; font-weight: 700; text-decoration: none; text-transform: uppercase; white-space: nowrap; scroll-snap-align: start; }
+  .header-category-strip a[aria-current] { background: #fff; box-shadow: 0 2px 9px #1b31551a; color: #2447eb; }
+  .header-category-strip a:hover { background: #eaf0ff; color: #2447eb; }
+  .header-category-strip .wish-count { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 20px; background: #e6ecff; color: #2447eb; font-size: 10px; line-height: 1; }
   .preview-nav { position: fixed; z-index: 75; top: auto; right: 12px; bottom: calc(77px + env(safe-area-inset-bottom)); left: 12px; display: none; width: auto; max-height: min(65dvh, 430px); padding: 16px 20px; overflow-y: auto; border: 1px solid #dce3f0; border-radius: 16px; background: #fff; box-shadow: 0 20px 60px #1426483b; }
   .preview-nav.is-open { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
   .preview-nav__title { display: block; padding: 5px 4px 13px; color: #111b35; font-size: 14px; }
