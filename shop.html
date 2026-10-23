@@ -7,8 +7,8 @@
   <title>Shop — Interactive Store</title>
   <link rel="icon" type="image/svg+xml" href="assets/interactive-store-mark.svg">
   <link rel="stylesheet" href="preview.css?v=20261022d">
-  <link rel="stylesheet" href="preview-pages.css?v=20261022e">
-  <script src="preview.js?v=20261022h" defer></script>
+  <link rel="stylesheet" href="preview-pages.css?v=20261022f">
+  <script src="preview.js?v=20261022i" defer></script>
 </head>
 <body data-page="shop">
   <a class="preview-skip" href="#main">Skip to content</a>
@@ -25,7 +25,16 @@
       <div><p class="store-eyebrow">Curated for everyday life</p><h1>Discover your everyday edit.</h1><p>Explore twelve fictional concepts across technology, accessories and fashion.</p></div>
       <span class="store-collection-mark">The concept collection <strong>01—12</strong></span>
     </section>
-    <section class="shop-category-strip store-container" aria-label="Shop by category"><a href="shop.html?category=computers"><img src="assets/category-computers-wide.png" alt="" loading="lazy"><span>Computers <small>2 concepts ↗</small></span></a><a href="shop.html?category=electronics"><img src="assets/category-electronics-wide.png" alt="" loading="lazy"><span>Electronics <small>2 concepts ↗</small></span></a><a href="shop.html?category=accessories"><img src="assets/category-accessories-wide.png" alt="" loading="lazy"><span>Accessories <small>2 concepts ↗</small></span></a><a href="shop.html?category=home-tech"><img src="assets/category-home-tech-wide.png" alt="" loading="lazy"><span>Home Tech <small>2 concepts ↗</small></span></a><a href="shop.html?category=fashion"><img src="assets/forest-hoodie-concept.webp" alt="" loading="lazy"><span>Fashion <small>4 concepts ↗</small></span></a></section>
+    <section class="shop-categories store-container" aria-labelledby="shop-categories-title">
+      <div class="shop-categories__heading"><div><p class="store-eyebrow">Start somewhere good</p><h2 id="shop-categories-title">Shop by category</h2></div><a href="shop.html#catalog-title">View all products <span aria-hidden="true">↗</span></a></div>
+      <div class="shop-categories__grid">
+        <a class="shop-category" data-category="computers" href="shop.html?category=computers"><span class="shop-category__media"><img src="assets/category-computers-wide.png" width="1024" height="640" alt="Graphite laptop on a bright desk" loading="lazy"></span><span class="shop-category__footer"><strong>Computers</strong><small>2 concepts</small></span></a>
+        <a class="shop-category" data-category="electronics" href="shop.html?category=electronics"><span class="shop-category__media"><img src="assets/category-electronics-wide.png" width="1024" height="640" alt="Black wireless headphones" loading="lazy"></span><span class="shop-category__footer"><strong>Electronics</strong><small>2 concepts</small></span></a>
+        <a class="shop-category" data-category="accessories" href="shop.html?category=accessories"><span class="shop-category__media"><img src="assets/category-accessories-wide.png" width="1024" height="640" alt="Graphite USB-C dock" loading="lazy"></span><span class="shop-category__footer"><strong>Accessories</strong><small>2 concepts</small></span></a>
+        <a class="shop-category" data-category="home-tech" href="shop.html?category=home-tech"><span class="shop-category__media"><img src="assets/category-home-tech-wide.png" width="1024" height="640" alt="Charcoal fabric smart speaker" loading="lazy"></span><span class="shop-category__footer"><strong>Home Tech</strong><small>2 concepts</small></span></a>
+        <a class="shop-category" data-category="fashion" href="shop.html?category=fashion"><span class="shop-category__media shop-category__media--fashion"><img src="assets/forest-hoodie-concept.webp" width="900" height="900" alt="Forest green hoodie concept" loading="lazy"></span><span class="shop-category__footer"><strong>Fashion</strong><small>4 concepts</small></span></a>
+      </div>
+    </section>
     <section class="store-catalog store-container" aria-labelledby="catalog-title">
       <div class="store-catalog__top"><div><p class="store-eyebrow">Browse the collection</p><h2 id="catalog-title">All products</h2></div><p id="result-count" role="status" aria-live="polite"></p></div>
       <div class="store-search-row"><label class="store-search"><span>Search products</span><input id="catalog-search" type="search" placeholder="Search the collection…" autocomplete="off"></label><button id="mobile-filter-open" class="mobile-filter-open" type="button" aria-controls="catalog-controls" aria-expanded="false">Filter &amp; sort <span id="mobile-filter-count">0</span></button></div>

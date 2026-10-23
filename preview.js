@@ -315,6 +315,7 @@ function renderShop() {
   const sort = document.getElementById('catalog-sort');
   const price = document.getElementById('catalog-price');
   const chips = [...document.querySelectorAll('.filter-chip')];
+  const categoryLinks = [...document.querySelectorAll('.shop-category[data-category]')];
   const controls = document.getElementById('catalog-controls');
   const backdrop = document.getElementById('mobile-filter-backdrop');
   const trigger = document.getElementById('mobile-filter-open');
@@ -350,6 +351,7 @@ function renderShop() {
   }
   function draw() {
     const matches = matchesFor(category, committedPrice, committedSort);
+    categoryLinks.forEach(link => { if (link.dataset.category === category) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current'); });
     grid.replaceChildren(...matches.map(card));
     document.getElementById('result-count').textContent = `${matches.length} concept ${matches.length === 1 ? 'product' : 'products'}`;
     document.getElementById('catalog-empty').hidden = matches.length !== 0;
@@ -391,6 +393,13 @@ function renderShop() {
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
   mobile.addEventListener('change', () => { if (!mobile.matches && controls.classList.contains('is-open')) closeFilters(); });
+  categoryLinks.forEach(link => link.addEventListener('click', event => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    category = link.dataset.category; draftCategory = category;
+    syncUrl(); draw();
+    document.getElementById('catalog-title').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  }));
   chips.forEach(chip => chip.addEventListener('click', () => { if (mobile.matches && controls.classList.contains('is-open')) { draftCategory = chip.dataset.category; syncChips(draftCategory); updateApply(); } else { category = chip.dataset.category; draftCategory = category; syncUrl(); draw(); } }));
   [sort, price].forEach(input => input.addEventListener('change', () => { if (mobile.matches && controls.classList.contains('is-open')) updateApply(); else { committedPrice = price.value; committedSort = sort.value; syncUrl(); draw(); } }));
   search.addEventListener('input', () => { syncUrl(); draw(); if (controls.classList.contains('is-open')) updateApply(); });
