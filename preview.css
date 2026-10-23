@@ -185,3 +185,45 @@ html { scroll-padding-top: 145px; }
   .header-search-form input { font-size: 13px; }
   .header-search-panel { right: 51px; }
 }
+
+/* Give the desktop category row the same visual weight as the search header. */
+@media (min-width: 901px) {
+  .preview-header__inner { row-gap: 10px; padding-bottom: 10px; }
+  .preview-nav {
+    justify-content: space-between;
+    gap: 4px;
+    min-height: 54px;
+    padding: 6px 9px;
+    border: 1px solid #e7ebf3;
+    border-radius: 12px;
+    background: #f7f9fd;
+  }
+  .preview-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 40px;
+    padding: 8px clamp(8px, 1.05vw, 16px);
+    border-radius: 8px;
+    font-size: clamp(11px, .83vw, 13px);
+    letter-spacing: .015em;
+    transition: color .2s ease, background-color .2s ease, box-shadow .2s ease;
+  }
+  .preview-nav a:hover { color: #2447eb; background: #eaf0ff; }
+  .preview-nav a[aria-current] { color: #2447eb; background: #fff; box-shadow: 0 2px 9px #1b31551a; }
+  .preview-nav a:focus-visible { outline: 2px solid #3150e9; outline-offset: 2px; }
+  .preview-nav a[href="wishlist.html"] { margin-left: auto; }
+  .preview-nav .wish-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 20px;
+    background: #e6ecff;
+    color: #2447eb;
+    font-size: 10px;
+    line-height: 1;
+  }
+}
