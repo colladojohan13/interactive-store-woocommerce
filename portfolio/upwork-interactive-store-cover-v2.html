@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Store — portfolio cover</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 1600px; height: 1200px; margin: 0; overflow: hidden; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #151d3b; }
+    .cover { position: relative; width: 1600px; height: 1200px; overflow: hidden; background: #f4f6fb; }
+    .cover::before { position: absolute; top: 297px; right: -260px; width: 1050px; height: 750px; border-radius: 50%; background: radial-gradient(circle, #dce4ff 0, #e9edff 45%, transparent 72%); content: ""; }
+    .cover::after { position: absolute; bottom: 0; left: 0; width: 100%; height: 360px; background: linear-gradient(180deg, transparent, #e9edf7 90%); content: ""; }
+    .brand { position: absolute; z-index: 5; top: 57px; left: 82px; display: flex; align-items: center; }
+    .brand img { display: block; width: 312px; height: auto; }
+    .project-label { position: absolute; z-index: 5; top: 73px; right: 85px; padding: 12px 18px; border: 1px solid #cfd8f0; border-radius: 7px; background: #fffaf9b8; color: #3e4f78; font-size: 15px; font-weight: 750; letter-spacing: .08em; }
+    h1 { position: absolute; z-index: 5; top: 155px; left: 82px; width: 1050px; margin: 0; font-size: 78px; font-weight: 800; line-height: 1.06; letter-spacing: -.064em; }
+    .subtitle { position: absolute; z-index: 5; top: 251px; left: 85px; margin: 0; color: #55627d; font-size: 24px; line-height: 1.4; }
+    .browser { position: absolute; z-index: 2; top: 365px; left: 76px; width: 1140px; height: 690px; overflow: hidden; border: 1px solid #d8dfec; border-radius: 24px; background: #fff; box-shadow: 0 41px 75px #25345e2c, 0 9px 25px #25345e18; }
+    .browser-bar { display: flex; align-items: center; gap: 8px; height: 43px; padding: 0 20px; border-bottom: 1px solid #e6eaf2; background: #fff; }
+    .browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #d4dce9; }
+    .browser-url { margin-left: auto; color: #a6b0c2; font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+    .browser-screen { height: 646px; overflow: hidden; background: #fff; }
+    .browser-screen img { display: block; width: 100%; height: auto; }
+    .phone { position: absolute; z-index: 4; top: 323px; right: 90px; width: 326px; height: 711px; padding: 11px; overflow: hidden; border: 7px solid #20283f; border-radius: 48px; background: #20283f; box-shadow: 0 42px 72px #1e294c52, 0 8px 22px #1e294c24; transform: rotate(5deg); }
+    .phone-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 30px; background: #fff; }
+    .phone-screen img { display: block; width: 100%; height: auto; }
+    .phone-notch { position: absolute; z-index: 5; top: 8px; left: 50%; width: 96px; height: 18px; transform: translateX(-50%); border-radius: 0 0 14px 14px; background: #20283f; }
+    .feature-bar { position: absolute; z-index: 5; right: 82px; bottom: 53px; left: 82px; display: flex; align-items: center; justify-content: space-between; height: 77px; padding: 0 27px; border: 1px solid #dfe5ef; border-radius: 13px; background: #fff; box-shadow: 0 12px 30px #24325112; }
+    .feature { display: flex; align-items: center; gap: 12px; color: #26365d; font-size: 18px; font-weight: 700; }
+    .feature svg { width: 24px; height: 24px; fill: none; stroke: #4651ed; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .divider { width: 1px; height: 29px; background: #dfe5ef; }
+    .note { position: absolute; z-index: 5; right: 86px; bottom: 26px; color: #7f8aa1; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="cover" aria-label="Interactive Store storefront portfolio cover">
+    <div class="brand"><img src="../assets/interactive-store-logo.svg" alt="Interactive Store"></div>
+    <div class="project-label">WORDPRESS + WOOCOMMERCE DEMO</div>
+    <h1>A store made to explore.</h1>
+    <p class="subtitle">Tech, fashion and everyday finds in one responsive shopping experience.</p>
+    <div class="browser" aria-label="Desktop catalog preview"><div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">Interactive Store · Shop</span></div><div class="browser-screen"><img src="../assets/upwork-shop-current.png" alt="Interactive Store product catalog on desktop"></div></div>
+    <div class="phone" aria-label="Mobile catalog preview"><div class="phone-screen"><img src="../assets/upwork-mobile-shop-current.png" alt="Interactive Store product catalog on mobile"></div><span class="phone-notch" aria-hidden="true"></span></div>
+    <div class="feature-bar"><div class="feature"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4zM2 7l2-4h16l2 4M9 11v5m6-5v5"></path></svg><span>12 concept products</span></div><div class="divider"></div><div class="feature"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 8.3c0 4.2-8.5 10.7-8.5 10.7S3.5 12.5 3.5 8.3a5 5 0 0 1 8.5-3.5 5 5 0 0 1 8.5 3.5z"></path></svg><span>Wishlist + cart</span></div><div class="divider"></div><div class="feature"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 9h8m-8 4h8m-8 4h5"></path></svg><span>Demo order tracking</span></div></div>
+    <span class="note">Fictional products · Portfolio preview</span>
+  </main>
+</body>
+</html>
